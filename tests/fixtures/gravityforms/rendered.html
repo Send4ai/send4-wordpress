@@ -1,0 +1,59 @@
+<!--
+	What Gravity Forms 2.8 prints for tests/fixtures/gravityforms/form.php,
+	twice on one page, abridged to the attributes selectors depend on.
+
+	Two details the phone picker's selectors must survive: the second copy
+	repeats every input id (input_7_2 appears twice), and a composite field's
+	sub-inputs are named with a dot (input_1.3), never as input_1_3.
+
+	@see https://docs.gravityforms.com/css-targeting-examples/
+-->
+<div class="gform_wrapper gravity-theme gform-theme--no-framework" data-form-theme="gravity-theme" data-form-index="0" id="gform_wrapper_7">
+	<form method="post" enctype="multipart/form-data" id="gform_7" action="/contact/" data-formid="7" novalidate>
+		<div class="gform-body gform_body">
+			<div id="gform_fields_7" class="gform_fields top_label form_sublabel_below description_below validation_below">
+				<fieldset id="field_7_1" class="gfield gfield--type-name gfield--input-type-name field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible" data-js-reload="field_7_1">
+					<legend class="gfield_label gform-field-label gfield_label_before_complex">Name</legend>
+					<div class="ginput_complex ginput_container ginput_container--name no_prefix has_first_name no_middle_name has_last_name no_suffix gf_name_has_2 ginput_container_name gform-grid-row" id="input_7_1">
+						<span id="input_7_1_3_container" class="name_first gform-grid-col gform-grid-col--size-auto"><input type="text" name="input_1.3" id="input_7_1_3" value="" aria-required="false"><label for="input_7_1_3" class="gform-field-label gform-field-label--type-sub">First</label></span>
+						<span id="input_7_1_6_container" class="name_last gform-grid-col gform-grid-col--size-auto"><input type="text" name="input_1.6" id="input_7_1_6" value="" aria-required="false"><label for="input_7_1_6" class="gform-field-label gform-field-label--type-sub">Last</label></span>
+					</div>
+				</fieldset>
+				<div id="field_7_2" class="gfield gfield--type-phone gfield--input-type-phone gfield--width-full field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible" data-js-reload="field_7_2">
+					<label class="gfield_label gform-field-label" for="input_7_2">Phone</label>
+					<div class="ginput_container ginput_container_phone"><input name="input_2" id="input_7_2" type="tel" value="" class="large" aria-invalid="false"></div>
+				</div>
+				<div id="field_7_3" class="gfield gfield--type-email gfield--input-type-email gfield--width-full field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible" data-js-reload="field_7_3">
+					<label class="gfield_label gform-field-label" for="input_7_3">Email</label>
+					<div class="ginput_container ginput_container_email"><input name="input_3" id="input_7_3" type="email" value="" class="large" aria-invalid="false"></div>
+				</div>
+				<div id="field_7_5" class="gfield gfield--type-text gfield--input-type-text gfield--width-full field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible" data-js-reload="field_7_5">
+					<label class="gfield_label gform-field-label" for="input_7_5">City</label>
+					<div class="ginput_container ginput_container_text"><input name="input_5" id="input_7_5" type="text" value="" class="large" aria-invalid="false"></div>
+				</div>
+			</div>
+		</div>
+		<div class="gform-footer gform_footer top_label">
+			<input type="submit" id="gform_submit_button_7" class="gform_button button" value="Submit" onclick="gform.submission.handleButtonClick(this);">
+			<input type="hidden" class="gform_hidden" name="is_submit_7" value="1">
+			<input type="hidden" class="gform_hidden" name="gform_submit" value="7">
+		</div>
+	</form>
+</div>
+<div class="gform_wrapper gravity-theme gform-theme--no-framework" data-form-theme="gravity-theme" data-form-index="1" id="gform_wrapper_7">
+	<form method="post" enctype="multipart/form-data" id="gform_7" action="/contact/" data-formid="7" novalidate>
+		<div class="gform-body gform_body">
+			<div id="gform_fields_7" class="gform_fields top_label form_sublabel_below description_below validation_below">
+				<div id="field_7_2" class="gfield gfield--type-phone gfield--input-type-phone gfield--width-full field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible" data-js-reload="field_7_2">
+					<label class="gfield_label gform-field-label" for="input_7_2">Phone</label>
+					<div class="ginput_container ginput_container_phone"><input name="input_2" id="input_7_2" type="tel" value="" class="large" aria-invalid="false"></div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="gform_wrapper gravity-theme" data-form-index="0" id="gform_wrapper_17">
+	<form method="post" enctype="multipart/form-data" id="gform_17" action="/other/" data-formid="17" novalidate>
+		<div class="ginput_container ginput_container_phone"><input name="input_2" id="input_17_2" type="tel" value=""></div>
+	</form>
+</div>

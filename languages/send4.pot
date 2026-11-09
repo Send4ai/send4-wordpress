@@ -1,0 +1,1196 @@
+# Copyright (C) 2026 Send4
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Send4 – AI SMS Lead Follow-up for Contact Forms 0.2.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/send4\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-09T19:30:56+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: send4\n"
+
+#. Plugin Name of the plugin
+#: send4.php
+msgid "Send4 – AI SMS Lead Follow-up for Contact Forms"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: send4.php
+msgid "https://send4.ai/integrations/wordpress"
+msgstr ""
+
+#. Description of the plugin
+#: send4.php
+msgid "Sends your form submissions to Send4 so an AI can follow up with the lead over SMS. Works with Contact Form 7, WPForms, Gravity Forms and Elementor Pro."
+msgstr ""
+
+#. Author of the plugin
+#: send4.php
+#: admin/views/dashboard.php:410
+#: admin/views/partials/app-bar.php:20
+#: includes/class-send4-admin.php:92
+#: includes/class-send4-admin.php:93
+#: includes/class-send4-admin.php:362
+#: includes/class-send4-minimum-version.php:256
+#: includes/class-send4-privacy.php:60
+msgid "Send4"
+msgstr ""
+
+#. Author URI of the plugin
+#: send4.php
+msgid "https://send4.ai"
+msgstr ""
+
+#: admin/views/connection.php:22
+#: admin/views/dashboard.php:132
+#: includes/class-send4-admin.php:121
+#: includes/class-send4-admin.php:122
+msgid "Connection"
+msgstr ""
+
+#. translators: %s: the configured URL.
+#: admin/views/connection.php:42
+#: admin/views/dashboard.php:43
+#, php-format
+msgid "Send4 is configured to send to %s, which is not a Send4 address. Nothing will be sent until that is corrected."
+msgstr ""
+
+#: admin/views/connection.php:53
+#: admin/views/dashboard.php:54
+msgid "Send4 is installed but not active yet."
+msgstr ""
+
+#: admin/views/connection.php:54
+msgid "Connect your account below to start handing form submissions to a flow."
+msgstr ""
+
+#: admin/views/connection.php:61
+msgid "Connect Send4 to your site"
+msgstr ""
+
+#. translators: %s: site name.
+#: admin/views/connection.php:66
+#, php-format
+msgid "Two steps to send form submissions from %s to Send4."
+msgstr ""
+
+#: admin/views/connection.php:84
+msgid "Step 1, done"
+msgstr ""
+
+#: admin/views/connection.php:92
+msgid "Connect your Send4 account"
+msgstr ""
+
+#. translators: %s: Send4 account name.
+#: admin/views/connection.php:99
+#: includes/class-send4-admin.php:729
+#, php-format
+msgid "Connected to %s."
+msgstr ""
+
+#. translators: %s: date and time the site was connected, in the site's own format.
+#: admin/views/connection.php:109
+#, php-format
+msgid "Since %s"
+msgstr ""
+
+#: admin/views/connection.php:132
+msgid "Test connection"
+msgstr ""
+
+#: admin/views/connection.php:137
+msgid "Disconnect"
+msgstr ""
+
+#: admin/views/connection.php:144
+msgid "If this site's key was revoked or replaced in Send4, connect again. The current credentials are kept until new ones are proven to work."
+msgstr ""
+
+#: admin/views/connection.php:146
+msgid "You will approve this on Send4 and come straight back. Nothing to copy."
+msgstr ""
+
+#: admin/views/connection.php:151
+msgid "Connect with Send4"
+msgstr ""
+
+#: admin/views/connection.php:155
+msgid "Connect manually — for self-hosted, local or password-protected sites"
+msgstr ""
+
+#: admin/views/connection.php:157
+msgid "The button above needs Send4 to be able to send your browser back here. If this site is behind a password, on your own machine, or otherwise unreachable, create an API key in Send4 with the \"WordPress plugin\" permission and paste it instead."
+msgstr ""
+
+#: admin/views/connection.php:163
+msgid "Client ID"
+msgstr ""
+
+#: admin/views/connection.php:168
+msgid "Client secret"
+msgstr ""
+
+#: admin/views/connection.php:174
+msgid "Shown only once when you create the key in Send4."
+msgstr ""
+
+#: admin/views/connection.php:175
+msgid "A secret is already stored. Leave this blank to keep it."
+msgstr ""
+
+#: admin/views/connection.php:179
+msgid "Save credentials"
+msgstr ""
+
+#: admin/views/connection.php:192
+msgid "Confirm what is listening"
+msgstr ""
+
+#: admin/views/connection.php:193
+msgid "A Send4 flow with a \"WordPress form\" trigger is what picks the lead up and follows it over SMS."
+msgstr ""
+
+#: admin/views/connection.php:200
+msgid "Available once Send4 accepts the connection again"
+msgstr ""
+
+#: admin/views/connection.php:201
+msgid "Available once your account is connected"
+msgstr ""
+
+#: admin/views/connection.php:207
+msgid "No Send4 flow is listening for WordPress forms yet. Create one in your Send4 dashboard with a \"WordPress form\" trigger, then test the connection again."
+msgstr ""
+
+#: admin/views/connection.php:214
+msgid "Flow"
+msgstr ""
+
+#: admin/views/connection.php:215
+msgid "Status"
+msgstr ""
+
+#: admin/views/connection.php:216
+msgid "Listening for"
+msgstr ""
+
+#: admin/views/connection.php:231
+msgid "Every form on this site"
+msgstr ""
+
+#: admin/views/connection.php:242
+msgid "Choose which forms to send →"
+msgstr ""
+
+#: admin/views/connection.php:250
+msgid "Sending to"
+msgstr ""
+
+#: admin/views/connection.php:252
+msgid "submissions and credentials only ever go to Send4."
+msgstr ""
+
+#: admin/views/connection.php:258
+msgid "What you'll unlock"
+msgstr ""
+
+#: admin/views/connection.php:260
+msgid "Every form submission handed straight to a flow"
+msgstr ""
+
+#: admin/views/connection.php:261
+msgid "Contact Form 7, WPForms, Gravity Forms and Elementor Pro"
+msgstr ""
+
+#: admin/views/connection.php:262
+msgid "AI replies that qualify the lead over SMS"
+msgstr ""
+
+#: admin/views/connection.php:263
+msgid "Nothing lost when Send4 is briefly unreachable"
+msgstr ""
+
+#: admin/views/connection.php:273
+msgid "New to Send4?"
+msgstr ""
+
+#: admin/views/connection.php:275
+msgid "Read the setup guide →"
+msgstr ""
+
+#: admin/views/dashboard.php:23
+#: includes/class-send4-admin.php:104
+msgid "Dashboard"
+msgstr ""
+
+#: admin/views/dashboard.php:55
+msgid "Connect your account to start sending form submissions."
+msgstr ""
+
+#: admin/views/dashboard.php:56
+msgid "Connect now"
+msgstr ""
+
+#: admin/views/dashboard.php:69
+#: admin/views/forms.php:45
+msgid "Check the connection"
+msgstr ""
+
+#: admin/views/dashboard.php:82
+msgid "Before Send4 can text your leads"
+msgstr ""
+
+#: admin/views/dashboard.php:83
+msgid "Forms keep sending to Send4 meanwhile, but nobody is texted until these are done."
+msgstr ""
+
+#: admin/views/dashboard.php:92
+msgid "Fix in Send4"
+msgstr ""
+
+#: admin/views/dashboard.php:93
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: admin/views/dashboard.php:104
+msgid "Overview"
+msgstr ""
+
+#. translators: 1: site name, 2: the selected range, e.g. "last 30 days".
+#: admin/views/dashboard.php:109
+#, php-format
+msgid "%1$s · %2$s"
+msgstr ""
+
+#: admin/views/dashboard.php:116
+msgid "Time range"
+msgstr ""
+
+#: admin/views/dashboard.php:137
+#: admin/views/partials/app-bar.php:31
+msgid "Connected"
+msgstr ""
+
+#: admin/views/dashboard.php:138
+msgid "Unreachable"
+msgstr ""
+
+#: admin/views/dashboard.php:138
+msgid "Submissions are queued for retry"
+msgstr ""
+
+#: admin/views/dashboard.php:139
+msgid "Refused"
+msgstr ""
+
+#: admin/views/dashboard.php:139
+msgid "Submissions are not being delivered"
+msgstr ""
+
+#: admin/views/dashboard.php:140
+msgid "Not checked"
+msgstr ""
+
+#: admin/views/dashboard.php:141
+#: admin/views/partials/app-bar.php:59
+msgid "Not connected"
+msgstr ""
+
+#: admin/views/dashboard.php:141
+msgid "Nothing is being sent"
+msgstr ""
+
+#. translators: 1: number of flows listening, 2: number of those that are active.
+#: admin/views/dashboard.php:154
+#, php-format
+msgid "%1$s flow listening · %2$s active"
+msgid_plural "%1$s flows listening · %2$s active"
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/views/dashboard.php:168
+msgid "Submissions sent"
+msgstr ""
+
+#. translators: %s: a percentage, without its sign.
+#: admin/views/dashboard.php:193
+#: admin/views/dashboard.php:267
+#, php-format
+msgid "%s%%"
+msgstr ""
+
+#: admin/views/dashboard.php:204
+msgid "Accepted by Send4"
+msgstr ""
+
+#: admin/views/dashboard.php:205
+msgid "vs the window before"
+msgstr ""
+
+#: admin/views/dashboard.php:213
+msgid "Retry queue"
+msgstr ""
+
+#. translators: 1: gave-up count, 2: rejected count.
+#: admin/views/dashboard.php:220
+#, php-format
+msgid "Gave up: %1$s · Rejected: %2$s"
+msgstr ""
+
+#: admin/views/dashboard.php:231
+msgid "Last delivery"
+msgstr ""
+
+#: admin/views/dashboard.php:234
+msgid "Nothing yet"
+msgstr ""
+
+#: admin/views/dashboard.php:235
+msgid "No form has submitted since you installed Send4"
+msgstr ""
+
+#: admin/views/dashboard.php:247
+msgid "What happened to submissions"
+msgstr ""
+
+#. translators: %s: the selected range, e.g. "last 30 days".
+#: admin/views/dashboard.php:251
+#, php-format
+msgid "Every submission that reached an ending in the %s"
+msgstr ""
+
+#: admin/views/dashboard.php:258
+msgid "No submissions in this range."
+msgstr ""
+
+#: admin/views/dashboard.php:259
+msgid "Delivered, unrouted and failed submissions are broken down here once there are some."
+msgstr ""
+
+#: admin/views/dashboard.php:270
+msgid "accepted by Send4"
+msgstr ""
+
+#: admin/views/dashboard.php:309
+msgid "submission reached Send4 but no flow was listening for its form, so nobody was messaged. Add a flow for that form in Send4."
+msgid_plural "submissions reached Send4 but no flow was listening for their form, so nobody was messaged. Add a flow for those forms in Send4."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/views/dashboard.php:315
+msgid "visitor was stopped by the phone check and asked to add a country code. Counted on the server only: numbers the picker catches in the browser never get this far."
+msgid_plural "visitors were stopped by the phone check and asked to add a country code. Counted on the server only: numbers the picker catches in the browser never get this far."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/views/dashboard.php:324
+msgid "By form"
+msgstr ""
+
+#: admin/views/dashboard.php:325
+msgid "Where the leads come from, busiest first"
+msgstr ""
+
+#: admin/views/dashboard.php:330
+msgid "No form has been submitted in this range."
+msgstr ""
+
+#: admin/views/dashboard.php:337
+#: admin/views/forms.php:112
+#: includes/class-send4-privacy.php:111
+msgid "Form"
+msgstr ""
+
+#: admin/views/dashboard.php:338
+msgid "Sent"
+msgstr ""
+
+#: admin/views/dashboard.php:339
+msgid "No flow"
+msgstr ""
+
+#: admin/views/dashboard.php:340
+#: includes/class-send4-admin-dashboard.php:99
+#: includes/class-send4-admin.php:1225
+msgid "Failed"
+msgstr ""
+
+#: admin/views/dashboard.php:341
+msgid "Phone check"
+msgstr ""
+
+#: admin/views/dashboard.php:342
+#: admin/views/forms.php:115
+msgid "Last submission"
+msgstr ""
+
+#: admin/views/dashboard.php:388
+msgid "Recent activity"
+msgstr ""
+
+#: admin/views/dashboard.php:393
+msgid "Clear"
+msgstr ""
+
+#: admin/views/dashboard.php:400
+msgid "Nothing has happened yet."
+msgstr ""
+
+#: admin/views/dashboard.php:401
+msgid "Once a form you have turned on is submitted, every delivery shows up here."
+msgstr ""
+
+#: admin/views/dashboard.php:433
+msgid "WordPress triggers"
+msgstr ""
+
+#: admin/views/dashboard.php:434
+msgid "Forms that hand a lead to Send4"
+msgstr ""
+
+#: admin/views/dashboard.php:439
+msgid "No form plugins detected."
+msgstr ""
+
+#: admin/views/dashboard.php:453
+#: admin/views/forms.php:143
+msgid "On"
+msgstr ""
+
+#: admin/views/dashboard.php:456
+#: admin/views/forms.php:169
+msgid "Set up"
+msgstr ""
+
+#: admin/views/dashboard.php:459
+#: admin/views/forms.php:151
+msgid "Off"
+msgstr ""
+
+#: admin/views/dashboard.php:468
+msgid "Manage forms & triggers"
+msgstr ""
+
+#: admin/views/dashboard.php:474
+msgid "Flows listening"
+msgstr ""
+
+#: admin/views/dashboard.php:478
+msgid "Total"
+msgstr ""
+
+#: admin/views/dashboard.php:482
+#: admin/views/forms.php:92
+msgid "Active"
+msgstr ""
+
+#: admin/views/dashboard.php:486
+msgid "Every form"
+msgstr ""
+
+#: admin/views/dashboard.php:490
+msgid "If Send4 is unreachable when someone submits, the submission is queued and retried for about a day and a half. Nothing is lost."
+msgstr ""
+
+#: admin/views/dashboard.php:495
+msgid "Retry queued now"
+msgstr ""
+
+#. translators: %s: number of failed submissions.
+#: admin/views/dashboard.php:507
+#, php-format
+msgid "Resend %s failed submission"
+msgid_plural "Resend %s failed submissions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/views/forms.php:19
+#: admin/views/mapping.php:31
+#: includes/class-send4-admin.php:112
+#: includes/class-send4-admin.php:113
+msgid "Forms & Triggers"
+msgstr ""
+
+#: admin/views/forms.php:36
+msgid "You can map fields now, but nothing is sent until the site is connected."
+msgstr ""
+
+#: admin/views/forms.php:37
+msgid "Connect Send4"
+msgstr ""
+
+#: admin/views/forms.php:52
+#: admin/views/mapping.php:46
+msgid "Forms & triggers"
+msgstr ""
+
+#: admin/views/forms.php:53
+msgid "Choose which forms hand their submissions to Send4, and which field holds the phone number."
+msgstr ""
+
+#: admin/views/forms.php:66
+msgid "Sync forms to Send4"
+msgstr ""
+
+#. translators: %s: human readable time difference, e.g. "5 mins".
+#: admin/views/forms.php:73
+#, php-format
+msgid "Last sent %s ago"
+msgstr ""
+
+#: admin/views/forms.php:77
+msgid "Not sent yet"
+msgstr ""
+
+#: admin/views/forms.php:86
+msgid "Form plugins"
+msgstr ""
+
+#: admin/views/forms.php:94
+#: includes/class-send4-admin-dashboard.php:287
+msgid "Not installed"
+msgstr ""
+
+#: admin/views/forms.php:103
+msgid "No forms found yet."
+msgstr ""
+
+#: admin/views/forms.php:104
+msgid "Create a form in any of the plugins above and it will show up here."
+msgstr ""
+
+#: admin/views/forms.php:113
+msgid "Form key"
+msgstr ""
+
+#: admin/views/forms.php:114
+msgid "Sending to Send4"
+msgstr ""
+
+#: admin/views/forms.php:116
+msgid "Actions"
+msgstr ""
+
+#: admin/views/forms.php:126
+msgid "(untitled)"
+msgstr ""
+
+#. translators: %s: form title.
+#: admin/views/forms.php:131
+#, php-format
+msgid "“%s”"
+msgstr ""
+
+#: admin/views/forms.php:145
+msgid "Checks phone"
+msgstr ""
+
+#: admin/views/forms.php:148
+msgid "No flow is listening for this form."
+msgstr ""
+
+#: admin/views/forms.php:156
+#: includes/class-send4-admin.php:1227
+msgid "No submissions yet"
+msgstr ""
+
+#: admin/views/forms.php:169
+msgid "Edit fields"
+msgstr ""
+
+#: admin/views/forms.php:177
+msgid "Turn off"
+msgstr ""
+
+#: admin/views/mapping.php:19
+msgid "(untitled form)"
+msgstr ""
+
+#: admin/views/mapping.php:61
+msgid "This form has no fields Send4 can read yet. Add a field and reload."
+msgstr ""
+
+#: admin/views/mapping.php:74
+msgid "Who is this lead?"
+msgstr ""
+
+#: admin/views/mapping.php:78
+msgid "Phone number"
+msgstr ""
+
+#: admin/views/mapping.php:79
+msgid "Required"
+msgstr ""
+
+#: admin/views/mapping.php:82
+msgid "— choose a field —"
+msgstr ""
+
+#: admin/views/mapping.php:90
+msgid "Send4 follows up by SMS, so a submission without a phone number has nobody to reach."
+msgstr ""
+
+#: admin/views/mapping.php:96
+#: includes/class-send4-privacy.php:121
+msgid "Name"
+msgstr ""
+
+#: admin/views/mapping.php:98
+#: admin/views/mapping.php:109
+msgid "— not mapped —"
+msgstr ""
+
+#: admin/views/mapping.php:107
+#: includes/class-send4-privacy.php:122
+msgid "Email"
+msgstr ""
+
+#: admin/views/mapping.php:121
+msgid "Check the phone number"
+msgstr ""
+
+#: admin/views/mapping.php:123
+msgid "Send4 can only text a number that includes its country code. These checks ask the visitor to fix the number while they are still on the form. Both are off until you turn them on."
+msgstr ""
+
+#: admin/views/mapping.php:128
+msgid "This phone field uses the Gravity Forms \"Standard\" format, which only accepts US numbers written (###) ###-####. Neither check below runs on it: Gravity Forms would refuse every number they let through. To use them, set the field's Phone Format to International in Gravity Forms."
+msgstr ""
+
+#: admin/views/mapping.php:135
+msgid "Add a country picker to the phone field"
+msgstr ""
+
+#: admin/views/mapping.php:138
+msgid "The visitor chooses their country from a list, and the number is sent with its country code already on it."
+msgstr ""
+
+#: admin/views/mapping.php:143
+msgid "Country selected to start with"
+msgstr ""
+
+#: admin/views/mapping.php:145
+msgid "— none: the visitor chooses —"
+msgstr ""
+
+#: admin/views/mapping.php:153
+msgid "Pick the country most of your visitors call from. Left empty, the site language's country is used when it has one. A wrong guess is worse than none: the picker limits the number to that country's length."
+msgstr ""
+
+#: admin/views/mapping.php:160
+msgid "Refuse a submission whose phone number has no country code"
+msgstr ""
+
+#: admin/views/mapping.php:163
+msgid "The visitor sees a message and cannot send the form until the number starts with + and a country code. Turn this on knowing the trade: a refused visitor who gives up is a lead you never see, and it is not counted anywhere except the activity log. Visitors whose browser runs no JavaScript get no picker, so they will be asked to type the country code themselves. An empty, optional phone field is never refused."
+msgstr ""
+
+#: admin/views/mapping.php:168
+msgid "If your site uses a page cache, clear it after changing these, or cached pages keep the old setting."
+msgstr ""
+
+#: admin/views/mapping.php:173
+msgid "Turn it on"
+msgstr ""
+
+#: admin/views/mapping.php:176
+msgid "Send submissions from this form to Send4"
+msgstr ""
+
+#: admin/views/mapping.php:179
+msgid "Discard"
+msgstr ""
+
+#: admin/views/mapping.php:180
+msgid "Save changes"
+msgstr ""
+
+#: admin/views/mapping.php:187
+msgid "Everything else"
+msgstr ""
+
+#: admin/views/mapping.php:189
+msgid "Every other field is sent as context for the AI, so it can answer questions about what the person asked for. Nothing is dropped."
+msgstr ""
+
+#: admin/views/mapping.php:205
+msgid "Bind a flow"
+msgstr ""
+
+#: admin/views/mapping.php:207
+msgid "Paste this form key into the flow's WordPress trigger in Send4 to bind it to this form. Leave the trigger blank to catch every form on the site."
+msgstr ""
+
+#. translators: %s: Send4 account name.
+#: admin/views/partials/app-bar.php:35
+#, php-format
+msgid "Connected · %s"
+msgstr ""
+
+#: admin/views/partials/app-bar.php:44
+msgid "Send4 unreachable"
+msgstr ""
+
+#: admin/views/partials/app-bar.php:49
+msgid "Connection refused"
+msgstr ""
+
+#: admin/views/partials/app-bar.php:54
+msgid "Connection not checked"
+msgstr ""
+
+#: admin/views/partials/app-bar.php:64
+msgid "Open web app"
+msgstr ""
+
+#: includes/adapters/class-send4-adapter-elementor.php:161
+msgid "Elementor form"
+msgstr ""
+
+#: includes/class-send4-admin-dashboard.php:84
+#: includes/class-send4-admin.php:1217
+msgid "Delivered"
+msgstr ""
+
+#: includes/class-send4-admin-dashboard.php:89
+#: includes/class-send4-admin.php:1219
+msgid "Already received"
+msgstr ""
+
+#: includes/class-send4-admin-dashboard.php:94
+msgid "No flow listening"
+msgstr ""
+
+#. translators: %s: a date, e.g. "20 September 2026".
+#: includes/class-send4-admin-dashboard.php:209
+#, php-format
+msgid "Counted per form since %s, so earlier submissions are in the totals above but not in this table."
+msgstr ""
+
+#: includes/class-send4-admin-dashboard.php:269
+msgid "Store events are not supported yet"
+msgstr ""
+
+#: includes/class-send4-admin-dashboard.php:291
+msgid "No forms yet"
+msgstr ""
+
+#. translators: %d: number of forms detected.
+#: includes/class-send4-admin-dashboard.php:297
+#, php-format
+msgid "%d form · none set up"
+msgid_plural "%d forms · none set up"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: number of forms sending, 2: number of forms detected.
+#: includes/class-send4-admin-dashboard.php:304
+#, php-format
+msgid "%1$d of %2$d forms sending"
+msgstr ""
+
+#: includes/class-send4-admin-dashboard.php:587
+msgid "just now"
+msgstr ""
+
+#. translators: %s: human readable time difference, e.g. "5 mins".
+#: includes/class-send4-admin-dashboard.php:591
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: includes/class-send4-admin.php:103
+msgid "Send4 Dashboard"
+msgstr ""
+
+#: includes/class-send4-admin.php:228
+msgid "Settings"
+msgstr ""
+
+#: includes/class-send4-admin.php:363
+#: includes/class-send4-admin.php:887
+#: includes/class-send4-admin.php:978
+msgid "That form no longer exists."
+msgstr ""
+
+#: includes/class-send4-admin.php:364
+msgid "Back to forms"
+msgstr ""
+
+#: includes/class-send4-admin.php:387
+#: includes/class-send4-admin.php:1128
+msgid "You do not have permission to configure Send4."
+msgstr ""
+
+#: includes/class-send4-admin.php:548
+msgid "Send4 could not be reached just now. Form submissions are being queued and will be sent automatically once it answers again."
+msgstr ""
+
+#: includes/class-send4-admin.php:552
+msgid "Send4 refused this site's connection. Form submissions are not being delivered until it is fixed: test the connection again, or reconnect."
+msgstr ""
+
+#: includes/class-send4-admin.php:615
+msgid "That is not a Send4 client secret. Copy it again from your API key in Send4."
+msgstr ""
+
+#: includes/class-send4-admin.php:623
+msgid "Both the client ID and the client secret are required."
+msgstr ""
+
+#. translators: %s: why Send4 refused, e.g. "Send4 rejected these credentials."
+#: includes/class-send4-admin.php:718
+#, php-format
+msgid "%s The new credentials were not saved; this site is still using the ones it had."
+msgstr ""
+
+#. translators: %s: why Send4 refused, e.g. "Send4 rejected these credentials."
+#: includes/class-send4-admin.php:720
+#, php-format
+msgid "%s The credentials were not saved."
+msgstr ""
+
+#: includes/class-send4-admin.php:785
+msgid "That connection did not start here. Try connecting again."
+msgstr ""
+
+#. translators: 1: Send4 account name, 2: number of flows.
+#: includes/class-send4-admin.php:830
+#, php-format
+msgid "Connected to %1$s. %2$d flow is listening for WordPress forms."
+msgid_plural "Connected to %1$s. %2$d flows are listening for WordPress forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-send4-admin.php:868
+msgid "Disconnected from Send4. Your field mappings were kept."
+msgstr ""
+
+#: includes/class-send4-admin.php:932
+msgid "Pick which field holds the phone number before enabling this form — Send4 follows up by SMS, so a submission without a phone number has nobody to reach."
+msgstr ""
+
+#: includes/class-send4-admin.php:956
+msgid "Form saved and enabled."
+msgstr ""
+
+#: includes/class-send4-admin.php:956
+msgid "Form saved. It is not sending to Send4."
+msgstr ""
+
+#: includes/class-send4-admin.php:984
+msgid "Form disabled."
+msgstr ""
+
+#: includes/class-send4-admin.php:1029
+msgid "Connect this site to Send4 before syncing its forms."
+msgstr ""
+
+#: includes/class-send4-admin.php:1037
+msgid "Your forms were sent to Send4. They are now selectable on a WordPress trigger."
+msgstr ""
+
+#. translators: 1: attempted count, 2: delivered count.
+#: includes/class-send4-admin.php:1058
+#, php-format
+msgid "Retried %1$s queued submission; %2$s delivered."
+msgid_plural "Retried %1$s queued submissions; %2$s delivered."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-send4-admin.php:1081
+msgid "Activity log cleared."
+msgstr ""
+
+#: includes/class-send4-admin.php:1097
+msgid "Connect this site to Send4 before resending failed submissions."
+msgstr ""
+
+#: includes/class-send4-admin.php:1103
+msgid "There were no failed submissions for this Send4 account to resend."
+msgstr ""
+
+#. translators: %d: number of submissions.
+#: includes/class-send4-admin.php:1110
+#, php-format
+msgid "%d failed submission will be resent within a minute."
+msgid_plural "%d failed submissions will be resent within a minute."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-send4-admin.php:1221
+msgid "Not connected to a flow"
+msgstr ""
+
+#: includes/class-send4-admin.php:1223
+msgid "Queued for retry"
+msgstr ""
+
+#: includes/class-send4-admin.php:1265
+msgid "Unknown"
+msgstr ""
+
+#: includes/class-send4-admin.php:1267
+msgctxt "flow status"
+msgid "Active"
+msgstr ""
+
+#: includes/class-send4-admin.php:1269
+msgctxt "flow status"
+msgid "Inactive"
+msgstr ""
+
+#: includes/class-send4-admin.php:1271
+msgctxt "flow status"
+msgid "Draft"
+msgstr ""
+
+#: includes/class-send4-admin.php:1273
+msgctxt "flow status"
+msgid "Paused"
+msgstr ""
+
+#: includes/class-send4-admin.php:1275
+msgctxt "flow status"
+msgid "Archived"
+msgstr ""
+
+#: includes/class-send4-api-client.php:221
+msgid "Send4 is not connected: connect your account under Send4 → Connection."
+msgstr ""
+
+#: includes/class-send4-api-client.php:349
+msgid "Send4 asked this site to wait before signing in again."
+msgstr ""
+
+#: includes/class-send4-api-client.php:366
+msgid "Send4 is rate limiting sign-in attempts (10 per minute). Wait a minute and try again."
+msgstr ""
+
+#: includes/class-send4-api-client.php:374
+msgid "Send4 rejected these credentials. Check the client ID and secret, and that the API client is active."
+msgstr ""
+
+#. translators: %d: HTTP status code.
+#: includes/class-send4-api-client.php:378
+#, php-format
+msgid "Send4 returned an unexpected status (%d) while signing in."
+msgstr ""
+
+#. translators: %s: the URL the API answered with.
+#: includes/class-send4-api-client.php:426
+#, php-format
+msgid "Send4 answered with an approval link that is not on Send4 (%s), so the connection was not started."
+msgstr ""
+
+#: includes/class-send4-api-client.php:491
+msgid "Send4 is rate limiting connection attempts. Wait a minute and try again."
+msgstr ""
+
+#. translators: %d: HTTP status code.
+#: includes/class-send4-api-client.php:495
+#, php-format
+msgid "Send4 returned an unexpected status (%d) while connecting."
+msgstr ""
+
+#: includes/class-send4-api-client.php:544
+#: includes/class-send4-api-client.php:662
+msgid "This API client is missing the \"WordPress plugin\" permission. Edit the key in your Send4 dashboard and tick that ability."
+msgstr ""
+
+#. translators: %d: HTTP status code.
+#: includes/class-send4-api-client.php:552
+#, php-format
+msgid "Send4 returned an unexpected status (%d) for the connection test."
+msgstr ""
+
+#: includes/class-send4-api-client.php:677
+msgid "This API key was not created by connecting this site, so Send4 has nowhere to record its forms. Reconnect from the Connection screen."
+msgstr ""
+
+#. translators: %d: HTTP status code.
+#: includes/class-send4-api-client.php:684
+#, php-format
+msgid "Send4 returned an unexpected status (%d) while reporting this site's forms."
+msgstr ""
+
+#: includes/class-send4-api-client.php:714
+msgid "Send4 answered with something that was not a submission response."
+msgstr ""
+
+#: includes/class-send4-api-client.php:725
+msgid "Send4 had already received this submission."
+msgstr ""
+
+#: includes/class-send4-api-client.php:733
+msgid "Delivered, but no Send4 flow is listening for this form."
+msgstr ""
+
+#: includes/class-send4-api-client.php:762
+msgid "This API client is missing the \"WordPress plugin\" permission."
+msgstr ""
+
+#: includes/class-send4-api-client.php:770
+msgid "Send4 rejected the access token."
+msgstr ""
+
+#: includes/class-send4-api-client.php:778
+msgid "Send4 answered with a redirect, which usually means the URL is wrong."
+msgstr ""
+
+#: includes/class-send4-api-client.php:786
+msgid "Send4 is rate limiting submissions. The lead will be retried."
+msgstr ""
+
+#. translators: %d: HTTP status code.
+#: includes/class-send4-api-client.php:801
+#, php-format
+msgid "Send4 refused the submission (status %d)."
+msgstr ""
+
+#. translators: %d: HTTP status code.
+#: includes/class-send4-api-client.php:811
+#, php-format
+msgid "Send4 returned status %d."
+msgstr ""
+
+#: includes/class-send4-api-client.php:823
+msgid "Send4 rejected the submission as malformed."
+msgstr ""
+
+#. translators: %s: configured URL.
+#: includes/class-send4-api-client.php:930
+#, php-format
+msgid "Refusing to send: %s is not a Send4 address."
+msgstr ""
+
+#: includes/class-send4-cron.php:47
+msgid "Every minute (Send4)"
+msgstr ""
+
+#: includes/class-send4-delivery.php:50
+msgid "The submission had no phone number, so there is nobody to follow up with."
+msgstr ""
+
+#: includes/class-send4-delivery.php:145
+msgid "Send4 was unreachable and the submission could not be queued for a retry: the queue table is missing or not writable."
+msgstr ""
+
+#: includes/class-send4-delivery.php:230
+msgid "Queued while this site was connected to a different Send4 account, so it was not sent to this one."
+msgstr ""
+
+#: includes/class-send4-delivery.php:304
+msgid "The stored envelope could not be read."
+msgstr ""
+
+#. translators: %s: the minimum plugin version Send4 asks for, e.g. 0.3.0.
+#: includes/class-send4-minimum-version.php:245
+#, php-format
+msgid "Send4 needs version %s or newer of this plugin. Update it from Dashboard → Updates. Your forms keep sending in the meantime."
+msgstr ""
+
+#: includes/class-send4-minimum-version.php:259
+msgid "Go to Updates"
+msgstr ""
+
+#: includes/class-send4-minimum-version.php:260
+msgid "Dismiss"
+msgstr ""
+
+#: includes/class-send4-minimum-version.php:270
+msgid "You do not have permission to update plugins."
+msgstr ""
+
+#. translators: Screen-reader name of the country button. Keep ${countryName} and ${dialCode} exactly as written; the picker fills them in.
+#: includes/class-send4-phone-field.php:496
+msgid "Change the country of the phone number, currently ${countryName} (${dialCode})"
+msgstr ""
+
+#: includes/class-send4-phone-field.php:497
+msgid "Choose the country of the phone number"
+msgstr ""
+
+#: includes/class-send4-phone-field.php:498
+msgid "List of countries"
+msgstr ""
+
+#: includes/class-send4-phone-field.php:499
+msgid "Search countries"
+msgstr ""
+
+#: includes/class-send4-phone-field.php:500
+msgid "Clear search"
+msgstr ""
+
+#: includes/class-send4-phone-field.php:501
+msgid "No countries found"
+msgstr ""
+
+#: includes/class-send4-phone-field.php:502
+msgid "1 country found"
+msgstr ""
+
+#. translators: %d: number of countries matching the search.
+#: includes/class-send4-phone-field.php:504
+#, php-format
+msgid "%d countries found"
+msgstr ""
+
+#: includes/class-send4-phone-guard.php:175
+msgid "Please enter your phone number with its country code, starting with + — otherwise we cannot text you back."
+msgstr ""
+
+#: includes/class-send4-privacy.php:58
+msgid "When you submit a form on this site that is connected to Send4, the phone number, name and email address you entered, together with your other answers and this site's address, are sent to Send4 (send4.ai) so that we can follow up with you by text message. If Send4 cannot be reached at that moment, the submission is stored on this site and retried for up to about a day and a half; undeliverable submissions are deleted after seven days."
+msgstr ""
+
+#: includes/class-send4-privacy.php:71
+#: includes/class-send4-privacy.php:86
+msgid "Send4 form submissions"
+msgstr ""
+
+#: includes/class-send4-privacy.php:115
+msgid "Submitted"
+msgstr ""
+
+#: includes/class-send4-privacy.php:123
+msgid "Phone"
+msgstr ""
+
+#: includes/class-send4-privacy.php:146
+msgid "Send4 form submissions awaiting delivery"
+msgstr ""
+
+#: includes/class-send4-stats.php:263
+msgid "last 24 hours"
+msgstr ""
+
+#: includes/class-send4-stats.php:265
+msgid "last 7 days"
+msgstr ""
+
+#: includes/class-send4-stats.php:267
+msgid "last 30 days"
+msgstr ""
+
+#: includes/class-send4-stats.php:280
+msgctxt "time range: the last 24 hours"
+msgid "24h"
+msgstr ""
+
+#: includes/class-send4-stats.php:282
+msgctxt "time range: the last 7 days"
+msgid "7d"
+msgstr ""
+
+#: includes/class-send4-stats.php:284
+msgctxt "time range: the last 30 days"
+msgid "30d"
+msgstr ""

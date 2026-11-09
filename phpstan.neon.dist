@@ -1,0 +1,40 @@
+# szepeviktor/phpstan-wordpress is wired in by phpstan/extension-installer, so
+# it needs no include line here: it brings the WordPress function and class
+# stubs and teaches PHPStan about WP_Error return shapes.
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: 5
+
+    paths:
+        - send4.php
+        - uninstall.php
+        - includes
+        - admin
+
+    # The constants send4.php defines at load time.
+    bootstrapFiles:
+        - tests/stubs/constants.php
+
+    # Gravity Forms and Elementor Pro are paid plugins that are never installed
+    # in CI, and WP-CLI is the environment the commands run inside rather than a
+    # dependency, so all three are analysed against hand-written stubs. scanFiles
+    # rather than paths: these are declarations to read, not code to check.
+    scanFiles:
+        - tests/stubs/gravityforms.php
+        - tests/stubs/elementor-pro.php
+        - tests/stubs/wp-cli.php
+        - tests/stubs/wp-cli-utils.php
+        # Contact Form 7 is a real dev dependency, so the adapter is checked
+        # against the plugin itself. Only the files it touches are indexed;
+        # scanning the whole plugin costs more memory than CI's PHP has.
+        - tests/plugins/contact-form-7/includes/contact-form.php
+        - tests/plugins/contact-form-7/includes/submission.php
+        - tests/plugins/contact-form-7/includes/pipe.php
+
+    # Set per site, in wp-config.php or by the hosting container. Without this
+    # PHPStan folds the constant to the empty-string default send4.php declares
+    # and reports every "has it been overridden?" check as dead code.
+    dynamicConstantNames:
+        - SEND4_API_BASE_URL

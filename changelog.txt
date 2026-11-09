@@ -1,0 +1,127 @@
+== Changelog ==
+
+Older releases, newest first. The two latest are in readme.txt, as the WordPress.org plugin
+directory asks.
+
+= 0.2.0 =
+* The dashboard starts with "Before Send4 can text your leads" while your Send4 account cannot text anyone yet,
+  for example with no sending number or no flow listening for your forms, and links each missing step to the page
+  in Send4 that fixes it. Until now a lead showed as delivered and nothing said that nobody would be texted.
+* When Send4 needs a newer version of this plugin, a notice says so on the Plugins screen and on Send4's own
+  screens, until you update or dismiss it, or disconnect the site. The plugin checks once a day, so the notice
+  appears even if nobody opens Send4's screens. Forms keep sending in the meantime.
+* The daily list of forms sent to Send4 now also says which versions of the plugin, WordPress, PHP and WooCommerce
+  the site runs, the site's language and whether it is a multisite network. See *External services*.
+* The plugin is listed as "Send4", ready for the WordPress.org plugin directory.
+* `wp send4 handshake` also prints what Send4 still needs before it can text a lead.
+
+= 0.1.7 =
+* A lead submitted again after you reconnect to a different Send4 account is now sent to the new account with
+  what was just submitted. It used to reuse the payload stored for the old account, or, if the old copy was
+  still waiting, be reported as queued and then never sent. The old account's copy keeps its data and status.
+* Elementor forms on sites with more than 100 pages stay in the forms list, the dashboard and the form list
+  sent to Send4. A form past the hundredth page used to drop out of all three.
+* Two submissions counted at the same moment no longer overwrite each other on the dashboard, per-form
+  counts included.
+* When Send4 asks the site to wait before signing in again, the plugin now waits. Until then the retry queue
+  and new submissions hold their leads instead of signing in each minute and prolonging the wait.
+
+= 0.1.6 =
+* The dashboard now breaks submissions down by how they ended — delivered, already received, no flow listening,
+  failed — with the share Send4 accepted, for the last 24 hours, 7 or 30 days. Until now it showed one total.
+* New "By form" table: how many leads each form sent, lost to a missing flow or failed, and its last outcome.
+  Counted from this update onwards; the table says from when. Only counts are kept, never what was submitted.
+* Submissions that reached Send4 with no flow listening for their form are called out, since nobody was
+  messaged for those.
+* Numbers refused by the phone check are counted, in total and per form. This counts refusals made on the
+  server; a number the country picker catches in the browser never gets that far.
+* The activity log now says why a phone number was refused and shows its shape, as in `86••••••• (9 digits)`:
+  the opening digits and the length, never the number.
+
+= 0.1.5 =
+* Reconnecting to a different Send4 account can no longer leave the previous account's sign-in in use. A
+  sign-in still in progress during the switch used to be kept, and leads then went out under the account
+  the site had just left, for up to a day.
+* Leads queued before 0.1.4 stay with the account they were captured for when you connect another account
+  without disconnecting first. Until now only the Disconnect button made sure of that.
+* `wp send4 connect --url-base` no longer moves the site to the new address when the credentials are refused.
+* On Gravity Forms, a phone field in the Standard (US) format no longer gets the country picker: Gravity Forms
+  refused every number the picker sent. The form's Send4 settings say when that is the case.
+* Sites with more than 100 Contact Form 7 or WPForms forms now see all of them, up to 500 per plugin, and a
+  form beyond that can still be set up. A form that is set up is never dropped from what Send4 is told.
+* Privacy exports and erasures work through a large retry queue a batch at a time, instead of in one request
+  that could time out.
+* Uninstalling now also deletes the plugin's short-lived records from the database: pending admin notices,
+  its once-a-day warnings and the place-markers of privacy requests. 0.1.4 left them to expire on their own.
+  None holds lead data.
+* The translation template names the right source file for the connection bar's strings.
+* The 0.1.4 notes below now say what they left out: its security fixes, the picker on Contact Form 7 5.x and
+  the new key for a field with no label. Read them if you are updating from 0.1.3 or earlier.
+
+= 0.1.4 =
+* Security: a crafted link could make a Send4 admin screen show an administrator a message of the sender's
+  choosing, in the plugin's own voice. Notice text no longer travels in the link. The Connect button now only
+  follows a link that leads to Send4, and the connect code is encoded before it is passed on.
+* A lead is never lost when the retry queue cannot store it: the plugin recreates its table and tries again,
+  and says so if it still cannot, instead of reporting the lead as queued.
+* Queued leads stay with the Send4 account they were captured for. Reconnecting to a different account no
+  longer sends them there.
+* Submissions that failed for a fixable reason, such as a key missing the WordPress permission, can be resent
+  from the dashboard or with `wp send4 requeue`.
+* The retry queue no longer sends the same row twice when runs overlap, stops early while Send4 is down, waits
+  as long as Send4 asks after a rate limit, and only runs its every-minute job while something is queued.
+* A form's settings are no longer undone by a submission that finishes while you are saving them.
+* During a Send4 outage the admin screens load in a few seconds and say Send4 is unreachable, keeping Test
+  and Disconnect, instead of claiming the site is not connected. Credentials that fail their check no
+  longer replace working ones.
+* The country picker now appears on Elementor Pro forms and popups and on Contact Form 7 5.x forms, and each
+  Elementor form is listed once. A picker whose field has left the page, after a Gravity Forms AJAX re-render
+  or a reopened Elementor popup, is released instead of piling up.
+* Phone numbers typed with Arabic, Persian or full-width digits are accepted, and a number starting with 00
+  is sent with a +.
+* A Contact Form 7 submission that another plugin stops is no longer sent. Choices written as
+  `Label|value` report the value that is actually sent.
+* Password and card fields are never sent. Gravity Forms time, date, consent, checkbox and multi-select
+  fields arrive as readable values.
+* Gravity Forms checkbox answers are now separated by ", " rather than a space: "Sales Support" arrives as
+  "Sales, Support". A flow that compares the whole answer needs updating.
+* Fields whose labels are not in the Latin alphabet are keyed by field id, `field_3` on WPForms and Gravity
+  Forms, rather than by an unreadable code. A field with no label gets the same key, where it used to be a
+  bare `3`. Flows that used the old keys need updating.
+* A field label over 191 characters no longer stops the whole form list from reaching Send4.
+* Privacy exports and erasures find every queued submission for an address, including when the email field
+  is not mapped.
+* Uninstalling removes everything the plugin stored, on every site of a network.
+
+= 0.1.3 =
+* If the site has its own script that starts a country picker on the same phone field, the field no longer gets
+  two pickers on top of each other. That script is handed ours instead, so whatever else it does keeps working.
+* Our copy of the picker library no longer answers to the name other scripts call, so a script written for
+  another copy cannot build a second, unstyled picker out of ours.
+* A visitor who clicks the submit button several times no longer reaches Send4 several times. An identical
+  submission inside 60 seconds is sent once; the `send4_duplicate_window` filter changes or disables that.
+
+= 0.1.2 =
+* On a site that already runs its own copy of the country picker, ours no longer restyles theirs (wrong flags
+  on the other form), and theirs no longer restyles ours.
+* A form inside a theme popup opens its country list on top of the popup, not behind it.
+* The plugin's scripts and stylesheets carry the version in their file names, so a CDN that ignores `?ver=`
+  still serves the new ones after an update.
+
+= 0.1.1 =
+* The country picker shows the right flag on sites where another plugin loads its own, older copy of the
+  picker. It used to show the first flag in the list for every country.
+* The country code is visible in the phone field from the start, and a field left at just the code counts as
+  empty.
+* On phones the country list fits the screen, and the flag and the field are large enough to tap.
+* Credentials are no longer read from `SEND4_CLIENT_ID` / `SEND4_CLIENT_SECRET` in wp-config.php. Connect with
+  the button on the Connection screen.
+
+= 0.1.0 =
+* First release: Contact Form 7, WPForms, Gravity Forms and Elementor Pro adapters, per-form field
+  mapping, synchronous delivery with a retry queue, and a connection test.
+* The plugin reports the forms it detects to Send4, so a flow's WordPress trigger lists them by name
+  instead of asking you to retype a form key.
+* Per form, and off until you turn it on: a country picker on the phone field you already have, and a check
+  that refuses a phone number without a country code while the visitor can still fix it. Works with all four
+  form plugins.

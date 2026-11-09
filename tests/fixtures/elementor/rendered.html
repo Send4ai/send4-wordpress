@@ -1,0 +1,54 @@
+<!--
+	What Elementor Pro 3.x prints for the Form widget in
+	tests/fixtures/elementor/record.php, twice on one page, abridged to the
+	attributes selectors depend on.
+
+	The widget id (a1b2c3d) is on the element wrapper as data-id, not on the
+	<form>; inputs are named form_fields[<custom id>], and a second copy of the
+	widget repeats every input id (form-field-phone). The tel field carries a
+	pattern with no space in it, which is why the picker keeps such an input
+	compact.
+
+	@see https://developers.elementor.com/docs/widgets/rendering-html-attribute/
+-->
+<div class="elementor-element elementor-element-a1b2c3d elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="a1b2c3d" data-element_type="widget" data-widget_type="form.default">
+	<div class="elementor-widget-container">
+		<form class="elementor-form" method="post" name="Contact">
+			<input type="hidden" name="post_id" value="12">
+			<input type="hidden" name="form_id" value="a1b2c3d">
+			<input type="hidden" name="referer_title" value="Contact">
+			<div class="elementor-form-fields-wrapper elementor-labels-above">
+				<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-name elementor-col-100">
+					<label for="form-field-name" class="elementor-field-label">Name</label>
+					<input size="1" type="text" name="form_fields[name]" id="form-field-name" class="elementor-field elementor-size-sm elementor-field-textual" placeholder="Name">
+				</div>
+				<div class="elementor-field-type-tel elementor-field-group elementor-column elementor-field-group-phone elementor-col-100">
+					<label for="form-field-phone" class="elementor-field-label">Phone</label>
+					<input size="1" type="tel" name="form_fields[phone]" id="form-field-phone" class="elementor-field elementor-size-sm elementor-field-textual" placeholder="Phone" pattern="[0-9()#&amp;+*-=.]+" title="Only numbers and phone characters (#, -, *, etc) are accepted.">
+				</div>
+				<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-city elementor-col-100">
+					<label for="form-field-city" class="elementor-field-label">City</label>
+					<input size="1" type="text" name="form_fields[city]" id="form-field-city" class="elementor-field elementor-size-sm elementor-field-textual" placeholder="City">
+				</div>
+				<div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
+					<button type="submit" class="elementor-button elementor-size-sm"><span class="elementor-button-text">Send</span></button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="elementor-element elementor-element-a1b2c3d elementor-widget elementor-widget-form" data-id="a1b2c3d" data-element_type="widget" data-widget_type="form.default">
+	<div class="elementor-widget-container">
+		<form class="elementor-form" method="post" name="Contact">
+			<input type="hidden" name="form_id" value="a1b2c3d">
+			<div class="elementor-field-type-tel elementor-field-group elementor-column elementor-field-group-phone elementor-col-100">
+				<input size="1" type="tel" name="form_fields[phone]" id="form-field-phone" class="elementor-field elementor-size-sm elementor-field-textual" pattern="[0-9()#&amp;+*-=.]+">
+			</div>
+		</form>
+	</div>
+</div>
+<div class="elementor-element elementor-element-ffff000 elementor-widget elementor-widget-form" data-id="ffff000" data-element_type="widget" data-widget_type="form.default">
+	<form class="elementor-form" method="post" name="Other">
+		<input size="1" type="tel" name="form_fields[phone]" id="form-field-phone" class="elementor-field">
+	</form>
+</div>

@@ -1,0 +1,133 @@
+/**
+ * Send4 phone field (#0688). Loaded after intl-tel-input's own stylesheet, and
+ * scoped to .send4-iti so another plugin's copy of the picker is left alone.
+ */
+
+/*
+ * Themes style input[type=tel] { width: 100% }, and the picker wraps the input
+ * in an inline-block, which collapses it to its intrinsic width.
+ */
+/*
+ * Not the detached country selector: on a phone the picker opens full screen in
+ * a fixed container that carries the same two classes, and width: 100% on top
+ * of its own padding pushed the list off the right-hand edge.
+ */
+.iti.send4-iti:not(.iti--detached-country-selector) {
+	display: block;
+	width: 100%;
+}
+
+/* The full-screen selector sizes itself from the viewport, whatever the theme
+   says about box-sizing. */
+/*
+ * Above whatever the form sits in. Upstream's 1060 is below most themes'
+ * popups (Impreza's is 10001), and a form inside one opened its country list
+ * behind the popup: the button looked dead.
+ */
+.iti.send4-iti.iti--detached-country-selector {
+	box-sizing: border-box;
+	z-index: 2147483000;
+	--iti-mobile-popup-margin: 16px;
+}
+
+.iti.send4-iti.iti--detached-country-selector .iti__country-selector {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
+}
+
+/*
+ * Fingers, not cursors. A larger flag, a country button at least 44px wide, a
+ * field tall enough to hit, and a search box at 16px so iOS does not zoom the
+ * page when it takes focus. --send4-flag-* are read by phone-flags.css.
+ */
+@media (pointer: coarse) {
+
+	.send4-iti {
+		--send4-flag-w: 24px;
+		--send4-flag-h: 18px;
+	}
+
+	.iti.send4-iti .iti__selected-country-primary {
+		min-width: 44px;
+		justify-content: center;
+	}
+
+	.iti.send4-iti input.iti__tel-input {
+		min-height: 44px;
+	}
+
+	/*
+	 * The second selector in each is the box the library measures the inline
+	 * dropdown in (see bin/build-scoped-picker-css.php). What changes the
+	 * dropdown's height has to apply there too, or the height it pins is short.
+	 */
+	.iti.send4-iti .iti__search-input,
+	body > .iti.iti--inline-country-selector .iti__search-input {
+		min-height: 44px;
+		font-size: 16px;
+	}
+
+	.iti.send4-iti .iti__country,
+	body > .iti.iti--inline-country-selector .iti__country {
+		min-height: 44px;
+	}
+}
+
+.iti.send4-iti input {
+	width: 100%;
+}
+
+/*
+ * What an older release of the picker on the same page sets on class names
+ * ours shares, and 29.x never sets back: 18.x draws its arrow as a filled
+ * triangle out of border-left and border-top, which turns our chevron into a
+ * blob, and greys the box behind each flag.
+ */
+.send4-iti .iti__arrow {
+	border-left: 0;
+	border-top: 0;
+}
+
+.send4-iti .iti__flag {
+	background-color: transparent;
+}
+
+/* Focus rings go missing on this button inside arbitrary themes. */
+.iti.send4-iti .iti__selected-country:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: -2px;
+}
+
+.iti.send4-iti .iti__search-input:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: -2px;
+}
+
+/*
+ * The message sits in a live region that exists from the start, so it is
+ * never display:none — an element hidden that way is not announced when it
+ * fills. Empty, it takes no space.
+ */
+.send4-phone-error {
+	margin: 0.25em 0 0;
+	color: #b32d2e;
+	font-size: 0.875em;
+	line-height: 1.4;
+}
+
+.send4-phone-error:empty {
+	margin: 0;
+}
+
+.iti.send4-iti--invalid input {
+	border-color: #b32d2e;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.iti.send4-iti * {
+		transition: none;
+		animation: none;
+	}
+}

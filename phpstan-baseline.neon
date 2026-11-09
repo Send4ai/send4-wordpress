@@ -1,0 +1,125 @@
+# PHPStan baseline: what level 5 finds in the plugin as it stands.
+#
+# Nothing here is a defect. Two groups, and one artefact:
+#
+#   * Defensive is_array()/is_object()/instanceof checks that PHPStan can prove
+#     redundant from the docblocks. They guard against form plugins handing over
+#     something other than what they document — Gravity Forms in particular
+#     hands back GF_Field objects where the form object says array — so the
+#     runtime check earns its keep even when the type says it cannot fail.
+#     The phone validation bindings and render hooks (#0688) add more of the
+#     same, for hook arguments, and Send4_Phone_Validator guards a filter's
+#     return value: a callback that forgets to return would otherwise empty
+#     the calling-code table and refuse every number on every form that checks.
+#   * WP_Site::$blog_id is typed string, so Send4_Installer::on_new_site()'s
+#     isset() looks pointless — but that method also accepts a bare site id.
+#
+# The four require_once entries are an artefact of the analysis environment:
+# szepeviktor/phpstan-wordpress pins ABSPATH to '/' and marks it dynamic, so
+# PHPStan cannot resolve ABSPATH . 'wp-admin/includes/*.php' to a file.
+#
+# Regenerate with:
+#   vendor/bin/phpstan analyse --generate-baseline=phpstan-baseline.neon
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: includes/adapters/class-send4-adapter-cf7.php
+
+		-
+			message: '#^Call to function is_object\(\) with object will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: includes/adapters/class-send4-adapter-cf7.php
+
+		-
+			message: '#^Call to function is_object\(\) with object will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 3
+			path: includes/adapters/class-send4-adapter-elementor.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 4
+			path: includes/adapters/class-send4-adapter-gravityforms.php
+
+		-
+			message: '#^Result of \|\| is always false\.$#'
+			identifier: booleanOr.alwaysFalse
+			count: 2
+			path: includes/adapters/class-send4-adapter-gravityforms.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 6
+			path: includes/adapters/class-send4-adapter-wpforms.php
+
+		-
+			message: '#^Result of \|\| is always false\.$#'
+			identifier: booleanOr.alwaysFalse
+			count: 2
+			path: includes/adapters/class-send4-adapter-wpforms.php
+
+		-
+			message: '#^Instanceof between Send4_Form_Adapter and Send4_Form_Adapter will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: includes/class-send4-adapters.php
+
+		-
+			message: '#^Path in require_once\(\) "1wp\-admin/includes/plugin\.php" is not a file or it does not exist\.$#'
+			identifier: requireOnce.fileNotFound
+			count: 1
+			path: includes/class-send4-installer.php
+
+		-
+			message: '#^Path in require_once\(\) "wp\-admin/includes/plugin\.php" is not a file or it does not exist\.$#'
+			identifier: requireOnce.fileNotFound
+			count: 1
+			path: includes/class-send4-installer.php
+
+		-
+			message: '#^Property WP_Site\:\:\$blog_id \(string\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
+			count: 1
+			path: includes/class-send4-installer.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 3
+			path: includes/class-send4-phone-field.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<int, array\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: includes/class-send4-phone-field.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<int\|string, true\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: includes/class-send4-phone-validator.php
+
+		-
+			message: '#^Path in require_once\(\) "1wp\-admin/includes/upgrade\.php" is not a file or it does not exist\.$#'
+			identifier: requireOnce.fileNotFound
+			count: 1
+			path: includes/class-send4-queue.php
+
+		-
+			message: '#^Path in require_once\(\) "wp\-admin/includes/upgrade\.php" is not a file or it does not exist\.$#'
+			identifier: requireOnce.fileNotFound
+			count: 1
+			path: includes/class-send4-queue.php
+
+		-
+			message: '#^Right side of && is always true\.$#'
+			identifier: booleanAnd.rightAlwaysTrue
+			count: 1
+			path: includes/class-send4-settings.php

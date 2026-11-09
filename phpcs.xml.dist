@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<ruleset name="Send4">
+	<description>WordPress Coding Standards for the Send4 plugin.</description>
+
+	<file>send4.php</file>
+	<file>uninstall.php</file>
+	<file>includes</file>
+	<file>admin</file>
+
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/build/*</exclude-pattern>
+	<exclude-pattern>/tests/*</exclude-pattern>
+	<exclude-pattern>/dev/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="basepath" value="."/>
+	<arg name="colors"/>
+	<arg name="parallel" value="8"/>
+	<arg value="sp"/>
+
+	<!--
+		Core + Docs + Extra. WordPress.WP.AlternativeFunctions, which is what
+		enforces "no curl, no file_get_contents on a URL", ships in Extra only.
+	-->
+	<rule ref="WordPress"/>
+
+	<!-- The plugin header says "Requires PHP: 7.4", so that is what is tested. -->
+	<config name="testVersion" value="7.4-"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<!-- The plugin header's "Requires at least". 6.2 is the first with %i. -->
+	<config name="minimum_wp_version" value="6.2"/>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="send4"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="send4"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!--
+		Everything below narrows a sniff to the files where it is right, or turns
+		it off where the plugin code is right and the sniff cannot see why. None
+		of these was added to silence a real defect.
+	-->
+
+	<!--
+		The adapters document register_hooks() with {@inheritDoc}, pointing at
+		Send4_Form_Adapter. PHPCS honours that for the description but still
+		demands a local @param tag.
+	-->
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern>includes/adapters/*</exclude-pattern>
+	</rule>
+
+	<!--
+		The random-hex fallback loop appends to the string it measures, so the
+		length genuinely changes each iteration and cannot be hoisted out.
+	-->
+	<rule ref="Squiz.PHP.DisallowSizeFunctionsInLoops">
+		<exclude-pattern>includes/class-send4-submission-id.php</exclude-pattern>
+	</rule>
+
+	<!--
+		The one-minute schedule is deliberate: the queue's first retry is a
+		minute after a failed submission, and a coarser interval would make that
+		promise a lie. The class already documents the reasoning.
+	-->
+	<rule ref="WordPress.WP.CronInterval.CronSchedulesInterval">
+		<exclude-pattern>includes/class-send4-cron.php</exclude-pattern>
+	</rule>
+</ruleset>
