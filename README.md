@@ -1,11 +1,96 @@
+<a href="https://wordpress.org/plugins/send4/"><img src=".wordpress-org/banner-1544x500.png" alt="Send4 for WordPress. Form leads, answered by text in seconds." width="100%"></a>
+
 # Send4 for WordPress
 
-A WordPress plugin that forwards form submissions to [Send4](https://send4.ai), so an AI flow can
-follow up with the lead over SMS within seconds. It works with Contact Form 7, WPForms, Gravity
-Forms and Elementor Pro.
+[![WordPress.org version](https://img.shields.io/wordpress/plugin/v/send4?label=wordpress.org)](https://wordpress.org/plugins/send4/)
+[![Tested up to](https://img.shields.io/wordpress/plugin/tested/send4)](https://wordpress.org/plugins/send4/)
+[![Requires PHP](https://img.shields.io/wordpress/plugin/required-php/send4)](https://wordpress.org/plugins/send4/)
+[![CI](https://github.com/Send4ai/send4-wordpress/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Send4ai/send4-wordpress/actions/workflows/ci.yml)
+[![License: GPL v2 or later](https://img.shields.io/badge/license-GPL--2.0--or--later-blue)](LICENSE)
 
-Install it from the WordPress plugin directory: <https://wordpress.org/plugins/send4/>. What it does
-for your site: <https://send4.ai/integrations/wordpress>.
+Send4 texts every new lead from your WordPress forms within seconds. When someone submits a
+Contact Form 7, WPForms, Gravity Forms or Elementor Pro form, this plugin hands the submission to
+your [Send4](https://send4.ai) account, and the AI flow you set up there starts an SMS conversation
+with that person: it answers their questions, asks what you need to know, and can book a call.
+
+- **No code.** Connect with one button, pick the field that holds the phone number, turn the form on.
+- **No lost leads.** If Send4 cannot be reached, the submission waits in a queue on your site and is
+  retried for about a day and a half.
+- **Context included.** Every field you do not map is passed along, so the AI knows what the person
+  asked for.
+- **Nothing hidden.** The dashboard shows, per form, whether the last submission arrived and whether
+  a Send4 flow is listening for it.
+- **Numbers that can be texted.** Optionally adds a country picker to the phone field, and refuses a
+  number with no country code while the visitor is still on the form.
+
+<img src=".wordpress-org/screenshot-1.png" alt="The Send4 dashboard in wp-admin: connection status, submissions sent, the retry queue, what happened to each submission, and a table of leads by form." width="820">
+
+Send4 is a paid service, and this plugin is the WordPress half of it: you need a Send4 account and a
+number to text from. [What it does for your site](https://send4.ai/integrations/wordpress).
+
+## Install
+
+In wp-admin, go to **Plugins → Add New Plugin**, search for **Send4**, then install and activate it.
+Or, with WP-CLI:
+
+```bash
+wp plugin install send4 --activate
+```
+
+The plugin's page in the directory is <https://wordpress.org/plugins/send4/>. Each
+[GitHub release](https://github.com/Send4ai/send4-wordpress/releases/latest) carries the same
+`send4.zip`, for a manual upload.
+
+It needs WordPress 6.2 or later, PHP 7.4 or later, and at least one of the form plugins below.
+
+## Set up
+
+1. Go to **Send4 → Connection** and press **Connect with Send4**. Approve the connection in Send4;
+   you are brought back to WordPress and see "Connected to *your account*".
+2. Go to **Send4 → Forms & Triggers**, choose a form, pick the field that holds the phone number,
+   and enable it.
+3. In Send4, create a flow whose trigger is **WordPress form** and tick the forms it should listen
+   for. They are listed by name, because the plugin reports them.
+
+Prefer to paste a key? Create an API key in Send4 with the **WordPress plugin** permission and paste
+the client ID and secret on the Connection screen instead. Use one key per website: Send4 binds a
+key to the site it was created for and refuses submissions that arrive from anywhere else.
+
+## Supported form plugins
+
+| Form plugin | Notes |
+|---|---|
+| Contact Form 7 | |
+| WPForms, including Lite | A field that already has WPForms Pro's Smart phone picker keeps it; Send4 does not add a second one. |
+| Gravity Forms | Set the phone field's format to **International** to get the picker and the country-code check. |
+| Elementor Pro | A popup that Elementor loads over AJAX after the page has loaded needs the [`send4_phone_targets`](#hooks) filter to get the picker. |
+
+Using another form plugin? [Open an issue](https://github.com/Send4ai/send4-wordpress/issues/new/choose).
+Each one is a single adapter class; see [Adding a form plugin](#adding-a-form-plugin).
+
+## What leaves your site
+
+Nothing is sent until you start connecting the site to Send4, and no visitor's submission is sent
+until you also enable a form. After that:
+
+- **Submissions** on the forms you enabled: the phone number, name and email you mapped, the
+  remaining fields, the form's name and key, your site URL, and a random submission identifier.
+- **A description of your forms**: each form's name and key, whether it is enabled, and each
+  field's label and type. Never a submitted value. This is what lets you pick your forms from a
+  list in Send4's flow builder.
+- **Which versions the site runs**: this plugin, WordPress, PHP and WooCommerce if present, the
+  site's language, and whether it is a multisite network.
+
+Everything goes to `https://app.send4.ai` over HTTPS. The full list, with when each request is
+made, is under **External services** in [`readme.txt`](readme.txt), which is also what the
+WordPress.org listing shows. Send4's [terms](https://send4.ai/terms) and
+[privacy policy](https://send4.ai/privacy) apply.
+
+The submissions you forward contain personal data about your visitors. Your form needs a clear
+consent line saying that submitting it means Send4 may text them, and your privacy policy should
+name Send4 as a processor.
+
+## How it works
 
 The plugin is a thin client: it holds no business logic beyond mapping fields and not losing
 submissions.
@@ -18,106 +103,105 @@ form plugin hooks ──► Normalizer ──► Delivery (sync POST, 3s) ──
      adapters ──► Form descriptors ──► Forms sync (PUT, on change + daily) ──► Send4
 ```
 
-Two things leave the site. **Submissions**, which are the product. And a **description of the
-forms themselves** — name, key, whether they are enabled, and each field's label and type, never a
-submitted value. Send4 only ever sees a form key on a submission, which is too late to offer that
-form in its flow builder, so the plugin tells it up front and the customer picks their forms from
-a list instead of retyping a key.
+- **The visitor never waits more than three seconds.** If Send4 has not answered by then, the
+  submission is stored in a table in your database and the visitor sees their normal confirmation.
+- **Retries back off**: after a minute, five minutes, fifteen, an hour, then every six hours, for
+  about a day and a half in total.
+- **A lead is never delivered twice.** Retries reuse the same submission identifier, and an
+  identical submission within 60 seconds counts as a repeat.
+- **Deactivating keeps the queue and the connection; uninstalling removes them**, along with every
+  option the plugin created. The queue can hold lead data, so it does not outlive the plugin.
 
-⚠️ A field's declared key must be the key a submission will actually carry, so
-`Send4_Form_Descriptors` asks `Send4_Normalizer::data_keys_for()` rather than slugging the label
-again. Slugging it independently is right most of the time and quietly wrong for a renamed
-collision or a duplicate label — and Send4 would then show the customer a variable that is never
-populated, with nothing erroring anywhere. `tests/Unit/FormDescriptorsTest.php` pins the two
-together; do not let them drift.
+## WP-CLI
 
-## Repository layout
-
-| Path | What it is |
+| Command | What it does |
 |---|---|
-| `send4.php`, `includes/`, `admin/` | the plugin |
-| `includes/adapters/` | one class per form plugin; adding another is one file |
-| `dev/` | local-only seeding and simulation scripts (excluded from the zip) |
-| `tests/` | PHPUnit suite, run against a real WordPress |
-| `bin/build-zip.sh` | builds the distributable zip using `.distignore` |
-| `bin/check-version.sh` | checks the three version strings (and a tag) agree; `make release-check` |
-| `.wordpress-org/` | the directory listing's icon, banner and screenshots (excluded from the zip) |
+| `wp send4 status` | Prints a one-screen summary of the plugin's state. |
+| `wp send4 connect --client-id=<id> --client-secret=<secret>` | Verifies API credentials against Send4, then stores them. Pass `-` as the secret to read it from STDIN. |
+| `wp send4 handshake` | Runs the connection test and prints the flows listening for WordPress forms. |
+| `wp send4 forms` | Lists the forms Send4 can see on this site. |
+| `wp send4 enable <form_key> --phone=<field> [--name=<field>] [--email=<field>]` | Maps a form's fields and starts sending it to Send4. |
+| `wp send4 disable <form_key>` | Stops sending a form to Send4. |
+| `wp send4 sync_forms [--force]` | Reports this site's detected forms to Send4. |
+| `wp send4 queue` | Shows what is waiting in the retry queue. |
+| `wp send4 run_queue` | Attempts every queued submission that is due. |
+| `wp send4 requeue` | Puts failed submissions back on the queue. |
 
-## Local development
+A form key is the form plugin's slug and the form's id, as in `contact-form-7:42`.
 
-Requires Docker and a Send4 account. The plugin points at `http://host.docker.internal:8080` by
-default; set `SEND4_API_BASE_URL` in `.env` to use another server.
+## Hooks
 
-```bash
-cp .env.example .env          # add SEND4_CLIENT_ID / SEND4_CLIENT_SECRET
-make install                  # WordPress + CF7 + WPForms Lite + the seeded test forms
-make connect                  # verify the credentials against Send4
-make e2e                      # submit the seeded form through CF7's real pipeline
-make queue                    # what is waiting to be retried
+All of these are filters.
+
+| Filter | What it changes | Arguments |
+|---|---|---|
+| `send4_envelope` | The payload for one submission, just before it is queued or sent. | `$envelope`, `$submission`, `$mapping` |
+| `send4_form_adapters` | The list of form plugin adapters. | `$adapters` |
+| `send4_duplicate_window` | How many seconds an identical submission counts as a repeat. Default 60; return 0 to send every one. | `$seconds`, `$envelope` |
+| `send4_phone_error_message` | What a visitor is told when their phone number is refused. | `$message`, `$reason`, `$form_key` |
+| `send4_phone_default_country` | The country a form's phone picker starts on, as a lowercase ISO 3166-1 alpha-2 code. | `$country`, `$form_key` |
+| `send4_phone_targets` | The forms that get a phone picker on this page, for a form the plugin cannot see render. | `$targets` |
+| `send4_phone_calling_codes` | The table of country calling codes the phone check accepts. | `$codes` |
+| `send4_detection_limit` | How many forms one adapter lists. Default 500. | `$limit` |
+| `send4_queue_time_budget` | How many seconds one queue run may spend sending. Default 20. | `$budget` |
+| `send4_privacy_batch` | How many queue rows one privacy export or erase call reads. Default 500. | `$batch` |
+
+Fields you did not map travel in `$envelope['data']`, keyed by a slug of their label. To keep one
+of them on your site:
+
+```php
+add_filter( 'send4_envelope', function ( $envelope ) {
+	unset( $envelope['data']['internal_notes'] );
+	return $envelope;
+} );
 ```
 
-WordPress runs on <http://localhost:8088> (`admin` / `admin`). Two Contact Form 7 forms are
-seeded: a plain one at `/contact/`, and at `/contact-choices/` one the way a real site builds it —
-theme markup around the tags, a checkbox with five choices and three `[acceptance]` tags — which
-is what the form descriptors have to survive.
+### Adding a form plugin
 
-Gravity Forms and Elementor Pro are paid, so they are not installed locally. Their adapters are
-covered by fixtures instead, and `make simulate ADAPTER=gravityforms` fires their hooks with
-fixture data through the real adapter code.
+An adapter is one class that implements `Send4_Form_Adapter`: a slug, a name, whether the form
+plugin is active, the forms it has, and its submission hook. Register it before Send4 reads the
+list, which it does on `plugins_loaded` at priority 20:
 
-### Minting a key
+```php
+add_action( 'plugins_loaded', function () {
+	if ( ! interface_exists( 'Send4_Form_Adapter' ) ) {
+		return; // Send4 is not active.
+	}
 
-Create the API client in the Send4 dashboard (**Settings → API keys**) with the
-**WordPress plugin** ability (`integrations.wordpress`). Use one key per site: Send4 binds a
-credential to the `site_url` it was minted for and answers `403` when a submission arrives from
-anywhere else.
+	require_once __DIR__ . '/class-my-forms-adapter.php';
 
-## Tests
-
-```bash
-make test            # PHPUnit against a real WordPress, backed by the MariaDB container
-make test-php74      # the same suite on PHP 7.4 — the version the plugin header promises
-make test-multisite  # the same suite as a multisite network
-make lint            # PHPCS (WordPress Coding Standards, PHP 7.4 compatibility) + PHPStan
+	add_filter( 'send4_form_adapters', function ( $adapters ) {
+		$adapters[] = new My_Forms_Adapter();
+		return $adapters;
+	} );
+} );
 ```
 
-Those three test targets are the three legs CI runs, so a push should not be the first time
-any of them executes.
+Three optional interfaces add to it: `Send4_Validating_Adapter` (refuse a phone number at the form
+plugin's validation stage), `Send4_Findable_Adapter` (look one form up by id on a site with more
+forms than the detection limit) and `Send4_Truncating_Adapter` (say when a listing stopped early).
+The four adapters in [`includes/adapters/`](includes/adapters) are the reference.
 
-Both install `vendor/` on the host first: the tests container bind-mounts this directory, so
-dependencies installed inside it would not persist. PHPStan needs more than the default 128 MB,
-which is why `make lint` passes `-d memory_limit=1G`; CI does not need the flag because
-`setup-php` sets `memory_limit=-1`.
+## Contributing
 
-## Releasing
+Bug reports and pull requests are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) covers the local
+environment, the tests and how a release is cut. In short:
 
-`bin/build-zip.sh` produces `build/send4.zip`.
+```bash
+make install   # WordPress, Contact Form 7, WPForms Lite and seeded test forms, in Docker
+make test      # PHPUnit against a real WordPress
+make lint      # PHPCS (WordPress Coding Standards) and PHPStan
+```
 
-A pushed `v*` tag is a release (`.github/workflows/release.yml`).
+For a question about using the plugin, ask in the
+[support forum](https://wordpress.org/support/plugin/send4/).
 
-1. Bump the version in all three places: the `Version` header and `SEND4_VERSION` in
-   `send4.php`, and `Stable tag` in `readme.txt`. Write the changelog entry and the upgrade
-   notice, run `make pot`, then `make release-check` and `make zip`. The readme keeps two
-   changelog entries, as WordPress.org asks: move the older one to the top of `changelog.txt`.
-   Replace the upgrade notice rather than adding one; WordPress only shows the new version's.
-2. Merge to `main`, then run `git tag vX.Y.Z && git push origin vX.Y.Z`. Tag a commit that is
-   already on `main`: the workflow refuses any other.
-3. The workflow runs all of CI on the tag, checks the tag against the version (`make
-   release-check TAG=vX.Y.Z` is the same check), and creates the GitHub release with
-   `send4.zip` attached and the changelog entry as notes. That zip is what a hand install and
-   the WordPress.org reviewer get.
-4. The `wordpress-org` job commits the same zip to the WordPress.org SVN (`trunk` and
-   `tags/X.Y.Z`), and `.wordpress-org/` to `assets/`. It is **skipped** until the repository
-   variable `WPORG_PUBLISH` is `true`, which is set once the plugin is approved. Once it runs,
-   approve the job, then click the Release Confirmation email WordPress.org sends.
+## Security
 
-To publish a tag cut before approval: Actions → *Release* → *Run workflow*, `tag: vX.Y.Z`. It is
-a dry run unless you untick `dry_run`. A dry run still needs the SVN credentials.
-
-⚠️ A tag cannot be moved once WordPress.org has it, so a fix is always a new patch version.
-⚠️ Never move a site onto a new version by deleting and reinstalling the plugin: `uninstall.php`
-drops the retry queue and the connection.
+Please report a vulnerability privately, not in a public issue. [SECURITY.md](SECURITY.md) says how.
 
 ## License
 
-GPL v2 or later. See [LICENSE](LICENSE).
+GPL v2 or later. See [LICENSE](LICENSE). The bundled
+[intl-tel-input](https://github.com/jackocnr/intl-tel-input) is MIT licensed; its licence is in
+[`public/lib/intl-tel-input/`](public/lib/intl-tel-input).

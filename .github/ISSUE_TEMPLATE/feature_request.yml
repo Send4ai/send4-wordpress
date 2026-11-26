@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest an improvement, or ask for another form plugin to be supported.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The situation on your site, rather than the solution. It is easier to find the right fix from the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like the plugin to do?
+  - type: input
+    id: form-plugin
+    attributes:
+      label: Form plugin
+      description: If this is about a form plugin Send4 does not support yet, which one, and is it the free or the paid version?
