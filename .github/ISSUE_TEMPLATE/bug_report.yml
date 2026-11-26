@@ -1,0 +1,81 @@
+name: Bug report
+description: Something in the plugin does not work as it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting this.
+
+        **Do not paste API keys, client secrets or your visitors' phone numbers, names or email addresses.**
+        For a security problem, do not open an issue: [report it privately](https://github.com/Send4ai/send4-wordpress/security/advisories/new).
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: And what you expected to happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Enable the form "Request a quote" under Send4 → Forms & Triggers
+        2. Submit it with the phone number in the national format
+        3. …
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Send4 plugin version
+      description: On the Plugins screen in wp-admin.
+      placeholder: 0.2.2
+    validations:
+      required: true
+  - type: input
+    id: wordpress-version
+    attributes:
+      label: WordPress version
+      placeholder: '7.1'
+    validations:
+      required: true
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP version
+      description: Under Tools → Site Health → Info → Server.
+      placeholder: '8.3'
+    validations:
+      required: true
+  - type: dropdown
+    id: form-plugin
+    attributes:
+      label: Form plugin
+      multiple: true
+      options:
+        - Contact Form 7
+        - WPForms
+        - Gravity Forms
+        - Elementor Pro
+        - Not related to a form plugin
+    validations:
+      required: true
+  - type: input
+    id: form-plugin-version
+    attributes:
+      label: Form plugin version
+  - type: textarea
+    id: status
+    attributes:
+      label: Plugin status
+      description: |
+        The output of `wp send4 status`, or what **Send4 → Dashboard** shows under **Recent activity** for the submission that went wrong.
+        `wp send4 status` prints your client ID and account name. Remove them if you prefer; neither is a secret.
+      render: text
+  - type: textarea
+    id: environment
+    attributes:
+      label: Anything else about the site
+      description: A multisite network, a page cache or CDN, a persistent object cache, a security plugin, the theme or page builder the form sits in.

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: A question about setting up or using the plugin
+    url: https://wordpress.org/support/plugin/send4/
+    about: Ask in the WordPress.org support forum.
+  - name: A security vulnerability
+    url: https://github.com/Send4ai/send4-wordpress/security/advisories/new
+    about: Report it privately. Please do not open a public issue.
