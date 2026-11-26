@@ -12,6 +12,14 @@
 ARG PHP_VERSION=8.3
 FROM php:${PHP_VERSION}-cli
 
+# php:7.4 is built on Debian bullseye, which is past its end of life: the
+# mirrors still list its packages but no longer hold all of them, and the
+# install below answers 404. The archive has every one. Newer images keep
+# their sources in sources.list.d and are left alone.
+RUN if grep -qs bullseye /etc/apt/sources.list; then \
+		sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list; \
+	fi
+
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends git unzip \
 	&& rm -rf /var/lib/apt/lists/*
