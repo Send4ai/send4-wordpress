@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Pushes the detected form descriptors to Send4 when they change (#0687).
+ * Pushes the detected form descriptors to Send4 when they change.
  *
  * Deliberately NOT on every admin page load: this is metadata, and a request
  * per page view would be rude to a site that never edits its forms. It runs at

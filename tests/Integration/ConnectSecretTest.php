@@ -8,7 +8,7 @@
 /**
  * Until 0.2.1 the secret was only trimmed, because sanitize_text_field() could
  * change a credential that contained markup. Plugin Check reports that as
- * unsanitized input (#1531). Send4 secrets are `secret_` and 48 letters and
+ * unsanitized input. Send4 secrets are `secret_` and 48 letters and
  * digits, characters sanitize_text_field() never touches, so it is now used,
  * and anything that could not be a Send4 secret is refused rather than sent.
  * Markup and percent escapes are what sanitize_text_field() removes, before

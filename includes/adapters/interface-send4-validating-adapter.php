@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * An adapter that can hook its form plugin's validation stage (#0688).
+ * An adapter that can hook its form plugin's validation stage.
  *
  * A separate interface rather than a sixth method on Send4_Form_Adapter:
  * that interface is public through the send4_form_adapters filter, so growing

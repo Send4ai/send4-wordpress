@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * The minimum-version notice (#1531).
+ * The minimum-version notice.
  *
  * WordPress.org cannot force an update, so when Send4 needs something an old
  * version lacks, all it can do is ask. It does so on the handshake, as

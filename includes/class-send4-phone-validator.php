@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * The server half of phone validation (#0688): a floor, not a full parser.
+ * The server half of phone validation: a floor, not a full parser.
  *
  * Pure rules — no options, no hooks beyond one filter on the calling-code
  * table — so it tests without a form plugin in sight.

@@ -9,7 +9,7 @@
  * The checks used to live in one helper, Send4_Admin::authorize(). They were
  * always made, but Plugin Check only sees a nonce check written in the same
  * function that reads $_POST, so the WordPress.org sandbox reported every
- * handler as processing form data without one (#1531, 0.2.1). These tests pin
+ * handler as processing form data without one (0.2.1). These tests pin
  * down that splitting them changed nothing: the order is the same and a
  * refused request does nothing.
  */

@@ -7,7 +7,7 @@
 
 /**
  * Elementor Pro is paid, so the record and the AJAX handler are doubles; what
- * is real is the hook, fired with the arguments Elementor Pro passes (#0688).
+ * is real is the hook, fired with the arguments Elementor Pro passes.
  */
 class Send4_Elementor_Phone_Validation_Test extends Send4_Test_Case {
 

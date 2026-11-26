@@ -1,5 +1,5 @@
 /**
- * Send4 phone field (#0688). Loaded after intl-tel-input's own stylesheet, and
+ * Send4 phone field. Loaded after intl-tel-input's own stylesheet, and
  * scoped to .send4-iti so another plugin's copy of the picker is left alone.
  */
 

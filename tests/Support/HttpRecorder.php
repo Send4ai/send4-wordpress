@@ -288,7 +288,7 @@ class Send4_Http_Recorder {
 	 *
 	 * @param array  $flows       Flow descriptors.
 	 * @param string $client_name Client name.
-	 * @param array  $extra       More keys under `data`, such as `plugin` and `readiness` (#1531).
+	 * @param array  $extra       More keys under `data`, such as `plugin` and `readiness`.
 	 * @return void
 	 */
 	public function queueHandshake( array $flows = array(), $client_name = 'Stogas UAB', array $extra = array() ) {

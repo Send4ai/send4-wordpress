@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Turns what the adapters detect into the descriptors Send4's trigger picker
- * renders (#0687).
+ * renders.
  *
  * This is the one thing only the plugin can answer. Send4 learns a form key when
  * a submission arrives carrying one, which is far too late to offer it in the

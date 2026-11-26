@@ -175,7 +175,7 @@ class Send4_Adapter_Choice_Parity_Test extends Send4_Test_Case {
 
 	/**
 	 * A pipe shows the visitor the half before the bar and submits the half
-	 * after it, so the after half is the choice (#0698). Reporting "Sales" for
+	 * after it, so the after half is the choice. Reporting "Sales" for
 	 * a submission that carries "sales@example.com" built conditions that could
 	 * never match.
 	 *

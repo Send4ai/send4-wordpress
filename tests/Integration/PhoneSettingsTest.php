@@ -7,7 +7,7 @@
 
 /**
  * Both flags are opt-in, both survive every save path, and neither can be on
- * for a form that is off or has no phone mapping (#0688).
+ * for a form that is off or has no phone mapping.
  */
 class Send4_Phone_Settings_Test extends Send4_Test_Case {
 

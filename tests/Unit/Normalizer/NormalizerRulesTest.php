@@ -104,7 +104,7 @@ class Send4_Normalizer_Rules_Test extends Send4_Test_Case {
 	}
 
 	/**
-	 * The picker shows the country code by putting it in the field (#0691). Left
+	 * The picker shows the country code by putting it in the field. Left
 	 * untouched, that is an empty field.
 	 *
 	 * @return void

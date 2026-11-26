@@ -6,7 +6,7 @@
  */
 
 /**
- * The step that proves the design (#0688): a real WPCF7_ContactForm, a real
+ * The step that proves the design: a real WPCF7_ContactForm, a real
  * submit(), and wpcf7_validate as Contact Form 7 itself fires it — so the hook
  * name, its arity, the tag object and the error shape are all checked for real.
  */

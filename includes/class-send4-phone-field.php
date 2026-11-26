@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * The front-end half of phone validation (#0688): the plugin's first
+ * The front-end half of phone validation: the plugin's first
  * front-end asset, loaded only on a page that renders a form that asked for it.
  *
  * Nothing is enqueued on wp_enqueue_scripts unconditionally. Each form plugin
@@ -117,7 +117,7 @@ class Send4_Phone_Field {
 		// modules/forms/widgets/form.php calls
 		// do_action( 'elementor-pro/forms/pre_render', $instance, $this ), and
 		// Elementor Pro's own popup form action listens on the same name. The
-		// underscore spelling fires nowhere: registered here until #0697, it
+		// underscore spelling fires nowhere: registered here at first, it
 		// left every Elementor form without a picker. Fallback if it moves:
 		// elementor/frontend/widget/before_render, filtered on
 		// $widget->get_name() === 'form'.
@@ -162,7 +162,7 @@ class Send4_Phone_Field {
 		// Pro's Smart phone field ships an older one under that name; and a site's
 		// own snippet calling intlTelInput( input, … ) on a page where its library
 		// is not loaded would otherwise find ours, and build a second, unstyled
-		// picker out of it on a field that already has one (#0692).
+		// picker out of it on a field that already has one.
 		//
 		// The library ends `var intlTelInput = …`, which on a fresh window makes a
 		// non-configurable property nothing can take back. So the name is claimed

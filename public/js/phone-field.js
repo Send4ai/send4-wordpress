@@ -1,5 +1,5 @@
 /**
- * Send4: a country picker on the phone field a form already has (#0688).
+ * Send4: a country picker on the phone field a form already has.
  *
  * Builder-agnostic. The server says, in a JSON block, which inputs to attach
  * to (a scope selector per form copy, an input selector inside it); this file

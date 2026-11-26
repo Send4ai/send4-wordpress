@@ -20,7 +20,7 @@ class Send4_Settings {
 
 	/**
 	 * The per-form keys that describe the last delivery rather than configure
-	 * the form. They live in STATUS_OPTION, never in FORMS_OPTION (#0696).
+	 * the form. They live in STATUS_OPTION, never in FORMS_OPTION.
 	 */
 	const STATUS_KEYS = array( 'last_status', 'last_at', 'last_error' );
 
@@ -236,7 +236,7 @@ class Send4_Settings {
 	 * Per-form configuration, keyed by form key.
 	 *
 	 * Configuration only: the last delivery's outcome is in form_statuses().
-	 * An entry written before #0696 may still carry last_* keys until the next
+	 * An entry written by an older version may still carry last_* keys until the next
 	 * admin save moves them out; nothing should read them from here.
 	 *
 	 * @return array<string,array>
@@ -285,7 +285,7 @@ class Send4_Settings {
 				'last_status'    => '',
 				'last_at'        => '',
 				'last_error'     => '',
-				// Off by default, deliberately (#0688): a false rejection loses
+				// Off by default, deliberately: a false rejection loses
 				// a lead outright, which is worse than a badly typed number.
 				'validate_phone' => false,
 				'phone_field'    => array(),
@@ -328,7 +328,7 @@ class Send4_Settings {
 	 * delivery path must not: it rewrites the whole option from whatever copy
 	 * it read, and a delivery holds that copy across a blocking HTTP call — a
 	 * queue drain across many — so writing from it would silently revert a form
-	 * an admin disabled, or a mapping they saved, in the meantime (#0696).
+	 * an admin disabled, or a mapping they saved, in the meantime.
 	 *
 	 * @param string $form_key Form key.
 	 * @param array  $values   Partial form configuration. Status keys are ignored.
@@ -351,7 +351,7 @@ class Send4_Settings {
 	/**
 	 * The last delivery outcome per form, keyed by form key.
 	 *
-	 * Falls back to the last_* keys a pre-#0696 install kept inside each form's
+	 * Falls back to the last_* keys an older install kept inside each form's
 	 * configuration, for as long as they are still there, so the screens do
 	 * not go blank between upgrading and the next admin save.
 	 *
@@ -385,7 +385,7 @@ class Send4_Settings {
 
 	/**
 	 * True when this form's mapped phone field must hold a textable number
-	 * before the form plugin accepts the submission (#0688).
+	 * before the form plugin accepts the submission.
 	 *
 	 * The one predicate every validation binding goes through, so "a form that
 	 * is off never validates" and "a form with no phone mapping never
@@ -420,7 +420,7 @@ class Send4_Settings {
 	public static function record_delivery( $form_key, $status, $error = '' ) {
 		// Its own option, re-read from the database right here: the worst a
 		// concurrent delivery can do is overwrite this status line, and it
-		// never touches a form's configuration (#0696).
+		// never touches a form's configuration.
 		$statuses = self::fresh_statuses();
 
 		$statuses[ (string) $form_key ] = array(
@@ -490,7 +490,7 @@ class Send4_Settings {
 	}
 
 	/**
-	 * A pre-#0696 status stored inside a form's configuration, if there is one.
+	 * A status an older version stored inside a form's configuration, if there is one.
 	 *
 	 * @param mixed $stored One form's stored configuration.
 	 * @return array{last_status:string,last_at:string,last_error:string}|null
@@ -508,7 +508,7 @@ class Send4_Settings {
 	}
 
 	/**
-	 * Move every pre-#0696 status out of the forms option, into its own.
+	 * Move every status an older version left in the forms option into its own.
 	 *
 	 * Runs on an admin save, the one moment the forms option is rewritten
 	 * anyway. A status already recorded in the new option is newer than the

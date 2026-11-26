@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * An adapter that can resolve a single form by its id without enumerating
- * every form it knows (#0697).
+ * every form it knows.
  *
  * Detection stops at a ceiling (Send4_Adapters::detection_limit() forms for
  * Contact Form 7 and WPForms, 100 pages for Elementor), so on a larger site the

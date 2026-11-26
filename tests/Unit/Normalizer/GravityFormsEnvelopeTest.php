@@ -74,7 +74,7 @@ class Send4_Gravity_Forms_Envelope_Test extends Send4_Test_Case {
 
 	/**
 	 * The data a Gravity Forms entry carries for each field type whose storage
-	 * is not simply "the value under the field id" (#0698).
+	 * is not simply "the value under the field id".
 	 *
 	 * Built from the Gravity Forms entry-object docs; the plugin itself is paid
 	 * and not in the suite, so these shapes are documented, not observed.

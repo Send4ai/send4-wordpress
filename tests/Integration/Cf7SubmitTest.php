@@ -195,7 +195,7 @@ class Send4_Cf7_Submit_Test extends Send4_Test_Case {
 	/**
 	 * A later wpcf7_before_send_mail listener — an OTP or blocklist add-on —
 	 * that aborts the submission makes Contact Form 7 tell the visitor it
-	 * failed. Send4 must not have the lead either (#0698).
+	 * failed. Send4 must not have the lead either.
 	 *
 	 * @return void
 	 */

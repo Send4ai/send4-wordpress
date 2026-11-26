@@ -373,7 +373,7 @@ class Send4_Adapter_Wpforms implements Send4_Form_Adapter, Send4_Validating_Adap
 	}
 
 	/**
-	 * The choices of a pick-list field, as they will REACH Send4 (#0687).
+	 * The choices of a pick-list field, as they will REACH Send4.
 	 *
 	 * ⚠️ The label, never the custom value — even when the choice has one.
 	 * WPForms posts the raw value with "Show Values" on, but

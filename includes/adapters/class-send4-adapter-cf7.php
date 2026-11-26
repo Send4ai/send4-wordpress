@@ -328,7 +328,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 				'label'   => $this->label_for( $name ),
 				'type'    => $basetype,
 				// Pick-list choices, so Send4's conditional card can offer them
-				// instead of asking the customer to retype every value (#0687).
+				// instead of asking the customer to retype every value.
 				'options' => $this->options_for( $tag, $basetype ),
 			);
 		}

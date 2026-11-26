@@ -6,7 +6,7 @@
  */
 
 /**
- * Send4_Phone_Validator, which judges and never rewrites (#0688).
+ * Send4_Phone_Validator, which judges and never rewrites.
  */
 class Send4_Phone_Validator_Test extends Send4_Test_Case {
 

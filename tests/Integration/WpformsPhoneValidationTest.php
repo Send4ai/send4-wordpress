@@ -9,7 +9,7 @@
  * WPForms Lite is loaded for real by the bootstrap, so these go in through
  * do_action( 'wpforms_process_before' ) and apply_filters(
  * 'wpforms_process_initial_errors' ) with the arguments WPForms_Process passes,
- * in the order it passes them (#0688).
+ * in the order it passes them.
  */
 class Send4_Wpforms_Phone_Validation_Test extends Send4_Test_Case {
 

@@ -91,8 +91,7 @@ class Send4_Plugin {
 	 * There is no load_plugin_textdomain() call: since WordPress 4.6 the
 	 * `send4` domain is loaded just in time from the language packs
 	 * WordPress.org builds, and the plugin ships no .mo files of its own, so
-	 * the call loaded nothing. Plugin Check flags it for a listed plugin
-	 * (#1531).
+	 * the call loaded nothing. Plugin Check flags it for a listed plugin.
 	 *
 	 * @return void
 	 */

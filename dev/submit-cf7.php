@@ -6,7 +6,7 @@
  * Usage: wp eval-file dev/submit-cf7.php [phone]
  *
  * The optional phone replaces the default +370 600 12345, so a form with the
- * phone check on can be driven down its refusal path (#0688):
+ * phone check on can be driven down its refusal path:
  *
  *     wp eval-file dev/submit-cf7.php 060012345
  *

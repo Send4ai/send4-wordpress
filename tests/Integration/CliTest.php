@@ -126,7 +126,7 @@ class Send4_Cli_Test extends Send4_Test_Case {
 
 	/**
 	 * `wp send4 handshake` says what Send4 still needs before it can text a
-	 * lead, and when Send4 asks for a newer plugin (#1531).
+	 * lead, and when Send4 asks for a newer plugin.
 	 *
 	 * @return void
 	 */

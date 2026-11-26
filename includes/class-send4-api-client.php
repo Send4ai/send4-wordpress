@@ -498,7 +498,7 @@ class Send4_Api_Client {
 	/**
 	 * Connection test: who are we, and which flows are listening?
 	 *
-	 * Since #1531 the answer may also carry `plugin` (the minimum version Send4
+	 * The answer may also carry `plugin` (the minimum version Send4
 	 * asks sites to run) and `readiness` (what still stands between this site
 	 * and a texted lead). An older Send4 sends neither, and each is kept only
 	 * when it is an array; Send4_Minimum_Version and Send4_Readiness read them.
@@ -599,14 +599,14 @@ class Send4_Api_Client {
 	}
 
 	/**
-	 * Report this site's detected forms to Send4 (#0687).
+	 * Report this site's detected forms to Send4.
 	 *
 	 * Send4 has no other way to learn what forms exist here — it only ever sees
 	 * a form key on a submission, which is too late to offer that form in the
 	 * flow builder. PUT because it replaces the whole inventory: a form deleted
 	 * in WordPress must stop appearing there, and there is no per-form delete.
 	 *
-	 * The site's versions ride along as `environment` (#1531). Send4 reads that
+	 * The site's versions ride along as `environment`. Send4 reads that
 	 * key leniently and an older Send4 ignores it, so it can never cost the
 	 * site its inventory.
 	 *

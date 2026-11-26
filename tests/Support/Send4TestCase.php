@@ -82,7 +82,7 @@ abstract class Send4_Test_Case extends WP_UnitTestCase {
 	 * would hide the very thing these tests exist to pin down. WP_UnitTestCase
 	 * restores the whole hook table in tear_down, so this is undone for free.
 	 *
-	 * The phone validation hooks (#0688) are cleared and re-registered the same
+	 * The phone validation hooks are cleared and re-registered the same
 	 * way. Clearing wpcf7_validate removes nothing of Contact Form 7's own: it
 	 * validates through the per-type wpcf7_validate_{$type} filters and leaves
 	 * the global one to plugins. The WPForms pair is only ever used by the
