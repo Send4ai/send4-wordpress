@@ -1,4 +1,4 @@
-# ubuntu-24.04 is pinned rather than -latest so the PHP 7.4 leg survives the
+# ubuntu-24.04 is pinned rather than -latest so the PHP 7.4 legs survive the
 # eventual runner-image migration.
 name: CI
 
@@ -7,7 +7,7 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
-  # release.yml runs the whole of this before it makes a release (#1531).
+  # release.yml runs the whole of this before it makes a release.
   workflow_call:
 
 permissions:
@@ -18,8 +18,49 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # A pull request that only touches documentation cannot change what the
+  # linters, the tests or Plugin Check see, so those jobs are skipped for it.
+  # Everything else runs everything: a push to main, a tag, a manual run, and
+  # any pull request with one file outside the list below.
+  changes:
+    name: What changed
+    runs-on: ubuntu-24.04
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          # On a pull request this is the merge commit, and its first parent
+          # is the base branch: two commits deep is enough to compare them.
+          fetch-depth: 2
+
+      # An allow-list, so a path nobody thought about counts as code. Nothing
+      # on it reaches the zip or is read by a job below: readme.txt and
+      # changelog.txt ship, and .distignore and the workflows decide what
+      # does, so none of those is here. If git fails the step fails, and the
+      # gate at the bottom fails with it, rather than skipping the tests.
+      - name: Is anything but documentation touched?
+        id: filter
+        env:
+          EVENT: ${{ github.event_name }}
+          DOCS: '^([^/]+\.md|\.github/ISSUE_TEMPLATE/.*|\.github/PULL_REQUEST_TEMPLATE\.md|\.github/dependabot\.yml|\.wordpress-org/.*)$'
+        run: |
+          set -euo pipefail
+          code=true
+          if [ "$EVENT" = "pull_request" ]; then
+            files="$(git diff --name-only HEAD^1 HEAD)"
+            echo "$files"
+            if [ -n "$files" ] && ! grep -qvE "$DOCS" <<<"$files"; then
+              code=false
+            fi
+          fi
+          echo "code=${code}" >> "$GITHUB_OUTPUT"
+          echo "code=${code}"
+
   lint:
     name: PHPCS + PHPStan
+    needs: [changes]
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -62,23 +103,41 @@ jobs:
           fi
 
   phpunit:
-    name: PHPUnit (PHP ${{ matrix.php }}, ${{ matrix.multisite == '1' && 'multisite' || 'single site' }})
+    name: PHPUnit (PHP ${{ matrix.php }}, WordPress ${{ matrix.wordpress || 'latest' }}${{ matrix.multisite == '1' && ', multisite' || '' }})
+    needs: [changes]
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
-      # A multisite leg as well as the two PHP legs, because the installer's
-      # network branch is the difference between one subsite having a queue
-      # table and every other subsite on the network silently losing leads.
-      # Only on 8.3: it is the same WordPress code either way, and the point is
-      # to run tests/Integration/MultisiteInstallTest.php at all.
+      # composer.lock holds the newest WordPress and form plugins, and a leg
+      # that cannot run those names its own. `wordpress` and `cf7` are
+      # optional: a leg without them tests exactly what the lock file says.
       matrix:
         include:
+          # The floor: the oldest WordPress and PHP the plugin header
+          # promises, with the last Contact Form 7 that runs on that
+          # WordPress. A function newer than 6.2 fails here and nowhere else.
           - php: '7.4'
+            wordpress: '6.2'
+            cf7: '5.8'
+            multisite: '0'
+          # PHP 7.4 on current WordPress. Contact Form 7 needs PHP 8.3 from
+          # 6.2 onwards, so a site still on 7.4 is on 6.1 at the newest.
+          - php: '7.4'
+            cf7: '6.1'
             multisite: '0'
           - php: '8.3'
             multisite: '0'
+          # A multisite leg, because the installer's network branch is the
+          # difference between one subsite having a queue table and every
+          # other subsite on the network silently losing leads. Only on 8.3:
+          # it is the same WordPress code either way, and the point is to run
+          # tests/Integration/MultisiteInstallTest.php at all.
           - php: '8.3'
             multisite: '1'
+          # The newest PHP hosts offer, for what it deprecates or removes.
+          - php: '8.5'
+            multisite: '0'
     services:
       db:
         image: mariadb:11.8.8
@@ -114,6 +173,34 @@ jobs:
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
 
+      # composer.json pins the platform to PHP 7.4.33, so this resolves the
+      # same way whichever PHP runs it and only swaps the packages named. The
+      # last step checks the swap happened: a leg that says 6.2 and quietly
+      # tests the lock file's WordPress would be worse than no leg.
+      - name: Pin this leg's WordPress and Contact Form 7
+        if: matrix.wordpress || matrix.cf7
+        env:
+          WORDPRESS: ${{ matrix.wordpress }}
+          CF7: ${{ matrix.cf7 }}
+        run: |
+          set -euo pipefail
+          packages=()
+          if [ -n "$WORDPRESS" ]; then
+            packages+=("roots/wordpress:${WORDPRESS}.*" "wp-phpunit/wp-phpunit:${WORDPRESS}.*")
+          fi
+          if [ -n "$CF7" ]; then
+            packages+=("wpackagist-plugin/contact-form-7:${CF7}.*")
+          fi
+          composer require --dev --no-interaction --no-progress --with-all-dependencies "${packages[@]}"
+          if [ -n "$WORDPRESS" ]; then
+            grep -qE "^\\\$wp_version = '${WORDPRESS//./\\.}[.']" tests/wordpress/wp-includes/version.php \
+              || { echo "::error::WordPress ${WORDPRESS} was not installed."; exit 1; }
+          fi
+          if [ -n "$CF7" ]; then
+            grep -qE "^ \* Version: ${CF7//./\\.}\." tests/plugins/contact-form-7/wp-contact-form-7.php \
+              || { echo "::error::Contact Form 7 ${CF7} was not installed."; exit 1; }
+          fi
+
       - name: PHPUnit
         env:
           WP_TESTS_DB_HOST: 127.0.0.1
@@ -123,10 +210,14 @@ jobs:
           WP_TESTS_MULTISITE: ${{ matrix.multisite }}
         run: vendor/bin/phpunit
 
+  # Runs for a documentation-only pull request too, where the two jobs it
+  # needs are skipped: .distignore is what keeps a new README-like file out of
+  # the zip, and this is the job that would notice.
   zip:
     name: Distributable zip
     runs-on: ubuntu-24.04
-    needs: [lint, phpunit]
+    needs: [changes, lint, phpunit]
+    if: ${{ !cancelled() && !failure() }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
@@ -145,13 +236,18 @@ jobs:
           done
           unzip -l build/send4.zip | grep -q 'send4/send4.php'
           unzip -l build/send4.zip | grep -q 'send4/readme.txt'
+          # The repository's own Markdown is for GitHub; readme.txt is what a
+          # site gets. A new one at the root ships unless .distignore names it.
+          if unzip -Z1 build/send4.zip | grep -E '^send4/[^/]+\.md$'; then
+            echo "::error::A Markdown file at the plugin root is in the zip. Name it in .distignore." && exit 1
+          fi
           # Plugin Check reports any hidden file as an error (.dockerignore
           # once shipped because .distignore did not name it).
           if unzip -Z1 build/send4.zip | grep -E '(^|/)\.[^/]+/?$'; then
             echo "::error::Hidden files must not be in the distributable zip." && exit 1
           fi
           # And any name with a space or a special character, which is how
-          # the picker's flags@2x.webp would have blocked the submission (#1531).
+          # the picker's flags@2x.webp would have blocked the submission.
           if unzip -Z1 build/send4.zip | grep -E '[^A-Za-z0-9._/-]'; then
             echo "::error::File names in the zip may only use letters, digits, '.', '_', '-' and '/'." && exit 1
           fi
@@ -159,8 +255,8 @@ jobs:
       # The mirror image of the check above. .distignore's `vendor` matches a
       # directory of that name at any depth, so a library vendored under
       # public/vendor/ would be stripped from a green build and the phone
-      # picker would ship missing on every site (#0688). Asserted by name,
-      # because an absence is otherwise invisible.
+      # picker would ship missing on every site. Asserted by name, because an
+      # absence is otherwise invisible.
       - name: The bundled front-end library made it in
         run: |
           set -euo pipefail
@@ -180,7 +276,7 @@ jobs:
           done
 
       # Send4_Assets::url() serves these in preference to the plain names, so
-      # that a CDN ignoring `?ver=` still fetches a new release (#0692).
+      # that a CDN ignoring `?ver=` still fetches a new release.
       - name: Our own assets carry the version in their file names
         run: |
           set -euo pipefail
@@ -205,11 +301,12 @@ jobs:
   # What WordPress.org runs on every upload, run on what we would upload: the
   # built zip, never the repository, which holds tests, tooling and vendor/.
   # Errors fail the job, as they block a submission; warnings are annotations
-  # to read before a release (#1531).
+  # to read before a release.
   plugin-check:
     name: Plugin Check
     runs-on: ubuntu-24.04
-    needs: [zip]
+    needs: [changes, zip]
+    if: ${{ !cancelled() && !failure() && needs.changes.outputs.code == 'true' }}
     steps:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
@@ -222,3 +319,32 @@ jobs:
       - uses: WordPress/plugin-check-action@10857da14b6c2246d15402b3e69f777edcf8c12e # v1.1.9
         with:
           build-dir: build/send4
+
+  # The one check the ruleset on main requires. The job names above change
+  # with the matrix, and a job skipped by its `if` reports under a name with
+  # the matrix left unexpanded, so requiring them one by one would leave a
+  # documentation-only pull request waiting for checks that never arrive.
+  #
+  # Strict on purpose: the zip is always built, and the other three may be
+  # skipped only when `changes` said the pull request is documentation. A job
+  # skipped because the one before it failed, or because the run was
+  # cancelled, does not pass.
+  all-checks:
+    name: All checks
+    runs-on: ubuntu-24.04
+    needs: [changes, lint, phpunit, zip, plugin-check]
+    if: always()
+    steps:
+      - name: Every job passed, or was skipped on purpose
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          set -euo pipefail
+          jq -r 'to_entries[] | "\(.key): \(.value.result)"' <<<"$NEEDS"
+          jq -e '
+            (.changes.outputs.code // "true") as $code
+            | .changes.result == "success"
+            and .zip.result == "success"
+            and ([.lint, .phpunit, ."plugin-check"]
+                 | all(.result == "success" or ($code == "false" and .result == "skipped")))
+          ' <<<"$NEEDS" > /dev/null || { echo "::error::A job failed, was cancelled, or was skipped when it should have run."; exit 1; }

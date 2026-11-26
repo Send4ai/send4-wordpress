@@ -1,4 +1,4 @@
-# A pushed v* tag is a release (#1531).
+# A pushed v* tag is a release.
 #
 #   1. ci              the whole of ci.yml, on the tagged commit.
 #   2. github-release  the GitHub release with send4.zip, for the pilot sites

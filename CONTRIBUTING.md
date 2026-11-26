@@ -13,15 +13,37 @@ what the plugin does; this file is how the repository works.
 change exists and what a site owner would notice: the maintainers write the changelog entry from
 that when the release is cut.
 
-CI runs PHPCS and PHPStan, PHPUnit on three legs (PHP 7.4, PHP 8.3, and PHP 8.3 as a multisite
-network), builds the distributable zip and runs WordPress.org's Plugin Check on it. Each has a
-`make` target, so a push should not be the first time any of them runs:
+CI runs PHPCS and PHPStan, PHPUnit on the five legs below, builds the distributable zip and runs
+WordPress.org's Plugin Check on it. `All checks` sums them up in one status. A pull request that
+only touches documentation (Markdown at the root, the issue and pull request templates,
+`.wordpress-org/`) skips everything but the zip.
+
+| PHP | WordPress | Contact Form 7 | Why |
+|---|---|---|---|
+| 7.4 | 6.2 | 5.8 | the floor the plugin header promises |
+| 7.4 | latest | 6.1 | Contact Form 7 needs PHP 8.3 from 6.2 onwards |
+| 8.3 | latest | latest | |
+| 8.3 | latest, multisite | latest | the installer's network branch |
+| 8.5 | latest | latest | the newest PHP hosts offer |
+
+"Latest" is whatever `composer.lock` holds, which Dependabot moves once a month. The lint and the
+legs on current versions have a `make` target, so a push should not be the first time they run:
 
 ```bash
 make lint            # PHPCS (WordPress Coding Standards, PHP 7.4 compatibility) + PHPStan
 make test            # PHPUnit against a real WordPress, backed by the MariaDB container
 make test-php74      # the same suite on PHP 7.4, the version the plugin header promises
 make test-multisite  # the same suite as a multisite network
+```
+
+The two PHP 7.4 legs swap packages before they run. To reproduce one, make the same swap, run the
+suite, and put the lock file back:
+
+```bash
+composer require --dev 'wpackagist-plugin/contact-form-7:6.1.*'
+# the floor instead: 'roots/wordpress:6.2.*' 'wp-phpunit/wp-phpunit:6.2.*' 'wpackagist-plugin/contact-form-7:5.8.*'
+make test-php74
+git checkout composer.json composer.lock && composer install
 ```
 
 What the code has to hold to:
