@@ -49,6 +49,11 @@ git checkout composer.json composer.lock && composer install
 What the code has to hold to:
 
 - **PHP 7.4 syntax.** The plugin header promises 7.4, and PHPCompatibility checks it.
+- **Native types where they can be proven.** Return values and private properties carry a native
+  type when every value they can hold is known. Parameters of anything WordPress or another plugin
+  can call keep their type in the docblock only: a hook hands a callback whatever the last plugin
+  returned, and a native type there turns a surprise into a fatal error on someone's site. Nothing
+  newer than PHP 7.4 allows: no union types, no `mixed`, no `static` return type.
 - **WordPress Coding Standards**, with every global prefixed `send4_` or `Send4_` and every string
   in the `send4` text domain. `languages/send4.pot` is regenerated at release, not in each pull
   request.

@@ -33,7 +33,7 @@ class Send4_Installer {
 	 * @param bool $network_wide True when activated across a multisite network.
 	 * @return void
 	 */
-	public static function activate( $network_wide = false ) {
+	public static function activate( $network_wide = false ): void {
 		if ( $network_wide && is_multisite() ) {
 			foreach ( self::site_ids() as $site_id ) {
 				switch_to_blog( $site_id );
@@ -60,7 +60,7 @@ class Send4_Installer {
 	 * @param WP_Site|int $site The new site.
 	 * @return void
 	 */
-	public static function on_new_site( $site ) {
+	public static function on_new_site( $site ): void {
 		if ( ! is_multisite() ) {
 			return;
 		}
@@ -88,7 +88,7 @@ class Send4_Installer {
 	 *
 	 * @return int[]
 	 */
-	public static function site_ids() {
+	public static function site_ids(): array {
 		if ( ! is_multisite() ) {
 			return array( get_current_blog_id() );
 		}
@@ -114,7 +114,7 @@ class Send4_Installer {
 	 * @param bool $network_wide True when deactivated across a multisite network.
 	 * @return void
 	 */
-	public static function deactivate( $network_wide = false ) {
+	public static function deactivate( $network_wide = false ): void {
 		if ( $network_wide && is_multisite() ) {
 			foreach ( self::site_ids() as $site_id ) {
 				switch_to_blog( $site_id );
@@ -133,7 +133,7 @@ class Send4_Installer {
 	 *
 	 * @return void
 	 */
-	private static function unschedule_events() {
+	private static function unschedule_events(): void {
 		Send4_Cron::unschedule();
 		Send4_Forms_Sync::unschedule();
 	}
@@ -153,7 +153,7 @@ class Send4_Installer {
 	 *
 	 * @return void
 	 */
-	public static function install() {
+	public static function install(): void {
 		Send4_Queue::install();
 
 		if ( Send4_Queue::table_exists() ) {
@@ -166,7 +166,7 @@ class Send4_Installer {
 	 *
 	 * @return void
 	 */
-	public static function maybe_upgrade() {
+	public static function maybe_upgrade(): void {
 		if ( (int) get_option( self::DB_VERSION_OPTION, 0 ) === self::DB_VERSION ) {
 			return;
 		}
@@ -198,7 +198,7 @@ class Send4_Installer {
 	 *
 	 * @return void
 	 */
-	public static function ensure_events() {
+	public static function ensure_events(): void {
 		Send4_Forms_Sync::ensure_scheduled();
 	}
 }

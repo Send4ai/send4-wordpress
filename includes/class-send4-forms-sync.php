@@ -35,7 +35,7 @@ class Send4_Forms_Sync {
 	 *
 	 * @return void
 	 */
-	public static function boot() {
+	public static function boot(): void {
 		add_action( self::HOOK, array( __CLASS__, 'run' ) );
 	}
 
@@ -44,7 +44,7 @@ class Send4_Forms_Sync {
 	 *
 	 * @return void
 	 */
-	public static function ensure_scheduled() {
+	public static function ensure_scheduled(): void {
 		if ( ! wp_next_scheduled( self::HOOK ) ) {
 			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', self::HOOK );
 		}
@@ -55,7 +55,7 @@ class Send4_Forms_Sync {
 	 *
 	 * @return void
 	 */
-	public static function unschedule() {
+	public static function unschedule(): void {
 		$timestamp = wp_next_scheduled( self::HOOK );
 
 		while ( false !== $timestamp ) {
@@ -74,7 +74,7 @@ class Send4_Forms_Sync {
 	 *
 	 * @return void
 	 */
-	public static function run() {
+	public static function run(): void {
 		Send4_Privacy::enforce_retention();
 		Send4_Cron::ensure_scheduled_if_pending();
 
@@ -141,7 +141,7 @@ class Send4_Forms_Sync {
 	 * @param array $environment From Send4_Environment::report().
 	 * @return string
 	 */
-	public static function fingerprint( array $descriptors, array $environment ) {
+	public static function fingerprint( array $descriptors, array $environment ): string {
 		return md5( Send4_Form_Descriptors::hash( $descriptors ) . '|' . (string) wp_json_encode( $environment ) );
 	}
 
@@ -166,7 +166,7 @@ class Send4_Forms_Sync {
 	 *
 	 * @return int Unix timestamp, 0 when never.
 	 */
-	public static function last_synced_at() {
+	public static function last_synced_at(): int {
 		return (int) get_option( self::AT_OPTION, 0 );
 	}
 
@@ -178,7 +178,7 @@ class Send4_Forms_Sync {
 	 *
 	 * @return void
 	 */
-	public static function forget() {
+	public static function forget(): void {
 		delete_option( self::HASH_OPTION );
 		delete_option( self::AT_OPTION );
 	}

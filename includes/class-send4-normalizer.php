@@ -24,7 +24,7 @@ class Send4_Normalizer {
 	 *
 	 * @var string[]
 	 */
-	private static $reserved = array( 'source', 'site_url', 'form', 'lead' );
+	private static array $reserved = array( 'source', 'site_url', 'form', 'lead' );
 
 	/**
 	 * Build the envelope.
@@ -124,7 +124,7 @@ class Send4_Normalizer {
 	 * @param string $value Raw field value.
 	 * @return string
 	 */
-	public static function clean_phone( $value ) {
+	public static function clean_phone( $value ): string {
 		// Strip the invisible characters first. A phone pasted from a contact
 		// card or a spreadsheet routinely arrives wrapped in a non-breaking
 		// space or a directional mark, and trim() removes neither.
@@ -184,7 +184,7 @@ class Send4_Normalizer {
 	 * @param string $value Phone as typed.
 	 * @return string
 	 */
-	private static function ascii_digits( $value ) {
+	private static function ascii_digits( $value ): string {
 		static $map = null;
 
 		if ( null === $map ) {
@@ -215,7 +215,7 @@ class Send4_Normalizer {
 	 * @param int $code_point Code point, below U+10000.
 	 * @return string
 	 */
-	private static function utf8( $code_point ) {
+	private static function utf8( $code_point ): string {
 		if ( $code_point < 0x800 ) {
 			return chr( 0xC0 | ( $code_point >> 6 ) ) . chr( 0x80 | ( $code_point & 0x3F ) );
 		}
@@ -234,7 +234,7 @@ class Send4_Normalizer {
 	 * @param mixed $value Field value.
 	 * @return string
 	 */
-	public static function flatten( $value ) {
+	public static function flatten( $value ): string {
 		if ( is_array( $value ) ) {
 			$parts = array();
 
@@ -277,7 +277,7 @@ class Send4_Normalizer {
 	 * @param array $mapping phone/name/email field ids.
 	 * @return array Position => data key.
 	 */
-	public static function data_keys_for( array $fields, array $mapping ) {
+	public static function data_keys_for( array $fields, array $mapping ): array {
 		$mapping = wp_parse_args(
 			$mapping,
 			array(
@@ -339,7 +339,7 @@ class Send4_Normalizer {
 	 * @param array  $existing Keys already taken.
 	 * @return string
 	 */
-	private static function data_key( $label, $id, $index, array $existing ) {
+	private static function data_key( $label, $id, $index, array $existing ): string {
 		$key = self::slug( $label );
 
 		if ( '' === $key ) {
@@ -385,7 +385,7 @@ class Send4_Normalizer {
 	 * @param string $text Label or id.
 	 * @return string
 	 */
-	private static function slug( $text ) {
+	private static function slug( $text ): string {
 		$slug = sanitize_title( (string) $text );
 
 		// sanitize_title() transliterates accented Latin but percent-encodes
@@ -413,7 +413,7 @@ class Send4_Normalizer {
 	 * @param int    $length Maximum length.
 	 * @return string
 	 */
-	private static function cap( $value, $length ) {
+	private static function cap( $value, $length ): string {
 		$value = (string) $value;
 
 		if ( function_exists( 'mb_substr' ) ) {

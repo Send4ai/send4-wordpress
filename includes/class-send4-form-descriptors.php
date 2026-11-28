@@ -55,7 +55,7 @@ class Send4_Form_Descriptors {
 	 *
 	 * @var array<string,string>
 	 */
-	private static $type_map = array(
+	private static array $type_map = array(
 		// Contact Form 7 basetypes.
 		'email'         => 'email',
 		'tel'           => 'phone',
@@ -93,7 +93,7 @@ class Send4_Form_Descriptors {
 	 *
 	 * @return array<int,array>
 	 */
-	public static function build() {
+	public static function build(): array {
 		$descriptors = array();
 		$detected    = Send4_Adapters::detect_forms();
 
@@ -170,7 +170,7 @@ class Send4_Form_Descriptors {
 	 * @param array $descriptors Descriptors from build().
 	 * @return string
 	 */
-	public static function hash( array $descriptors ) {
+	public static function hash( array $descriptors ): string {
 		return md5( (string) wp_json_encode( $descriptors ) );
 	}
 
@@ -228,7 +228,7 @@ class Send4_Form_Descriptors {
 	 * @param string $fallback Key to fall back to.
 	 * @return string
 	 */
-	private static function label_for( array $field, $fallback ) {
+	private static function label_for( array $field, $fallback ): string {
 		$label = isset( $field['label'] ) ? trim( (string) $field['label'] ) : '';
 
 		// A label is display text in Send4's picker, so a shortened one still
@@ -336,7 +336,7 @@ class Send4_Form_Descriptors {
 	 * @param int    $length Maximum characters.
 	 * @return string
 	 */
-	private static function cap( $value, $length ) {
+	private static function cap( $value, $length ): string {
 		$value = (string) $value;
 
 		if ( function_exists( 'mb_substr' ) ) {
@@ -352,7 +352,7 @@ class Send4_Form_Descriptors {
 	 * @param string $value Value.
 	 * @return int
 	 */
-	private static function length( $value ) {
+	private static function length( $value ): int {
 		return function_exists( 'mb_strlen' ) ? mb_strlen( (string) $value, 'UTF-8' ) : strlen( (string) $value );
 	}
 }

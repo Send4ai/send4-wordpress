@@ -31,7 +31,7 @@ class Send4_Submission_Id {
 	 * @param int|null         $timestamp  Override for tests.
 	 * @return string
 	 */
-	public static function generate( Send4_Submission $submission, $timestamp = null ) {
+	public static function generate( Send4_Submission $submission, $timestamp = null ): string {
 		$timestamp = null === $timestamp ? time() : (int) $timestamp;
 		$entry_id  = null === $submission->entry_id ? 0 : (int) $submission->entry_id;
 
@@ -63,7 +63,7 @@ class Send4_Submission_Id {
 	 *
 	 * @return string
 	 */
-	public static function secret() {
+	public static function secret(): string {
 		$secret = get_option( self::SECRET_OPTION, '' );
 
 		if ( is_string( $secret ) && 32 <= strlen( $secret ) ) {
@@ -81,7 +81,7 @@ class Send4_Submission_Id {
 	 *
 	 * @return string
 	 */
-	private static function random_suffix() {
+	private static function random_suffix(): string {
 		return substr( self::random_hex( self::SUFFIX_LENGTH ), 0, self::SUFFIX_LENGTH );
 	}
 
@@ -91,7 +91,7 @@ class Send4_Submission_Id {
 	 * @param int $length Characters wanted.
 	 * @return string
 	 */
-	private static function random_hex( $length ) {
+	private static function random_hex( $length ): string {
 		$bytes = (int) ceil( $length / 2 );
 
 		if ( function_exists( 'random_bytes' ) ) {

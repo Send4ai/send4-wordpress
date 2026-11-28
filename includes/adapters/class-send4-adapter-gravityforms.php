@@ -20,7 +20,7 @@ class Send4_Adapter_Gravityforms implements Send4_Form_Adapter, Send4_Validating
 	 *
 	 * @var string[]
 	 */
-	private static $ignored_types = array( 'html', 'section', 'page', 'captcha', 'submit', 'creditcard', 'password' );
+	private static array $ignored_types = array( 'html', 'section', 'page', 'captcha', 'submit', 'creditcard', 'password' );
 
 	/**
 	 * Transient that remembers a US-only phone field was already reported, so
@@ -31,28 +31,28 @@ class Send4_Adapter_Gravityforms implements Send4_Form_Adapter, Send4_Validating
 	/**
 	 * {@inheritDoc}
 	 */
-	public function slug() {
+	public function slug(): string {
 		return 'gravityforms';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function name() {
+	public function name(): string {
 		return 'Gravity Forms';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function is_available() {
+	public function is_available(): bool {
 		return class_exists( 'GFAPI' ) && class_exists( 'GFForms' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function detect_forms() {
+	public function detect_forms(): array {
 		if ( ! $this->is_available() ) {
 			return array();
 		}
@@ -79,7 +79,7 @@ class Send4_Adapter_Gravityforms implements Send4_Form_Adapter, Send4_Validating
 	/**
 	 * {@inheritDoc}
 	 */
-	public function register_hooks( callable $on_submit ) {
+	public function register_hooks( callable $on_submit ): void {
 		add_action(
 			'gform_after_submission',
 			function ( $entry, $form ) use ( $on_submit ) {
@@ -107,7 +107,7 @@ class Send4_Adapter_Gravityforms implements Send4_Form_Adapter, Send4_Validating
 	 *
 	 * @see https://docs.gravityforms.com/gform_field_validation/
 	 */
-	public function register_validation( Send4_Phone_Guard $guard ) {
+	public function register_validation( Send4_Phone_Guard $guard ): void {
 		add_filter(
 			'gform_field_validation',
 			function ( $result, $value, $form, $field ) use ( $guard ) {
@@ -181,7 +181,7 @@ class Send4_Adapter_Gravityforms implements Send4_Form_Adapter, Send4_Validating
 	 * @param mixed $field GF_Field, or an array in older releases.
 	 * @return bool
 	 */
-	private function is_us_only( $field ) {
+	private function is_us_only( $field ): bool {
 		return 'standard' === (string) $this->read( $field, 'phoneFormat' );
 	}
 
@@ -214,7 +214,7 @@ class Send4_Adapter_Gravityforms implements Send4_Form_Adapter, Send4_Validating
 	 * @param string $check    `validation`, or `picker` for the country picker.
 	 * @return void
 	 */
-	public function report_us_format( $form_key, $field_id, $check = 'validation' ) {
+	public function report_us_format( $form_key, $field_id, $check = 'validation' ): void {
 		$picker = 'picker' === $check;
 
 		// The two are reported apart: a field can have either check on, and one
@@ -246,7 +246,7 @@ class Send4_Adapter_Gravityforms implements Send4_Form_Adapter, Send4_Validating
 	 * @param array $form  The form definition.
 	 * @return Send4_Submission|null
 	 */
-	public function capture( $entry, $form ) {
+	public function capture( $entry, $form ): ?Send4_Submission {
 		if ( ! is_array( $entry ) || ! is_array( $form ) || empty( $form['id'] ) ) {
 			return null;
 		}

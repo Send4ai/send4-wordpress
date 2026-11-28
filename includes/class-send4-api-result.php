@@ -85,7 +85,7 @@ class Send4_Api_Result {
 	 *
 	 * @return bool
 	 */
-	public function is_final() {
+	public function is_final(): bool {
 		return in_array( $this->outcome, array( self::DELIVERED, self::DUPLICATE, self::UNROUTED ), true );
 	}
 
@@ -94,7 +94,7 @@ class Send4_Api_Result {
 	 *
 	 * @return bool
 	 */
-	public function is_retryable() {
+	public function is_retryable(): bool {
 		return self::TRANSIENT === $this->outcome;
 	}
 }

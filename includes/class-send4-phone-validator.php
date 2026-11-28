@@ -76,7 +76,7 @@ class Send4_Phone_Validator {
 	 *
 	 * @var array<int|string,true>
 	 */
-	private static $calling_codes = array(
+	private static array $calling_codes = array(
 		'1'   => true,
 		'7'   => true,
 		'20'  => true,
@@ -302,7 +302,7 @@ class Send4_Phone_Validator {
 	 * @param mixed $value Raw field value, as the form plugin holds it.
 	 * @return string One of the class constants; self::OK when acceptable.
 	 */
-	public static function check( $value ) {
+	public static function check( $value ): string {
 		$phone = Send4_Normalizer::clean_phone( Send4_Normalizer::flatten( $value ) );
 
 		// An empty optional field is not this validator's business. The form
@@ -348,7 +348,7 @@ class Send4_Phone_Validator {
 	 * @param mixed $value Raw field value.
 	 * @return bool
 	 */
-	public static function is_dialable( $value ) {
+	public static function is_dialable( $value ): bool {
 		return self::OK === self::check( $value );
 	}
 
@@ -357,7 +357,7 @@ class Send4_Phone_Validator {
 	 *
 	 * @return array<int|string,true>
 	 */
-	public static function calling_codes() {
+	public static function calling_codes(): array {
 		/**
 		 * Filter the table of accepted country calling codes.
 		 *
@@ -382,7 +382,7 @@ class Send4_Phone_Validator {
 	 * @param string $digits Digits after the international prefix.
 	 * @return bool
 	 */
-	public static function has_known_calling_code( $digits ) {
+	public static function has_known_calling_code( $digits ): bool {
 		$codes = self::calling_codes();
 
 		foreach ( array( 3, 2, 1 ) as $length ) {

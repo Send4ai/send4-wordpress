@@ -32,7 +32,7 @@ class Send4_Adapter_Wpforms implements Send4_Form_Adapter, Send4_Validating_Adap
 	 *
 	 * @var string[]
 	 */
-	private static $ignored_types = array(
+	private static array $ignored_types = array(
 		'divider',
 		'html',
 		'pagebreak',
@@ -58,7 +58,7 @@ class Send4_Adapter_Wpforms implements Send4_Form_Adapter, Send4_Validating_Adap
 	 *
 	 * @var array<string,array>
 	 */
-	private $entries = array();
+	private array $entries = array();
 
 	/**
 	 * The post statuses a form has while it exists: WPForms publishes a form
@@ -67,33 +67,33 @@ class Send4_Adapter_Wpforms implements Send4_Form_Adapter, Send4_Validating_Adap
 	 *
 	 * @var string[]
 	 */
-	private static $listed_statuses = array( 'publish', 'draft' );
+	private static array $listed_statuses = array( 'publish', 'draft' );
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function slug() {
+	public function slug(): string {
 		return 'wpforms';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function name() {
+	public function name(): string {
 		return 'WPForms';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function is_available() {
+	public function is_available(): bool {
 		return function_exists( 'wpforms' ) || class_exists( 'WPForms\WPForms' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function detect_forms() {
+	public function detect_forms(): array {
 		if ( ! $this->is_available() || ! function_exists( 'wpforms_decode' ) ) {
 			return array();
 		}
@@ -146,7 +146,7 @@ class Send4_Adapter_Wpforms implements Send4_Form_Adapter, Send4_Validating_Adap
 	 * Held to the post type and statuses the list above is built from, so a
 	 * trashed form, or another post type's id, is not a form here either.
 	 */
-	public function find_form( $form_id ) {
+	public function find_form( $form_id ): ?array {
 		$form_id = (string) $form_id;
 
 		if ( ! $this->is_available() || ! function_exists( 'wpforms_decode' ) || ! ctype_digit( $form_id ) ) {
@@ -168,7 +168,7 @@ class Send4_Adapter_Wpforms implements Send4_Form_Adapter, Send4_Validating_Adap
 	 * @param WP_Post $post The form's post.
 	 * @return array{key:string,id:string,title:string,fields:array}
 	 */
-	private function describe( $post ) {
+	private function describe( $post ): array {
 		$form_data = function_exists( 'wpforms_decode' ) ? wpforms_decode( $post->post_content ) : null;
 		$form_data = is_array( $form_data ) ? $form_data : array();
 
@@ -183,7 +183,7 @@ class Send4_Adapter_Wpforms implements Send4_Form_Adapter, Send4_Validating_Adap
 	/**
 	 * {@inheritDoc}
 	 */
-	public function register_hooks( callable $on_submit ) {
+	public function register_hooks( callable $on_submit ): void {
 		add_action(
 			'wpforms_process_complete',
 			function ( $fields, $entry, $form_data, $entry_id = 0 ) use ( $on_submit ) {
@@ -210,7 +210,7 @@ class Send4_Adapter_Wpforms implements Send4_Form_Adapter, Send4_Validating_Adap
 	 * never runs. Taking the entry from a hook argument, rather than reading
 	 * $_POST['wpforms'], is also what keeps this class out of the nonce sniff.
 	 */
-	public function register_validation( Send4_Phone_Guard $guard ) {
+	public function register_validation( Send4_Phone_Guard $guard ): void {
 		add_action(
 			'wpforms_process_before',
 			function ( $entry, $form_data ) {
@@ -237,7 +237,7 @@ class Send4_Adapter_Wpforms implements Send4_Form_Adapter, Send4_Validating_Adap
 	 * @param array $form_data The form definition.
 	 * @return void
 	 */
-	public function remember_entry( $entry, $form_data ) {
+	public function remember_entry( $entry, $form_data ): void {
 		if ( ! is_array( $form_data ) || empty( $form_data['id'] ) ) {
 			return;
 		}
@@ -298,7 +298,7 @@ class Send4_Adapter_Wpforms implements Send4_Form_Adapter, Send4_Validating_Adap
 	 * @param mixed $entry_id  Entry id; 0 on Lite, which stores no entries.
 	 * @return Send4_Submission|null
 	 */
-	public function capture( $fields, $form_data, $entry_id = 0 ) {
+	public function capture( $fields, $form_data, $entry_id = 0 ): ?Send4_Submission {
 		if ( ! is_array( $fields ) || ! is_array( $form_data ) || empty( $form_data['id'] ) ) {
 			return null;
 		}

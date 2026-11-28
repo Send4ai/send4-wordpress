@@ -17,21 +17,21 @@ class Send4_Plugin {
 	 *
 	 * @var Send4_Plugin|null
 	 */
-	private static $instance = null;
+	private static ?Send4_Plugin $instance = null;
 
 	/**
 	 * The admin screen, when we are in wp-admin.
 	 *
 	 * @var Send4_Admin|null
 	 */
-	private $admin = null;
+	private ?Send4_Admin $admin = null;
 
 	/**
 	 * Singleton accessor.
 	 *
 	 * @return Send4_Plugin
 	 */
-	public static function instance() {
+	public static function instance(): Send4_Plugin {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
@@ -44,7 +44,7 @@ class Send4_Plugin {
 	 *
 	 * @return void
 	 */
-	public function boot() {
+	public function boot(): void {
 		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), 20 );
 		add_action( 'init', array( $this, 'on_init' ) );
 		add_action( 'wp_initialize_site', array( 'Send4_Installer', 'on_new_site' ), 20 );
@@ -79,7 +79,7 @@ class Send4_Plugin {
 	 *
 	 * @return void
 	 */
-	public function on_plugins_loaded() {
+	public function on_plugins_loaded(): void {
 		Send4_Installer::maybe_upgrade();
 		Send4_Adapters::register_hooks();
 		Send4_Adapters::register_validation();
@@ -96,7 +96,7 @@ class Send4_Plugin {
 	 *
 	 * @return void
 	 */
-	public function on_init() {
+	public function on_init(): void {
 		// On init, deliberately: scheduling runs the `cron_schedules` filter,
 		// whose display names are translated, and translating before init
 		// earns a `_load_textdomain_just_in_time` notice.

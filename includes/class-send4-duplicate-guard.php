@@ -67,7 +67,7 @@ class Send4_Duplicate_Guard {
 	 *
 	 * @return void
 	 */
-	public static function purge() {
+	public static function purge(): void {
 		self::sweep( PHP_INT_MAX );
 	}
 
@@ -81,7 +81,7 @@ class Send4_Duplicate_Guard {
 	 * @param array $envelope The envelope.
 	 * @return string
 	 */
-	public static function fingerprint( array $envelope ) {
+	public static function fingerprint( array $envelope ): string {
 		$parts = array(
 			'form' => isset( $envelope['form']['key'] ) ? (string) $envelope['form']['key'] : '',
 			'lead' => isset( $envelope['lead'] ) ? $envelope['lead'] : array(),
@@ -97,7 +97,7 @@ class Send4_Duplicate_Guard {
 	 * @param array $envelope The envelope.
 	 * @return int
 	 */
-	private static function window( array $envelope ) {
+	private static function window( array $envelope ): int {
 		/**
 		 * Filter the duplicate window. Return 0 to send every submission.
 		 *
@@ -114,7 +114,7 @@ class Send4_Duplicate_Guard {
 	 * @param int $before Unix timestamp.
 	 * @return void
 	 */
-	private static function sweep( $before ) {
+	private static function sweep( $before ): void {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching

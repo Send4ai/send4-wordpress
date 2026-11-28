@@ -23,7 +23,7 @@ class Send4_Cron {
 	 *
 	 * @return void
 	 */
-	public static function boot() {
+	public static function boot(): void {
 		add_filter( 'cron_schedules', array( __CLASS__, 'add_schedule' ) ); // phpcs:ignore WordPress.WP.CronInterval.ChangeDetected
 		add_action( self::HOOK, array( __CLASS__, 'run' ) );
 	}
@@ -55,7 +55,7 @@ class Send4_Cron {
 	 *
 	 * @return void
 	 */
-	public static function ensure_scheduled() {
+	public static function ensure_scheduled(): void {
 		if ( ! wp_next_scheduled( self::HOOK ) ) {
 			wp_schedule_event( time() + 60, self::SCHEDULE, self::HOOK );
 		}
@@ -69,7 +69,7 @@ class Send4_Cron {
 	 *
 	 * @return void
 	 */
-	public static function ensure_scheduled_if_pending() {
+	public static function ensure_scheduled_if_pending(): void {
 		if ( Send4_Queue::table_exists() && Send4_Queue::has_pending() ) {
 			self::ensure_scheduled();
 		}
@@ -80,7 +80,7 @@ class Send4_Cron {
 	 *
 	 * @return void
 	 */
-	public static function unschedule() {
+	public static function unschedule(): void {
 		$timestamp = wp_next_scheduled( self::HOOK );
 
 		while ( false !== $timestamp ) {
@@ -94,7 +94,7 @@ class Send4_Cron {
 	 *
 	 * @return void
 	 */
-	public static function run() {
+	public static function run(): void {
 		Send4_Delivery::process_queue();
 	}
 }

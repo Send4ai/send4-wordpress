@@ -35,7 +35,7 @@ class Send4_Readiness {
 	 * @param array|WP_Error|null $handshake Handshake result.
 	 * @return array<int,array{key:string,message:string,action_url:string}>
 	 */
-	public static function failing( $handshake ) {
+	public static function failing( $handshake ): array {
 		if ( ! is_array( $handshake ) || empty( $handshake['readiness'] ) || ! is_array( $handshake['readiness'] ) ) {
 			return array();
 		}
@@ -70,7 +70,7 @@ class Send4_Readiness {
 	 * @param mixed $value Raw value.
 	 * @return string
 	 */
-	private static function message( $value ) {
+	private static function message( $value ): string {
 		if ( ! is_string( $value ) ) {
 			return '';
 		}
@@ -90,7 +90,7 @@ class Send4_Readiness {
 	 * @param mixed $value Raw value.
 	 * @return string The URL, or '' for no link.
 	 */
-	private static function action_url( $value ) {
+	private static function action_url( $value ): string {
 		if ( ! is_string( $value ) || '' === $value ) {
 			return '';
 		}

@@ -61,21 +61,21 @@ class Send4_Api_Client {
 	 *
 	 * @var int
 	 */
-	private $timeout;
+	private int $timeout;
 
 	/**
 	 * Credentials to use instead of the stored ones, or null for the stored.
 	 *
 	 * @var array{client_id:string,client_secret:string}|null
 	 */
-	private $credentials = null;
+	private ?array $credentials = null;
 
 	/**
 	 * The token issued to $credentials, held for this object's lifetime only.
 	 *
 	 * @var string
 	 */
-	private $candidate_token = '';
+	private string $candidate_token = '';
 
 	/**
 	 * An API root to use instead of the configured one, or null for the
@@ -115,7 +115,7 @@ class Send4_Api_Client {
 	 * @param string $base_url      Candidate API root, '' for the configured one.
 	 * @return Send4_Api_Client
 	 */
-	public static function with_credentials( $client_id, $client_secret, $timeout = self::TIMEOUT_INTERACTIVE, $base_url = '' ) {
+	public static function with_credentials( $client_id, $client_secret, $timeout = self::TIMEOUT_INTERACTIVE, $base_url = '' ): self {
 		$client              = new self( $timeout );
 		$client->credentials = array(
 			'client_id'     => (string) $client_id,
@@ -134,7 +134,7 @@ class Send4_Api_Client {
 	 *
 	 * @return Send4_Api_Client
 	 */
-	public static function for_visitor() {
+	public static function for_visitor(): self {
 		return new self( self::TIMEOUT_VISITOR );
 	}
 
@@ -143,7 +143,7 @@ class Send4_Api_Client {
 	 *
 	 * @return void
 	 */
-	public static function forget_token() {
+	public static function forget_token(): void {
 		delete_transient( self::TOKEN_TRANSIENT );
 		delete_transient( self::SIGN_IN_COOLDOWN );
 	}
@@ -194,7 +194,7 @@ class Send4_Api_Client {
 	 * @param string $base_url   The API root.
 	 * @return string
 	 */
-	private static function binding( array $connection, $base_url ) {
+	private static function binding( array $connection, $base_url ): string {
 		return hash( 'sha256', $connection['client_id'] . "\n" . $connection['client_secret'] . "\n" . $base_url );
 	}
 
@@ -331,7 +331,7 @@ class Send4_Api_Client {
 	 * @param string $bound_to binding() of the credential about to sign in.
 	 * @return WP_Error|null
 	 */
-	private static function cooldown( $bound_to ) {
+	private static function cooldown( $bound_to ): ?WP_Error {
 		$cooldown = get_transient( self::SIGN_IN_COOLDOWN );
 
 		if ( ! is_array( $cooldown ) || ! isset( $cooldown['until'], $cooldown['bound_to'] ) ) {
@@ -691,7 +691,7 @@ class Send4_Api_Client {
 	 * @param array|WP_Error $response Raw wp_remote_* return value.
 	 * @return Send4_Api_Result
 	 */
-	private function interpret_submission( $response ) {
+	private function interpret_submission( $response ): Send4_Api_Result {
 		if ( is_wp_error( $response ) ) {
 			return new Send4_Api_Result( Send4_Api_Result::TRANSIENT, 0, $response->get_error_message() );
 		}
@@ -872,7 +872,7 @@ class Send4_Api_Client {
 	 * @param WP_Error $error Token error.
 	 * @return Send4_Api_Result
 	 */
-	public function result_from_token_error( WP_Error $error ) {
+	public function result_from_token_error( WP_Error $error ): Send4_Api_Result {
 		// Neither of these can come right on a retry: one means no credentials
 		// were entered, the other means the destination is not Send4 at all.
 		$permanent = in_array(
@@ -971,7 +971,7 @@ class Send4_Api_Client {
 	 * @param array $response Raw wp_remote_* return value.
 	 * @return array
 	 */
-	private function decode( $response ) {
+	private function decode( $response ): array {
 		$decoded = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		return is_array( $decoded ) ? $decoded : array();

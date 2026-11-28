@@ -23,7 +23,7 @@ class Send4_Environment {
 	 *
 	 * @return array{plugin_version:string,wp_version:string,php_version:string,wc_version:string|null,locale:string,multisite:bool}
 	 */
-	public static function report() {
+	public static function report(): array {
 		return array(
 			'plugin_version' => SEND4_VERSION,
 			'wp_version'     => (string) get_bloginfo( 'version' ),
@@ -43,7 +43,7 @@ class Send4_Environment {
 	 *
 	 * @return string
 	 */
-	private static function php_version() {
+	private static function php_version(): string {
 		return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
 	}
 
@@ -52,7 +52,7 @@ class Send4_Environment {
 	 *
 	 * @return string|null
 	 */
-	private static function woocommerce_version() {
+	private static function woocommerce_version(): ?string {
 		if ( ! defined( 'WC_VERSION' ) ) {
 			return null;
 		}

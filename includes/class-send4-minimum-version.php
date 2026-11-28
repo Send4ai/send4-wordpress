@@ -63,7 +63,7 @@ class Send4_Minimum_Version {
 	 *
 	 * @return void
 	 */
-	public static function boot() {
+	public static function boot(): void {
 		add_action( 'admin_notices', array( __CLASS__, 'render' ) );
 		add_action( 'network_admin_notices', array( __CLASS__, 'render' ) );
 		add_action( 'admin_post_' . self::DISMISS_ACTION, array( __CLASS__, 'handle_dismiss' ) );
@@ -80,7 +80,7 @@ class Send4_Minimum_Version {
 	 * @param array $handshake A successful handshake result.
 	 * @return void
 	 */
-	public static function remember( array $handshake ) {
+	public static function remember( array $handshake ): void {
 		$plugin  = isset( $handshake['plugin'] ) && is_array( $handshake['plugin'] ) ? $handshake['plugin'] : array();
 		$minimum = isset( $plugin['minimum_version'] ) ? self::version( $plugin['minimum_version'] ) : '';
 		$message = '' !== $minimum && isset( $plugin['message'] ) ? self::message( $plugin['message'] ) : '';
@@ -104,7 +104,7 @@ class Send4_Minimum_Version {
 	 *
 	 * @return void
 	 */
-	public static function forget() {
+	public static function forget(): void {
 		delete_option( self::OPTION );
 	}
 
@@ -116,7 +116,7 @@ class Send4_Minimum_Version {
 	 *
 	 * @return void
 	 */
-	public static function refresh_if_stale() {
+	public static function refresh_if_stale(): void {
 		if ( ! Send4_Settings::has_credentials() || ! Send4_Settings::base_url_is_allowed() ) {
 			return;
 		}
@@ -140,7 +140,7 @@ class Send4_Minimum_Version {
 	 *
 	 * @return array{minimum_version:string,message:string,checked_at:int}|null
 	 */
-	public static function stored() {
+	public static function stored(): ?array {
 		$stored = get_option( self::OPTION, null );
 
 		if ( ! is_array( $stored ) ) {
@@ -201,7 +201,7 @@ class Send4_Minimum_Version {
 	 * @param WP_Screen $screen Current screen.
 	 * @return bool
 	 */
-	private static function is_notice_screen( $screen ) {
+	private static function is_notice_screen( $screen ): bool {
 		if ( in_array( $screen->id, self::SCREENS, true ) ) {
 			return true;
 		}
@@ -226,7 +226,7 @@ class Send4_Minimum_Version {
 	 *
 	 * @return void
 	 */
-	public static function render() {
+	public static function render(): void {
 		if ( ! self::should_show() ) {
 			return;
 		}
@@ -265,7 +265,7 @@ class Send4_Minimum_Version {
 	 *
 	 * @return void
 	 */
-	public static function handle_dismiss() {
+	public static function handle_dismiss(): void {
 		if ( ! current_user_can( 'update_plugins' ) ) {
 			wp_die( esc_html__( 'You do not have permission to update plugins.', 'send4' ), '', array( 'response' => 403 ) );
 		}
@@ -290,7 +290,7 @@ class Send4_Minimum_Version {
 	 * @param mixed $value Raw value.
 	 * @return string
 	 */
-	private static function version( $value ) {
+	private static function version( $value ): string {
 		if ( ! is_string( $value ) ) {
 			return '';
 		}
@@ -306,7 +306,7 @@ class Send4_Minimum_Version {
 	 * @param mixed $value Raw value.
 	 * @return string
 	 */
-	private static function message( $value ) {
+	private static function message( $value ): string {
 		if ( ! is_string( $value ) ) {
 			return '';
 		}
