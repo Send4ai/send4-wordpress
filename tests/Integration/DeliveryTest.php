@@ -174,6 +174,33 @@ class Send4_Delivery_Test extends Send4_Test_Case {
 	}
 
 	/**
+	 * A filter can put something in the envelope that JSON cannot write: INF,
+	 * NAN. Sent anyway the body was empty, Send4 answered 422, and the log said
+	 * Send4 had refused the lead.
+	 *
+	 * @return void
+	 */
+	public function test_an_envelope_that_cannot_be_written_as_json_is_not_sent() {
+		add_filter(
+			'send4_envelope',
+			static function ( $envelope ) {
+				$envelope['ratio'] = INF;
+
+				return $envelope;
+			}
+		);
+
+		$this->http->queueToken();
+
+		$result = Send4_Delivery::capture( $this->captureFixture() );
+
+		$this->assertSame( Send4_Api_Result::PERMANENT, $result->outcome );
+		$this->assertSame( 'The request could not be written as JSON, so it was not sent.', $result->message );
+		$this->assertSame( array(), $this->http->requestsTo( '/api/integrations/wordpress/submissions' ) );
+		$this->assertSame( 'error', $this->lastLogEntry()['level'] );
+	}
+
+	/**
 	 * A malformed envelope will be malformed forever, so it is parked, not
 	 * retried, and the error is kept for the settings screen.
 	 *

@@ -57,6 +57,11 @@ class Send4_Api_Client {
 	const TIMEOUT_SCREEN = 4;
 
 	/**
+	 * Error code for a request body that could not be written as JSON.
+	 */
+	const UNENCODABLE = 'send4_unencodable';
+
+	/**
 	 * Seconds to wait for the API.
 	 *
 	 * @var int
@@ -693,7 +698,10 @@ class Send4_Api_Client {
 	 */
 	private function interpret_submission( $response ): Send4_Api_Result {
 		if ( is_wp_error( $response ) ) {
-			return new Send4_Api_Result( Send4_Api_Result::TRANSIENT, 0, $response->get_error_message() );
+			// What cannot be written as JSON now cannot be on the next attempt.
+			$outcome = self::UNENCODABLE === $response->get_error_code() ? Send4_Api_Result::PERMANENT : Send4_Api_Result::TRANSIENT;
+
+			return new Send4_Api_Result( $outcome, 0, $response->get_error_message() );
 		}
 
 		$code = (int) wp_remote_retrieve_response_code( $response );
@@ -960,9 +968,17 @@ class Send4_Api_Client {
 
 		if ( null !== $body ) {
 			if ( $json ) {
+				$encoded = wp_json_encode( $body );
+
+				if ( false === $encoded ) {
+					// Sent empty, this would come back as a 422 and be recorded as
+					// Send4 refusing the lead, when it is this site that could not
+					// write it down: a filter put INF or NAN in the envelope.
+					return new WP_Error( self::UNENCODABLE, __( 'The request could not be written as JSON, so it was not sent.', 'send4' ) );
+				}
+
 				$args['headers']['Content-Type'] = 'application/json';
-				$encoded                         = wp_json_encode( $body );
-				$args['body']                    = false === $encoded ? '' : $encoded;
+				$args['body']                    = $encoded;
 			} else {
 				$args['body'] = $body;
 			}
