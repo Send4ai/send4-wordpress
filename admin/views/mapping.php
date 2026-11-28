@@ -186,7 +186,7 @@ $send4_bar_account = 'connected' === $send4_bar_state && is_array( $handshake ) 
 					<div class="send4-card send4-card--pad">
 						<h2 class="send4-eyebrow"><?php esc_html_e( 'Everything else', 'send4' ); ?></h2>
 						<p class="send4-xs send4-muted">
-							<?php esc_html_e( 'Every other field is sent as context for the AI, so it can answer questions about what the person asked for. Nothing is dropped.', 'send4' ); ?>
+							<?php esc_html_e( 'Every other field the visitor fills in is sent as context for the AI assistant, so it can answer questions about what the person asked for. Password and card-payment fields are left out.', 'send4' ); ?>
 						</p>
 						<ul class="send4-passthrough">
 							<?php foreach ( $send4_fields as $send4_field ) : ?>

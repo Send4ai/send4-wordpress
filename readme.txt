@@ -20,7 +20,7 @@ Most leads that come through a contact form go cold before anybody answers them.
 
 = What Send4 does with a lead =
 
-* **SMS lead follow-up.** Every form lead gets a text, and it is a two-way SMS conversation, not a one-way notification.
+* **SMS lead follow-up.** A flow in Send4 texts each new form lead, and it is a two-way SMS conversation, not a one-way notification.
 * **Lead qualification.** The AI assistant asks the questions you would ask yourself, before a salesperson spends time on the lead.
 * **Appointment booking.** It offers a time for a call, and the booking goes on your Send4 calendar.
 * **Round-robin lead routing.** Each qualified lead goes to the next salesperson in turn.
@@ -30,11 +30,11 @@ Most leads that come through a contact form go cold before anybody answers them.
 
 * **No code, no webhooks.** Connect with one button, pick the field that holds the phone number, and turn the form on.
 * **Works with the forms you have.** Contact Form 7, WPForms (including Lite), Gravity Forms and Elementor Pro.
-* **Context included.** Every field you do not map is passed along, so the AI assistant knows what the person asked for.
-* **No lost leads.** If Send4 cannot be reached, the submission waits in a queue on your site and is retried for about a day and a half.
+* **Context included.** The other fields a visitor fills in are passed along, so the AI assistant knows what the person asked for. Password and card-payment fields are left out.
+* **Outages covered.** If Send4 cannot be reached, the submission waits in a queue on your site and is retried for about a day and a half.
 * **Numbers that can be texted.** Optionally adds a country picker to your phone field, and asks the visitor for a country code while they are still on the form.
-* **Nothing hidden.** A dashboard in wp-admin shows, per form, what was delivered, what is waiting and whether a Send4 flow is listening.
-* **Site Health and WP-CLI.** Tools → Site Health reports on the connection and the retry queue, and `wp send4 status` prints the same from a shell.
+* **Nothing hidden.** A dashboard in wp-admin shows what was sent for each form, what is waiting to be retried, and which Send4 flows are listening.
+* **Site Health and WP-CLI.** Tools → Site Health reports on the connection and the retry queue, and `wp send4 status` prints both from a shell.
 
 = How it works =
 
@@ -97,7 +97,7 @@ Yes, in Send4. The flow you build there decides what the AI assistant does with 
 
 = Is this two-way SMS? =
 
-Yes. The lead can answer the text and the AI assistant replies, for as long as the conversation takes. A person on your team can take over at any point, and anyone who replies STOP is not texted again.
+Yes. The lead can answer the text and the AI assistant replies, for as long as the conversation takes. A person on your team can take over at any point, and anyone who texts STOP is opted out.
 
 = Do I need a phone number field? =
 
@@ -115,15 +115,15 @@ If your leads are in Lithuania, Send4 can provide the number instead: ask us to 
 
 = What happens to fields I do not map? =
 
-They are all sent as context, keyed by their label, and Send4 gives them to the AI assistant so it can answer questions about what the person actually asked for. Nothing is dropped.
+They are sent as context, keyed by their label, and Send4 gives them to the AI assistant so it can answer questions about what the person actually asked for. A field left empty is skipped, and password and card-payment fields are never sent.
 
 = Does the visitor wait for Send4? =
 
-No. The plugin gives Send4 a three-second limit to answer. If it has not, the submission goes into a retry queue on your site, and the visitor sees their normal confirmation as usual.
+Not for long. Each request the plugin makes to Send4 has a three-second limit, and a submission normally takes one request. If Send4 has not answered in time, the submission goes into a retry queue on your site, and the visitor sees their normal confirmation as usual.
 
 = What if Send4 is down? =
 
-The submission is stored in a table in your database and retried on a backoff — after a minute, five minutes, fifteen, an hour, then every six hours for about a day and a half. Retries reuse the same submission identifier, so a lead cannot be delivered twice.
+The submission is stored in a table in your database and retried on a backoff — after a minute, five minutes, fifteen, an hour, then every six hours for about a day and a half. Retries reuse the same submission identifier, which is how Send4 recognises a submission it already has.
 
 = Which form plugins does it work with? =
 
@@ -135,13 +135,13 @@ Only if you turned on **Refuse a submission whose phone number has no country co
 
 The check is deliberately loose: a leading `+` (or `00`) and a real country code, 7 to 15 digits. It does not second-guess the length of a number inside a country. An empty, optional phone field is never refused.
 
-Every refusal is written to the activity log on the Send4 dashboard with the form, the reason and the shape of what was typed — the first two or three digits and how many there were, as in `86••••••• (9 digits)` — but never the number itself. That is enough to see that visitors are typing the national format, and not enough to call one of them. The dashboard also counts refusals per form. To see which forms check, run `wp send4 forms` and read the `validates` column.
+Every number a form refuses when it is submitted is written to the activity log on the Send4 dashboard with the form, the reason and the shape of what was typed — the first two or three digits and how many there were, as in `86••••••• (9 digits)` — but never the number itself. That is enough to see that visitors are typing the national format, and not enough to call one of them. The dashboard also counts refusals per form. With the country picker on, most mistyped numbers are stopped in the visitor's browser before the form is sent, and those are not logged. To see which forms check, run `wp send4 forms` and read the `validates` column.
 
 Developers can change the message with the `send4_phone_error_message` filter, and add a country calling code with `send4_phone_calling_codes`.
 
 = What does the country picker do? =
 
-With **Add a country picker to the phone field** on, the visitor chooses a country from a searchable list, the number is formatted as they type, and it is sent to your form plugin as `+37060012345`. It is added to the field you mapped as the phone number, whatever kind of field that is — you do not need to rebuild your form.
+With **Add a country picker to the phone field** on, the visitor chooses a country from a searchable list, the number is formatted as they type, and it is sent to your form plugin as `+37060012345`. It is added to the field you mapped as the phone number, whether that is a phone field or a plain text field — you do not need to rebuild your form.
 
 It loads only on pages that show a form with the picker on. If you use a page cache, clear it after changing the setting.
 

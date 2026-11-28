@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-28T13:11:06+00:00\n"
+"POT-Creation-Date: 2026-11-28T13:35:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: send4\n"
@@ -725,7 +725,7 @@ msgid "Everything else"
 msgstr ""
 
 #: admin/views/mapping.php:189
-msgid "Every other field is sent as context for the AI, so it can answer questions about what the person asked for. Nothing is dropped."
+msgid "Every other field the visitor fills in is sent as context for the AI assistant, so it can answer questions about what the person asked for. Password and card-payment fields are left out."
 msgstr ""
 
 #: admin/views/mapping.php:205
@@ -962,113 +962,117 @@ msgctxt "flow status"
 msgid "Archived"
 msgstr ""
 
-#: includes/class-send4-api-client.php:221
+#: includes/class-send4-api-client.php:226
 msgid "Send4 is not connected: connect your account under Send4 → Connection."
 msgstr ""
 
-#: includes/class-send4-api-client.php:349
+#: includes/class-send4-api-client.php:354
 msgid "Send4 asked this site to wait before signing in again."
 msgstr ""
 
-#: includes/class-send4-api-client.php:366
+#: includes/class-send4-api-client.php:371
 msgid "Send4 is rate limiting sign-in attempts (10 per minute). Wait a minute and try again."
 msgstr ""
 
-#: includes/class-send4-api-client.php:374
+#: includes/class-send4-api-client.php:379
 msgid "Send4 rejected these credentials. Check the client ID and secret, and that the API client is active."
 msgstr ""
 
 #. translators: %d: HTTP status code.
-#: includes/class-send4-api-client.php:378
+#: includes/class-send4-api-client.php:383
 #, php-format
 msgid "Send4 returned an unexpected status (%d) while signing in."
 msgstr ""
 
 #. translators: %s: the URL the API answered with.
-#: includes/class-send4-api-client.php:426
+#: includes/class-send4-api-client.php:431
 #, php-format
 msgid "Send4 answered with an approval link that is not on Send4 (%s), so the connection was not started."
 msgstr ""
 
-#: includes/class-send4-api-client.php:491
+#: includes/class-send4-api-client.php:496
 msgid "Send4 is rate limiting connection attempts. Wait a minute and try again."
 msgstr ""
 
 #. translators: %d: HTTP status code.
-#: includes/class-send4-api-client.php:495
+#: includes/class-send4-api-client.php:500
 #, php-format
 msgid "Send4 returned an unexpected status (%d) while connecting."
 msgstr ""
 
-#: includes/class-send4-api-client.php:544
-#: includes/class-send4-api-client.php:662
+#: includes/class-send4-api-client.php:549
+#: includes/class-send4-api-client.php:667
 msgid "This API client is missing the \"WordPress plugin\" permission. Edit the key in your Send4 dashboard and tick that ability."
 msgstr ""
 
 #. translators: %d: HTTP status code.
-#: includes/class-send4-api-client.php:552
+#: includes/class-send4-api-client.php:557
 #, php-format
 msgid "Send4 returned an unexpected status (%d) for the connection test."
 msgstr ""
 
-#: includes/class-send4-api-client.php:677
+#: includes/class-send4-api-client.php:682
 msgid "This API key was not created by connecting this site, so Send4 has nowhere to record its forms. Reconnect from the Connection screen."
 msgstr ""
 
 #. translators: %d: HTTP status code.
-#: includes/class-send4-api-client.php:684
+#: includes/class-send4-api-client.php:689
 #, php-format
 msgid "Send4 returned an unexpected status (%d) while reporting this site's forms."
 msgstr ""
 
-#: includes/class-send4-api-client.php:714
+#: includes/class-send4-api-client.php:722
 msgid "Send4 answered with something that was not a submission response."
 msgstr ""
 
-#: includes/class-send4-api-client.php:725
+#: includes/class-send4-api-client.php:733
 msgid "Send4 had already received this submission."
 msgstr ""
 
-#: includes/class-send4-api-client.php:733
+#: includes/class-send4-api-client.php:741
 msgid "Delivered, but no Send4 flow is listening for this form."
 msgstr ""
 
-#: includes/class-send4-api-client.php:762
+#: includes/class-send4-api-client.php:770
 msgid "This API client is missing the \"WordPress plugin\" permission."
 msgstr ""
 
-#: includes/class-send4-api-client.php:770
+#: includes/class-send4-api-client.php:778
 msgid "Send4 rejected the access token."
 msgstr ""
 
-#: includes/class-send4-api-client.php:778
+#: includes/class-send4-api-client.php:786
 msgid "Send4 answered with a redirect, which usually means the URL is wrong."
 msgstr ""
 
-#: includes/class-send4-api-client.php:786
+#: includes/class-send4-api-client.php:794
 msgid "Send4 is rate limiting submissions. The lead will be retried."
 msgstr ""
 
 #. translators: %d: HTTP status code.
-#: includes/class-send4-api-client.php:801
+#: includes/class-send4-api-client.php:809
 #, php-format
 msgid "Send4 refused the submission (status %d)."
 msgstr ""
 
 #. translators: %d: HTTP status code.
-#: includes/class-send4-api-client.php:811
+#: includes/class-send4-api-client.php:819
 #, php-format
 msgid "Send4 returned status %d."
 msgstr ""
 
-#: includes/class-send4-api-client.php:823
+#: includes/class-send4-api-client.php:831
 msgid "Send4 rejected the submission as malformed."
 msgstr ""
 
 #. translators: %s: configured URL.
-#: includes/class-send4-api-client.php:935
+#: includes/class-send4-api-client.php:943
 #, php-format
 msgid "Refusing to send: %s is not a Send4 address."
+msgstr ""
+
+#: includes/class-send4-api-client.php:977
+msgid "The request could not be written as JSON, so it was not sent."
 msgstr ""
 
 #: includes/class-send4-connection.php:192
