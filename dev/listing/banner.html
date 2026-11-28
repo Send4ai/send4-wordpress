@@ -6,10 +6,17 @@
 	a 1544 by 500 viewport (banner-772x250.png is that, halved), and
 	.github/social-preview.png at 1280 by 640 with ?v=social on the address.
 
-	It needs Hanken Grotesk, the website's typeface: put the variable woff2 from
-	@fontsource-variable/hanken-grotesk beside this file as hanken.woff2 and open
-	the page through any local web server. The wording follows the website's
-	rules: "about a minute", never a count of seconds, and one offered time.
+	It is drawn in the website's design language: the dark emerald band that
+	closes its pages, a Newsreader headline with its second sentence in the
+	accent colour, Hanken Grotesk for everything else, the "send" wordmark with
+	the mark as its 4, and the conversation as the site draws one, the
+	assistant's messages in ink and the lead's in white.
+
+	It needs both typefaces beside this file: hanken.woff2 and newsreader.woff2,
+	the variable files from @fontsource-variable/hanken-grotesk and
+	@fontsource-variable/newsreader. Open the page through any local web server.
+	The wording follows the website's rules: "about a minute", never a count of
+	seconds, and one offered time.
 -->
 <html lang="en">
 <head>
@@ -17,105 +24,63 @@
 <title>Send4 banner</title>
 <style>
 @font-face { font-family: "Hanken Grotesk"; src: url("hanken.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
-:root {
-	--emerald-50: #ecfdf5; --emerald-100: #d1fae5; --emerald-200: #a7f3d0; --emerald-400: #34d399;
-	--emerald-600: #059669; --emerald-700: #047857; --emerald-900: #064e3b;
-	--slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0; --slate-400: #94a3b8;
-	--slate-500: #64748b; --slate-600: #475569; --slate-900: #0f172a;
-}
+@font-face { font-family: "Newsreader"; src: url("newsreader.woff2") format("woff2"); font-weight: 200 800; font-display: block; }
+:root { --band: #064e3b; --on-band: #ecfdf5; --accent: #6ee7b7; --soft: #a7f3d0; --ink: #0f172a; --line: rgba(236, 253, 245, .2); }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { width: 100%; height: 100%; }
-body { font-family: "Hanken Grotesk", system-ui, sans-serif; color: var(--slate-900); -webkit-font-smoothing: antialiased; overflow: hidden; }
+body { font-family: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif; color: var(--on-band); background: var(--band); -webkit-font-smoothing: antialiased; overflow: hidden; }
 
-.stage {
-	position: relative; width: 1544px; height: 500px; overflow: hidden;
-	background:
-		radial-gradient(620px 420px at 56% 62%, rgba(52, 211, 153, .30), rgba(52, 211, 153, 0) 70%),
-		radial-gradient(520px 380px at 96% 8%, rgba(167, 243, 208, .55), rgba(167, 243, 208, 0) 70%),
-		linear-gradient(115deg, #ffffff 0%, var(--slate-50) 45%, var(--emerald-50) 100%);
-}
+.stage { position: relative; width: 1544px; height: 500px; overflow: hidden; background: var(--band); }
 
-/* Left: the name, the category, one sentence. */
-.copy { position: absolute; left: 96px; top: 0; bottom: 0; width: 520px; display: flex; flex-direction: column; justify-content: center; }
-.brand { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
-.brand svg { width: 46px; height: 46px; display: block; }
-.brand span { font-size: 31px; font-weight: 700; letter-spacing: -.01em; }
-h1 { font-size: 58px; line-height: 1.04; font-weight: 750; letter-spacing: -.028em; }
-h1 em { font-style: normal; color: var(--emerald-600); display: block; }
-.lede { margin-top: 22px; font-size: 22px; line-height: 1.42; color: var(--slate-600); max-width: 470px; }
+/* Left: the wordmark, what it is, the two sentences, and one line under a rule. */
+.copy { position: absolute; left: 96px; top: 44px; width: 840px; }
+.wordmark { display: flex; align-items: baseline; gap: 2px; font-size: 30px; font-weight: 600; letter-spacing: -.03em; }
+.wordmark svg { width: 27px; height: 27px; transform: translateY(4px); }
+.eyebrow { margin-top: 42px; font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { margin-top: 16px; font-family: "Newsreader", serif; font-weight: 400; font-size: 76px; line-height: .98; letter-spacing: -.025em; white-space: nowrap; }
+h1 span { display: block; color: var(--accent); }
+.under { margin-top: 34px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; gap: 40px; }
+.under p { font-size: 18px; line-height: 1.5; color: var(--soft); max-width: 46ch; }
+.under small { font-size: 14px; font-weight: 500; color: var(--on-band); opacity: .78; text-align: right; white-space: nowrap; line-height: 1.6; }
 
-/* Middle: the conversation the plugin starts. */
-.phone {
-	position: absolute; left: 672px; top: 36px; width: 318px; height: 560px;
-	border-radius: 46px; background: var(--slate-900); padding: 10px;
-	box-shadow: 0 30px 60px -18px rgba(6, 78, 59, .38), 0 8px 18px rgba(15, 23, 42, .12);
-}
-.screen { position: relative; height: 100%; border-radius: 37px; background: var(--slate-50); overflow: hidden; }
-.island { position: absolute; top: 11px; left: 50%; width: 92px; height: 25px; margin-left: -46px; border-radius: 14px; background: var(--slate-900); z-index: 2; }
-.bar { height: 92px; padding: 50px 18px 0; background: #fff; border-bottom: 1px solid var(--slate-200); display: flex; align-items: center; gap: 10px; }
-.bar i { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(140deg, var(--emerald-600), var(--emerald-700)); flex: none; }
-.bar b { font-size: 15px; font-weight: 650; }
-.thread { padding: 14px 14px 0; display: flex; flex-direction: column; gap: 9px; }
-.msg { max-width: 212px; padding: 9px 12px; border-radius: 16px; font-size: 13.5px; line-height: 1.34; }
-.in { align-self: flex-start; background: #fff; border: 1px solid var(--slate-200); border-bottom-left-radius: 5px; color: var(--slate-900); }
-.out { align-self: flex-end; background: var(--emerald-600); border-bottom-right-radius: 5px; color: #fff; font-weight: 550; }
+/* Right: the conversation, as the site draws one. */
+.talk { position: absolute; left: 1016px; top: 50px; width: 432px; border-radius: 16px; background: #f8fafc; border: 1px solid rgba(236, 253, 245, .35); padding: 26px; color: var(--ink); display: flex; flex-direction: column; gap: 10px; }
+.talk .meta { font-size: 12.5px; font-weight: 600; color: #64748b; margin-bottom: 4px; }
+.msg { max-width: 86%; padding: 10px 14px; font-size: 14.5px; line-height: 1.5; }
+.msg.ai { align-self: flex-end; border-radius: 14px 14px 4px 14px; background: var(--ink); color: #f8fafc; border: 1px solid var(--ink); }
+.msg.lead { align-self: flex-start; border-radius: 14px 14px 14px 4px; background: #fff; border: 1px solid #e2e8f0; }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.pills span { display: inline-flex; align-items: center; border-radius: 999px; background: #ecfdf5; color: #047857; padding: 3px 10px; font-size: 12.5px; font-weight: 600; }
 
-/* Right: what Send4 does with the lead, in the words people search for. */
-.chips { position: absolute; left: 1052px; top: 0; bottom: 0; width: 404px; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
-.chip {
-	display: flex; align-items: center; gap: 16px; padding: 13px 18px; border-radius: 16px;
-	background: rgba(255, 255, 255, .92); border: 1px solid rgba(226, 232, 240, .9);
-	box-shadow: 0 10px 24px -14px rgba(6, 78, 59, .35);
-}
-.tile { width: 46px; height: 46px; border-radius: 12px; background: var(--emerald-50); border: 1px solid var(--emerald-100); display: grid; place-items: center; flex: none; }
-.tile svg { width: 24px; height: 24px; stroke: var(--emerald-700); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.chip b { display: block; font-size: 22px; font-weight: 700; letter-spacing: -.012em; line-height: 1.15; }
-.chip span { display: block; margin-top: 3px; font-size: 15px; color: var(--slate-500); white-space: nowrap; }
-
-/* The social preview: 1280 by 640, the same parts with more room and four chips. */
+/* The social preview: 1280 by 640, the same parts with more height. */
 body.social .stage { width: 1280px; height: 640px; }
-body.social .copy { left: 76px; width: 480px; }
-body.social h1 { font-size: 50px; }
-body.social .lede { font-size: 22px; max-width: 430px; }
-body.social .phone { left: 566px; top: 64px; height: 640px; width: 304px; }
-body.social .chips { left: 902px; width: 318px; gap: 14px; }
-body.social .chip { padding: 14px 15px; gap: 13px; }
-body.social .chip b { font-size: 20px; }
-body.social .chip span { font-size: 14px; }
-body.social .chip:nth-child(5) { display: none; }
+body.social .copy { left: 72px; top: 96px; width: 690px; }
+body.social .eyebrow { margin-top: 64px; }
+body.social h1 { font-size: 60px; }
+body.social .under { margin-top: 44px; flex-direction: column; gap: 14px; }
+body.social .under small { text-align: left; }
+body.social .talk { left: 808px; top: 134px; width: 408px; }
 </style>
 </head>
 <body>
 <div class="stage">
 	<div class="copy">
-		<div class="brand">
-			<svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="g" x1="15%" y1="0%" x2="85%" y2="100%"><stop offset="0%" stop-color="#059669"/><stop offset="100%" stop-color="#047857"/></linearGradient></defs><rect width="48" height="48" rx="12" fill="url(#g)"/><path d="M31 6 L31 29 L8 29 Z" fill="#fff"/><path d="M24 29 a7 7 0 0 0 14 0 Z" fill="#a7f3d0"/></svg>
-			<span>Send4</span>
-		</div>
-		<h1>SMS lead follow-up <em>for WordPress forms</em></h1>
-		<p class="lede">An AI assistant texts every new form lead in about a minute, asks your questions and books the call.</p>
-	</div>
-
-	<div class="phone" aria-hidden="true">
-		<div class="screen">
-			<div class="island"></div>
-			<div class="bar"><i></i><b>Northwind Roofing</b></div>
-			<div class="thread">
-				<div class="msg in">Hi Alex, thanks for asking about a new roof. Is it slate or tile?</div>
-				<div class="msg out">Slate, about 90 m²</div>
-				<div class="msg in">Thanks. I can offer a call on Thursday at 10:00. Does that suit you?</div>
-				<div class="msg out">Yes, that works</div>
-				<div class="msg in">Booked. Daniel will call you on Thursday at 10:00.</div>
-			</div>
+		<div class="wordmark" role="img" aria-label="Send4">send<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M31 6 L31 29 L8 29 Z" fill="#6ee7b7"/><path d="M24 29 a7 7 0 0 0 14 0 Z" fill="#ecfdf5"/></svg></div>
+		<p class="eyebrow">SMS lead follow-up for WordPress forms</p>
+		<h1>Every lead gets an answer. <span>You get the booking.</span></h1>
+		<div class="under">
+			<p>An AI assistant texts each new lead in about a minute, asks your questions and books the call.</p>
+			<small>Contact Form 7 · WPForms<br>Gravity Forms · Elementor Pro</small>
 		</div>
 	</div>
 
-	<div class="chips">
-		<div class="chip"><div class="tile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><b>Speed to lead</b><span>First text in about a minute</span></div></div>
-		<div class="chip"><div class="tile"><svg viewBox="0 0 24 24"><path d="M10 6h10M10 12h10M10 18h10"/><path d="M3.5 6l1.5 1.5L7.5 5M3.5 12l1.5 1.5L7.5 11M3.5 18l1.5 1.5L7.5 17"/></svg></div><div><b>Lead qualification</b><span>Your questions, asked for you</span></div></div>
-		<div class="chip"><div class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></div><div><b>Appointment booking</b><span>On your Send4 calendar</span></div></div>
-		<div class="chip"><div class="tile"><svg viewBox="0 0 24 24"><path d="M17 3l3 3-3 3"/><path d="M4 11V9a3 3 0 0 1 3-3h13"/><path d="M7 21l-3-3 3-3"/><path d="M20 13v2a3 3 0 0 1-3 3H4"/></svg></div><div><b>Round-robin routing</b><span>The next salesperson in turn</span></div></div>
-		<div class="chip"><div class="tile"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></div><div><b>The forms you have</b><span>CF7, WPForms, Gravity Forms, Elementor Pro</span></div></div>
+	<div class="talk" aria-hidden="true">
+		<span class="meta">Alex Morgan · SMS</span>
+		<div class="msg ai">Hi Alex, thanks for asking about a new roof. Is it slate or tile?</div>
+		<div class="msg lead">Slate, about 90 m²</div>
+		<div class="msg ai">Thanks. I can offer a call on Thursday at 10:00. Does that suit you?</div>
+		<div class="msg lead">Yes, that works</div>
+		<div class="pills"><span>Qualified</span><span>Call booked · Thu 10:00</span></div>
 	</div>
 </div>
 <script>if (new URLSearchParams(location.search).get('v') === 'social') document.body.classList.add('social');</script>
