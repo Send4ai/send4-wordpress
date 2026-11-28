@@ -90,7 +90,7 @@ class Send4_Readiness_Card_Test extends Send4_Test_Case {
 			$handshake['readiness'] = $readiness;
 		}
 
-		set_transient( Send4_Admin::HANDSHAKE_CACHE, $handshake, 300 );
+		set_transient( Send4_Connection::HANDSHAKE_CACHE, $handshake, 300 );
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Send4_Readiness_Card_Test extends Send4_Test_Case {
 	public function test_a_check_without_a_link_still_shows() {
 		$this->connectedWith( $this->rows( array( 'sms_sending' ) ) );
 
-		$failing = Send4_Readiness::failing( Send4_Admin::cached_handshake() );
+		$failing = Send4_Readiness::failing( Send4_Connection::cached_handshake() );
 
 		$this->assertCount( 1, $failing );
 		$this->assertSame( '', $failing[0]['action_url'] );

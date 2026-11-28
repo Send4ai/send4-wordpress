@@ -351,7 +351,7 @@ class Send4_Minimum_Version_Test extends Send4_Test_Case {
 			)
 		);
 
-		$this->assertIsArray( ( new Send4_Admin() )->handshake( true ) );
+		$this->assertIsArray( Send4_Connection::handshake( true ) );
 
 		$this->assertSame( '9.0.0', Send4_Minimum_Version::stored()['minimum_version'] );
 		$this->assertSame( 'Update, please.', Send4_Minimum_Version::stored()['message'] );

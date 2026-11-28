@@ -40,7 +40,7 @@ abstract class Send4_Test_Case extends WP_UnitTestCase {
 		Send4_Stats::clear();
 		delete_transient( Send4_Api_Client::TOKEN_TRANSIENT );
 		delete_transient( Send4_Api_Client::SIGN_IN_COOLDOWN );
-		delete_transient( Send4_Admin::HANDSHAKE_CACHE );
+		delete_transient( Send4_Connection::HANDSHAKE_CACHE );
 
 		Send4_Settings::update_connection(
 			array(

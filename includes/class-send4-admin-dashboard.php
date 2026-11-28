@@ -30,8 +30,8 @@ class Send4_Admin_Dashboard {
 	 * @return array
 	 */
 	public static function build( Send4_Admin $admin, $range ): array {
-		$handshake = Send4_Settings::has_credentials() ? $admin->handshake( false ) : null;
-		$state     = Send4_Admin::connection_state( $handshake );
+		$handshake = Send4_Settings::has_credentials() ? Send4_Connection::handshake( false ) : null;
+		$state     = Send4_Connection::connection_state( $handshake );
 		$connected = 'connected' === $state;
 
 		$totals = Send4_Stats::totals( $range );

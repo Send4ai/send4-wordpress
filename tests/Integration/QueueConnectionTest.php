@@ -219,7 +219,7 @@ class Send4_Queue_Connection_Test extends Send4_Test_Case {
 		$this->http->queueToken( 'workspace-b-token' );
 		$this->http->queue( Send4_Http_Recorder::response( 200, array( 'data' => array( 'accepted' => 0 ) ) ) );
 
-		$this->assertIsArray( Send4_Admin::establish_connection( 'workspace-b', 'another-secret' ) );
+		$this->assertIsArray( Send4_Connection::establish_connection( 'workspace-b', 'another-secret' ) );
 
 		$this->assertSame( 'workspace-b', Send4_Settings::connection()['client_id'] );
 		$this->assertSame( 'test-client-id', $this->onlyQueueRow()->client_id, 'The lead belongs to the account it was captured for.' );
@@ -242,7 +242,7 @@ class Send4_Queue_Connection_Test extends Send4_Test_Case {
 
 		$this->http->queueTokenRejected( 401 );
 
-		$this->assertWPError( Send4_Admin::establish_connection( 'typo-id', 'typo-secret' ) );
+		$this->assertWPError( Send4_Connection::establish_connection( 'typo-id', 'typo-secret' ) );
 		$this->assertSame( '', $this->onlyQueueRow()->client_id );
 	}
 

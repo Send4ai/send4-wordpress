@@ -58,9 +58,9 @@ class Send4_Site_Health_Test extends Send4_Test_Case {
 	 */
 	private function cacheFailure( $code, $status = 0 ) {
 		set_transient(
-			Send4_Admin::HANDSHAKE_CACHE,
+			Send4_Connection::HANDSHAKE_CACHE,
 			array(
-				Send4_Admin::HANDSHAKE_FAILURE_KEY => array(
+				Send4_Connection::HANDSHAKE_FAILURE_KEY => array(
 					'code'    => $code,
 					'message' => 'It failed.',
 					'data'    => $status ? array( 'status' => $status ) : '',
@@ -147,7 +147,7 @@ class Send4_Site_Health_Test extends Send4_Test_Case {
 		$result = Send4_Site_Health::test_connection();
 
 		$this->assertSame( 'critical', $result['status'] );
-		$this->assertStringContainsString( esc_html( Send4_Admin::outage_message( 'rejected' ) ), $result['description'] );
+		$this->assertStringContainsString( esc_html( Send4_Connection::outage_message( 'rejected' ) ), $result['description'] );
 	}
 
 	/**
@@ -161,7 +161,7 @@ class Send4_Site_Health_Test extends Send4_Test_Case {
 		$result = Send4_Site_Health::test_connection();
 
 		$this->assertSame( 'recommended', $result['status'] );
-		$this->assertStringContainsString( esc_html( Send4_Admin::outage_message( 'unreachable' ) ), $result['description'] );
+		$this->assertStringContainsString( esc_html( Send4_Connection::outage_message( 'unreachable' ) ), $result['description'] );
 	}
 
 	/**

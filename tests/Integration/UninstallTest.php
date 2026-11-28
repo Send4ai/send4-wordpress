@@ -120,7 +120,7 @@ class Send4_Uninstall_Test extends Send4_Test_Case {
 			),
 			3600
 		);
-		set_transient( Send4_Admin::HANDSHAKE_CACHE, array( 'client' => array( 'name' => 'Stogas UAB' ) ), 300 );
+		set_transient( Send4_Connection::HANDSHAKE_CACHE, array( 'client' => array( 'name' => 'Stogas UAB' ) ), 300 );
 
 		// The secret is created on first use, and only the entry-id path uses it.
 		Send4_Submission_Id::secret();
@@ -228,7 +228,7 @@ class Send4_Uninstall_Test extends Send4_Test_Case {
 		);
 
 		$this->assertFalse( get_transient( Send4_Api_Client::TOKEN_TRANSIENT ) );
-		$this->assertFalse( get_transient( Send4_Admin::HANDSHAKE_CACHE ) );
+		$this->assertFalse( get_transient( Send4_Connection::HANDSHAKE_CACHE ) );
 
 		$this->assertFalse(
 			wp_next_scheduled( Send4_Cron::HOOK ),
@@ -350,7 +350,7 @@ class Send4_Uninstall_Test extends Send4_Test_Case {
 			'the minimum version' => array( Send4_Minimum_Version::OPTION, 'Send4_Minimum_Version::OPTION' ),
 			'its dismissals'      => array( Send4_Minimum_Version::DISMISSED_META, 'Send4_Minimum_Version::DISMISSED_META' ),
 			'the access token'    => array( Send4_Api_Client::TOKEN_TRANSIENT, 'Send4_Api_Client::TOKEN_TRANSIENT' ),
-			'the handshake cache' => array( Send4_Admin::HANDSHAKE_CACHE, 'Send4_Admin::HANDSHAKE_CACHE' ),
+			'the handshake cache' => array( Send4_Connection::HANDSHAKE_CACHE, 'Send4_Connection::HANDSHAKE_CACHE' ),
 			'the cron event'      => array( Send4_Cron::HOOK, 'Send4_Cron::HOOK' ),
 			'the sync event'      => array( Send4_Forms_Sync::HOOK, 'Send4_Forms_Sync::HOOK' ),
 		);

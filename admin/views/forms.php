@@ -13,7 +13,7 @@
 defined( 'ABSPATH' ) || exit;
 
 $send4_notice    = $admin->current_notice();
-$send4_state     = Send4_Admin::connection_state( $handshake );
+$send4_state     = Send4_Connection::connection_state( $handshake );
 $send4_connected = 'connected' === $send4_state;
 
 $send4_bar_title   = __( 'Forms & Triggers', 'send4' );
@@ -40,7 +40,7 @@ $send4_bar_account = $send4_connected && is_array( $handshake ) && isset( $hands
 		<?php elseif ( 'unreachable' === $send4_state || 'rejected' === $send4_state ) : ?>
 			<div class="send4-notice <?php echo 'rejected' === $send4_state ? 'send4-notice--error' : 'send4-notice--warn'; ?>">
 				<p>
-					<strong><?php echo esc_html( Send4_Admin::outage_message( $send4_state ) ); ?></strong>
+					<strong><?php echo esc_html( Send4_Connection::outage_message( $send4_state ) ); ?></strong>
 					<?php echo esc_html( is_wp_error( $handshake ) ? $handshake->get_error_message() : '' ); ?>
 					<a href="<?php echo esc_url( $admin->page_url( array(), Send4_Admin::CONNECTION_SLUG ) ); ?>"><?php esc_html_e( 'Check the connection', 'send4' ); ?></a>
 				</p>
@@ -122,7 +122,7 @@ $send4_bar_account = $send4_connected && is_array( $handshake ) && isset( $hands
 							$send4_key    = $send4_form_descriptor['key'];
 							$send4_state  = Send4_Settings::form( $send4_key );
 							$send4_active = Send4_Settings::form_is_active( $send4_key );
-							$send4_bound  = $admin->flows_for( $handshake, $send4_key );
+							$send4_bound  = Send4_Connection::flows_for( $handshake, $send4_key );
 							$send4_name   = '' !== $send4_form_descriptor['title'] ? $send4_form_descriptor['title'] : __( '(untitled)', 'send4' );
 							// Every row's buttons read the same out of context, so a
 							// screen reader listing them is told which form each is for.

@@ -64,7 +64,7 @@ $send4_bar_account = $data['account'];
 			?>
 			<div class="send4-notice <?php echo 'rejected' === $data['state'] ? 'send4-notice--error' : 'send4-notice--warn'; ?>">
 				<p>
-					<strong><?php echo esc_html( Send4_Admin::outage_message( $data['state'] ) ); ?></strong>
+					<strong><?php echo esc_html( Send4_Connection::outage_message( $data['state'] ) ); ?></strong>
 					<?php echo esc_html( $data['error'] ); ?>
 					<a href="<?php echo esc_url( $admin->page_url( array(), Send4_Admin::CONNECTION_SLUG ) ); ?>"><?php esc_html_e( 'Check the connection', 'send4' ); ?></a>
 				</p>

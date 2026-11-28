@@ -78,7 +78,7 @@ class Send4_Site_Health {
 	 * @return array<string,mixed>
 	 */
 	public static function test_connection(): array {
-		$state      = Send4_Admin::connection_state( Send4_Admin::cached_handshake() );
+		$state      = Send4_Connection::connection_state( Send4_Connection::cached_handshake() );
 		$connection = Send4_Settings::connection();
 		$screen     = self::screen_url( Send4_Admin::CONNECTION_SLUG );
 
@@ -98,7 +98,7 @@ class Send4_Site_Health {
 				'send4_connection',
 				'critical',
 				__( 'Send4 refused this site\'s connection', 'send4' ),
-				Send4_Admin::outage_message( $state ),
+				Send4_Connection::outage_message( $state ),
 				$screen,
 				__( 'Open the Connection screen', 'send4' )
 			);
@@ -109,7 +109,7 @@ class Send4_Site_Health {
 				'send4_connection',
 				'recommended',
 				__( 'Send4 could not be reached', 'send4' ),
-				Send4_Admin::outage_message( $state ),
+				Send4_Connection::outage_message( $state ),
 				$screen,
 				__( 'Open the Connection screen', 'send4' )
 			);
@@ -262,7 +262,7 @@ class Send4_Site_Health {
 		}
 
 		$connection = Send4_Settings::connection();
-		$state      = Send4_Admin::connection_state( Send4_Admin::cached_handshake() );
+		$state      = Send4_Connection::connection_state( Send4_Connection::cached_handshake() );
 		$has_table  = Send4_Queue::table_exists();
 		$counts     = $has_table ? Send4_Queue::counts() : array();
 		$next       = wp_next_scheduled( Send4_Cron::HOOK );
@@ -381,7 +381,7 @@ class Send4_Site_Health {
 	/**
 	 * A connection_state() value in words.
 	 *
-	 * @param string $state A Send4_Admin::connection_state() value.
+	 * @param string $state A Send4_Connection::connection_state() value.
 	 * @return string
 	 */
 	private static function state_label( string $state ): string {

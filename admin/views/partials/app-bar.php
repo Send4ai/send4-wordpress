@@ -6,7 +6,7 @@
  *
  * @var Send4_Admin $admin
  * @var string      $send4_bar_title   Breadcrumb leaf, e.g. "Dashboard".
- * @var string      $send4_bar_state   A Send4_Admin::connection_state() value.
+ * @var string      $send4_bar_state   A Send4_Connection::connection_state() value.
  * @var string      $send4_bar_account Account name for the pill.
  */
 

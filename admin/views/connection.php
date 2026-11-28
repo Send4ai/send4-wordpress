@@ -12,7 +12,7 @@
 defined( 'ABSPATH' ) || exit;
 
 $send4_notice    = $admin->current_notice();
-$send4_state     = Send4_Admin::connection_state( $handshake );
+$send4_state     = Send4_Connection::connection_state( $handshake );
 $send4_connected = 'connected' === $send4_state;
 $send4_failing   = 'unreachable' === $send4_state || 'rejected' === $send4_state;
 $send4_secret    = $connection['client_secret'];
@@ -119,7 +119,7 @@ $send4_bar_account = $send4_account;
 								// would mint a new credential while the old one may be fine.
 								?>
 								<div class="send4-notice <?php echo 'rejected' === $send4_state ? 'send4-notice--error' : 'send4-notice--warn'; ?> send4-notice--inline">
-									<p><strong><?php echo esc_html( Send4_Admin::outage_message( $send4_state ) ); ?></strong></p>
+									<p><strong><?php echo esc_html( Send4_Connection::outage_message( $send4_state ) ); ?></strong></p>
 									<p><?php echo esc_html( is_wp_error( $handshake ) ? $handshake->get_error_message() : '' ); ?></p>
 								</div>
 							<?php endif; ?>

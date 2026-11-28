@@ -134,7 +134,7 @@ class Send4_Cli_Connect_Test extends Send4_Test_Case {
 	public function test_connecting_reports_the_forms_and_refreshes_the_screens() {
 		update_option( Send4_Forms_Sync::HASH_OPTION, 'hash-from-the-old-workspace', false );
 		update_option( Send4_Forms_Sync::AT_OPTION, time(), false );
-		set_transient( Send4_Admin::HANDSHAKE_CACHE, array( 'client' => array( 'name' => 'Old Workspace' ), 'flows' => array() ), 300 );
+		set_transient( Send4_Connection::HANDSHAKE_CACHE, array( 'client' => array( 'name' => 'Old Workspace' ), 'flows' => array() ), 300 );
 
 		$this->http->queueToken();
 		$this->http->queueHandshake( array(), 'New Workspace' );
@@ -152,7 +152,7 @@ class Send4_Cli_Connect_Test extends Send4_Test_Case {
 
 		$this->assertSame( 'new-id', Send4_Settings::connection()['client_id'] );
 		$this->assertCount( 1, $this->http->requestsTo( '/api/integrations/wordpress/forms' ) );
-		$this->assertSame( 'New Workspace', Send4_Admin::cached_handshake()['client']['name'] );
+		$this->assertSame( 'New Workspace', Send4_Connection::cached_handshake()['client']['name'] );
 		$this->assertSame( 'success', WP_CLI::$output[0][0] );
 	}
 }

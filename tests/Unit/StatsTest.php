@@ -153,7 +153,7 @@ class Send4_Stats_Test extends Send4_Test_Case {
 		// The headline still counts today.
 		$this->assertSame( 61, Send4_Stats::totals( '7d' )['delivered'] );
 
-		set_transient( Send4_Admin::HANDSHAKE_CACHE, array( 'client' => array( 'name' => 'Stogas UAB' ), 'flows' => array() ), 300 );
+		set_transient( Send4_Connection::HANDSHAKE_CACHE, array( 'client' => array( 'name' => 'Stogas UAB' ), 'flows' => array() ), 300 );
 
 		$data = Send4_Admin_Dashboard::build( new Send4_Admin(), '7d' );
 
@@ -401,7 +401,7 @@ class Send4_Stats_Test extends Send4_Test_Case {
 		$this->assertSame( array( 'refused' => 1 ), Send4_Stats::by_form( '30d' )['contact-form-7:1'] );
 		$this->assertArrayNotHasKey( 'contact-form-7:1', Send4_Settings::form_statuses() );
 
-		set_transient( Send4_Admin::HANDSHAKE_CACHE, array( 'client' => array( 'name' => 'Stogas UAB' ), 'flows' => array() ), 300 );
+		set_transient( Send4_Connection::HANDSHAKE_CACHE, array( 'client' => array( 'name' => 'Stogas UAB' ), 'flows' => array() ), 300 );
 
 		$data = Send4_Admin_Dashboard::build( new Send4_Admin(), '30d' );
 

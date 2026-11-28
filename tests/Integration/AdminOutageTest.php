@@ -151,19 +151,19 @@ class Send4_Admin_Outage_Test extends Send4_Test_Case {
 
 		$admin = new Send4_Admin();
 
-		$this->assertWPError( $admin->handshake( false ) );
+		$this->assertWPError( Send4_Connection::handshake( false ) );
 		$this->assertSame( 1, $this->http->requestCount() );
 
 		// Nothing queued: another request would fail the recorder anyway, but
 		// the count says it outright.
-		$again = $admin->handshake( false );
+		$again = Send4_Connection::handshake( false );
 
 		$this->assertWPError( $again );
 		$this->assertSame( 'http_request_failed', $again->get_error_code() );
 		$this->assertSame( 1, $this->http->requestCount(), 'A cached failure must not be asked again.' );
 
-		$expires = (int) get_option( '_transient_timeout_' . Send4_Admin::HANDSHAKE_CACHE );
-		$this->assertLessThanOrEqual( time() + Send4_Admin::HANDSHAKE_FAILURE_S, $expires );
+		$expires = (int) get_option( '_transient_timeout_' . Send4_Connection::HANDSHAKE_CACHE );
+		$this->assertLessThanOrEqual( time() + Send4_Connection::HANDSHAKE_FAILURE_S, $expires );
 	}
 
 	/**
@@ -175,19 +175,19 @@ class Send4_Admin_Outage_Test extends Send4_Test_Case {
 	public function test_a_remembered_failure_keeps_its_status() {
 		$this->http->queueTokenRejected( 401 );
 
-		( new Send4_Admin() )->handshake( false );
+		Send4_Connection::handshake( false );
 
-		$cached = Send4_Admin::cached_handshake();
+		$cached = Send4_Connection::cached_handshake();
 
 		$this->assertWPError( $cached );
 		$this->assertSame( 'send4_token_rejected', $cached->get_error_code() );
-		$this->assertSame( 'rejected', Send4_Admin::connection_state( $cached ) );
+		$this->assertSame( 'rejected', Send4_Connection::connection_state( $cached ) );
 	}
 
 	public function test_drawing_a_screen_waits_less_than_a_button_press() {
 		$this->http->queueTimeout();
 
-		( new Send4_Admin() )->handshake( false );
+		Send4_Connection::handshake( false );
 
 		$this->assertSame( Send4_Api_Client::TIMEOUT_SCREEN, $this->http->requests()[0]['args']['timeout'] );
 		$this->assertLessThan( Send4_Api_Client::TIMEOUT_INTERACTIVE, Send4_Api_Client::TIMEOUT_SCREEN );
@@ -201,7 +201,7 @@ class Send4_Admin_Outage_Test extends Send4_Test_Case {
 	 */
 	public function test_test_connection_ignores_a_remembered_failure() {
 		$this->http->queueTimeout();
-		( new Send4_Admin() )->handshake( false );
+		Send4_Connection::handshake( false );
 
 		$this->http->reset();
 		$this->http->queueToken();
@@ -211,7 +211,7 @@ class Send4_Admin_Outage_Test extends Send4_Test_Case {
 
 		$this->assertStringContainsString( 'send4_notice=success', $destination );
 		$this->assertSame( Send4_Api_Client::TIMEOUT_INTERACTIVE, $this->http->requests()[0]['args']['timeout'] );
-		$this->assertIsArray( Send4_Admin::cached_handshake(), 'The success replaces the remembered failure.' );
+		$this->assertIsArray( Send4_Connection::cached_handshake(), 'The success replaces the remembered failure.' );
 	}
 
 	/**
@@ -221,26 +221,26 @@ class Send4_Admin_Outage_Test extends Send4_Test_Case {
 	 * @return void
 	 */
 	public function test_a_failed_test_replaces_a_remembered_success() {
-		set_transient( Send4_Admin::HANDSHAKE_CACHE, array( 'client' => array( 'name' => 'Stogas UAB' ), 'flows' => array() ), 300 );
+		set_transient( Send4_Connection::HANDSHAKE_CACHE, array( 'client' => array( 'name' => 'Stogas UAB' ), 'flows' => array() ), 300 );
 		$this->http->queueTimeout();
 
 		$this->post( 'send4_test' );
 
-		$this->assertWPError( Send4_Admin::cached_handshake() );
+		$this->assertWPError( Send4_Connection::cached_handshake() );
 	}
 
 	public function test_it_tells_an_outage_from_a_refusal() {
-		$this->assertSame( 'unreachable', Send4_Admin::connection_state( new WP_Error( 'http_request_failed', 'timed out' ) ) );
-		$this->assertSame( 'unreachable', Send4_Admin::connection_state( new WP_Error( 'send4_token_rejected', 'x', array( 'status' => 500 ) ) ) );
-		$this->assertSame( 'unreachable', Send4_Admin::connection_state( new WP_Error( 'send4_token_rejected', 'x', array( 'status' => 429 ) ) ) );
-		$this->assertSame( 'rejected', Send4_Admin::connection_state( new WP_Error( 'send4_token_rejected', 'x', array( 'status' => 401 ) ) ) );
-		$this->assertSame( 'rejected', Send4_Admin::connection_state( new WP_Error( 'send4_missing_ability', 'x' ) ) );
-		$this->assertSame( 'connected', Send4_Admin::connection_state( array( 'client' => array() ) ) );
-		$this->assertSame( 'unchecked', Send4_Admin::connection_state( null ) );
+		$this->assertSame( 'unreachable', Send4_Connection::connection_state( new WP_Error( 'http_request_failed', 'timed out' ) ) );
+		$this->assertSame( 'unreachable', Send4_Connection::connection_state( new WP_Error( 'send4_token_rejected', 'x', array( 'status' => 500 ) ) ) );
+		$this->assertSame( 'unreachable', Send4_Connection::connection_state( new WP_Error( 'send4_token_rejected', 'x', array( 'status' => 429 ) ) ) );
+		$this->assertSame( 'rejected', Send4_Connection::connection_state( new WP_Error( 'send4_token_rejected', 'x', array( 'status' => 401 ) ) ) );
+		$this->assertSame( 'rejected', Send4_Connection::connection_state( new WP_Error( 'send4_missing_ability', 'x' ) ) );
+		$this->assertSame( 'connected', Send4_Connection::connection_state( array( 'client' => array() ) ) );
+		$this->assertSame( 'unchecked', Send4_Connection::connection_state( null ) );
 
 		Send4_Settings::disconnect();
 
-		$this->assertSame( 'disconnected', Send4_Admin::connection_state( new WP_Error( 'http_request_failed', 'timed out' ) ) );
+		$this->assertSame( 'disconnected', Send4_Connection::connection_state( new WP_Error( 'http_request_failed', 'timed out' ) ) );
 	}
 
 	// ── What the screens say during an outage ───────────────────────────────
@@ -399,7 +399,7 @@ class Send4_Admin_Outage_Test extends Send4_Test_Case {
 		);
 		$this->http->queueTokenRejected( 401 );
 
-		$result = Send4_Admin::establish_connection( 'new-id', 'new-secret' );
+		$result = Send4_Connection::establish_connection( 'new-id', 'new-secret' );
 
 		$this->assertWPError( $result );
 		$this->assertStringEndsWith( '/api/v2/auth/token', $this->http->requests()[0]['url'] );
@@ -425,7 +425,7 @@ class Send4_Admin_Outage_Test extends Send4_Test_Case {
 		$this->http->queueToken( 'stored-token' );
 		$this->http->queue( Send4_Http_Recorder::response( 200, array( 'data' => array( 'accepted' => 1 ) ) ) );
 
-		$result = Send4_Admin::establish_connection( 'new-id', 'new-secret' );
+		$result = Send4_Connection::establish_connection( 'new-id', 'new-secret' );
 
 		$this->assertIsArray( $result );
 
@@ -443,7 +443,7 @@ class Send4_Admin_Outage_Test extends Send4_Test_Case {
 		$this->assertSame( 'Bearer stored-token', $reports[0]['headers']['Authorization'] );
 		$this->assertGreaterThan( 0, Send4_Forms_Sync::last_synced_at() );
 
-		$this->assertSame( 'New Workspace', Send4_Admin::cached_handshake()['client']['name'] );
+		$this->assertSame( 'New Workspace', Send4_Connection::cached_handshake()['client']['name'] );
 	}
 
 	/**

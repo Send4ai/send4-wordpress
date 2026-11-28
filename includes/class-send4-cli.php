@@ -81,7 +81,7 @@ class Send4_Cli {
 		// than being saved first: saved on its own, a refused pair left the
 		// credentials that did work talking to the wrong environment.
 		$had_credentials = Send4_Settings::has_credentials();
-		$result          = Send4_Admin::establish_connection( $client_id, $client_secret, $url_base );
+		$result          = Send4_Connection::establish_connection( $client_id, $client_secret, $url_base );
 
 		if ( is_wp_error( $result ) ) {
 			WP_CLI::error(

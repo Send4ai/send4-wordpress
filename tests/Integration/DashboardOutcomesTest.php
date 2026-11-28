@@ -29,7 +29,7 @@ class Send4_Dashboard_Outcomes_Test extends Send4_Test_Case {
 		);
 
 		set_transient(
-			Send4_Admin::HANDSHAKE_CACHE,
+			Send4_Connection::HANDSHAKE_CACHE,
 			array(
 				'client' => array( 'name' => 'Stogas UAB' ),
 				'flows'  => array(),
