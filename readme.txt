@@ -174,7 +174,7 @@ No. Until you start connecting the site, the plugin makes no outbound requests a
 
 The country picker bundles **intl-tel-input** 29.2.3 by Jack O'Connor, under the MIT licence (https://github.com/jackocnr/intl-tel-input). It is shipped unmodified in `public/lib/intl-tel-input/`, with its licence, and the unminified source sits next to the minified build. One image is renamed, `flags@2x.webp` to `flags-2x.webp`, because the plugin directory does not accept an "@" in a file name. Everything is served from your own site; nothing is loaded from a third-party host.
 
-`utils.js`, which formats and checks the number, is a compiled build. It is Google's libphonenumber (Apache License 2.0, https://github.com/google/libphonenumber) with intl-tel-input's wrapper, compiled by Google Closure Compiler. The sources and the build script, at the version shipped:
+The file `utils.js`, which formats and checks the number, is a compiled build. It is Google's libphonenumber (Apache License 2.0, https://github.com/google/libphonenumber) with intl-tel-input's wrapper, compiled by Google Closure Compiler. The sources and the build script, at the version shipped:
 
 * Wrapper source: https://github.com/jackocnr/intl-tel-input/blob/v29.2.3/packages/core/src/js/utils.js
 * Build script: https://github.com/jackocnr/intl-tel-input/blob/v29.2.3/scripts/build-utils.js (`npm run build:utils` in that repository, which pulls libphonenumber in as a git submodule)
