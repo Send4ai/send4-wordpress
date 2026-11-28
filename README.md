@@ -1,4 +1,4 @@
-<a href="https://wordpress.org/plugins/send4/"><img src=".wordpress-org/banner-1544x500.png" alt="Send4 for WordPress. Form leads, answered by text in seconds." width="100%"></a>
+<a href="https://wordpress.org/plugins/send4/"><img src=".wordpress-org/banner-1544x500.png" alt="Send4: SMS lead follow-up for WordPress forms. A phone shows the text conversation an AI assistant has with a new lead." width="100%"></a>
 
 # Send4 for WordPress
 
