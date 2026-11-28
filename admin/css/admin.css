@@ -991,6 +991,19 @@ body.send4-screen .notice:not(.send4-notice) {
 	margin-top: 2px;
 }
 
+/* Up to 782px WordPress draws every checkbox 25px square. That is taller
+   than the line, so the box starts above it instead of below, and the note
+   underneath is indented past the wider box. */
+@media screen and (max-width: 782px) {
+	.send4-check--top input[type="checkbox"] {
+		margin-top: -3px;
+	}
+
+	.send4-check--top + p {
+		padding-left: 33px;
+	}
+}
+
 /* ----------------------------------------------------------------- tables */
 
 .send4-table-wrap {
