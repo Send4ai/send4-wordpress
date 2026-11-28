@@ -223,6 +223,7 @@ The sources and the build script, at the version shipped:
 1. Send4 → Dashboard: what has been sent, the retry queue, and recent activity.
 2. Choosing which field holds the phone number.
 3. The forms list, showing delivery status per form.
+4. The country picker on a visitor's form: a searchable list of countries, and a number sent with its country code.
 
 == Changelog ==
 
