@@ -190,7 +190,7 @@ environment, the tests and how a release is cut. In short:
 ```bash
 make install   # WordPress, Contact Form 7, WPForms Lite and seeded test forms, in Docker
 make test      # PHPUnit against a real WordPress
-make lint      # PHPCS (WordPress Coding Standards) and PHPStan
+make lint      # PHPCS (WordPress Coding Standards), PHPStan and ESLint
 ```
 
 For a question about using the plugin, ask in the

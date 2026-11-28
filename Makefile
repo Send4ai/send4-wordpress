@@ -90,9 +90,16 @@ test-multisite: vendor ## Run the PHPUnit suite as a multisite network, as CI do
 	docker compose up -d db
 	docker compose run --rm -e WP_TESTS_MULTISITE=1 --build tests vendor/bin/phpunit
 
-lint: vendor ## Run PHPCS and PHPStan
+# ESLint is the one tool here that needs Node. It is a dev dependency like
+# vendor/, and like vendor/ it never reaches the zip.
+node_modules: package-lock.json
+	npm ci --no-audit --no-fund
+	@touch node_modules
+
+lint: vendor node_modules ## Run PHPCS, PHPStan and ESLint
 	vendor/bin/phpcs
 	php -d memory_limit=1G vendor/bin/phpstan analyse --no-progress
+	npx eslint
 
 # The header declares Domain Path: /languages, so translators expect a template
 # there. Regenerate before a release: strings change in most PRs, and a stale

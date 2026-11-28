@@ -28,7 +28,7 @@ jobs:
     outputs:
       code: ${{ steps.filter.outputs.code }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # On a pull request this is the merge commit, and its first parent
           # is the base branch: two commits deep is enough to compare them.
@@ -58,12 +58,12 @@ jobs:
           echo "code=${code}"
 
   lint:
-    name: PHPCS + PHPStan
+    name: Lint (PHPCS, PHPStan, ESLint)
     needs: [changes]
     if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
@@ -85,6 +85,18 @@ jobs:
 
       - name: PHPStan
         run: vendor/bin/phpstan analyse --no-progress
+
+      # The two scripts have no build step: the file in the repository is the
+      # file a visitor's browser runs, on a page the plugin does not control.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: ESLint
+        run: |
+          npm ci --no-audit --no-fund
+          npx eslint
 
       # The plugin must not fall back to curl or skip TLS verification. Both are
       # wordpress.org review failures and the second is a real vulnerability, so
@@ -155,7 +167,7 @@ jobs:
           --health-timeout=5s
           --health-retries=20
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
@@ -219,7 +231,7 @@ jobs:
     needs: [changes, lint, phpunit]
     if: ${{ !cancelled() && !failure() }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Build
         run: bin/build-zip.sh
@@ -229,7 +241,7 @@ jobs:
       - name: Nothing developer-only made it in
         run: |
           set -euo pipefail
-          for unwanted in 'send4/vendor/' 'send4/tests/' 'send4/composer.json' 'send4/dev/' 'send4/docker/' 'send4/phpstan' '.dist'; do
+          for unwanted in 'send4/vendor/' 'send4/node_modules/' 'send4/tests/' 'send4/composer.json' 'send4/package' 'send4/eslint.config' 'send4/dev/' 'send4/docker/' 'send4/phpstan' '.dist'; do
             if unzip -l build/send4.zip | grep -q "$unwanted"; then
               echo "::error::${unwanted} must not be in the distributable zip." && exit 1
             fi
