@@ -1,0 +1,94 @@
+<!doctype html>
+<!--
+	The animated plugin icon, as a page.
+
+	.wordpress-org/icon-256x256.gif and icon-128x128.gif are frames of this file:
+	window.frame( p ) draws the icon at the point p of the loop (0 to 1), a
+	screenshot is taken at 512 by 512 for each of FRAMES points, and the frames
+	are scaled down and joined. The loop is LOOP_S seconds long; the icon stands
+	still for the last two of them, and those frames are one frame held.
+
+	The directory shows icon.svg in preference to the GIF when both exist, which
+	is why there is no icon.svg in .wordpress-org/ any more: icon.svg here is it.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Send4 icon</title>
+<style>
+html, body { margin: 0; background: transparent; }
+svg { display: block; width: 100vmin; height: 100vmin; }
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+	<defs>
+		<linearGradient id="grad" x1="15%" y1="0%" x2="85%" y2="100%">
+			<stop offset="0%" stop-color="#059669"/>
+			<stop offset="100%" stop-color="#047857"/>
+		</linearGradient>
+		<clipPath id="tile"><rect width="48" height="48" rx="12"/></clipPath>
+	</defs>
+	<rect width="48" height="48" rx="12" fill="url(#grad)"/>
+	<g clip-path="url(#tile)" fill="none" stroke="#a7f3d0">
+		<circle id="ring1" cx="31" cy="29" r="7"/>
+		<circle id="ring2" cx="31" cy="29" r="7"/>
+	</g>
+	<path id="sail" d="M31 6 L31 29 L8 29 Z" fill="#ffffff"/>
+	<path id="drop" d="M24 29 a7 7 0 0 0 14 0 Z" fill="#a7f3d0"/>
+</svg>
+<script>
+const LOOP_S = 4.8;
+const FRAMES = 96;
+
+const clamp = ( x ) => Math.min( 1, Math.max( 0, x ) );
+const span = ( p, from, to ) => clamp( ( p - from ) / ( to - from ) );
+const easeOut = ( x ) => 1 - Math.pow( 1 - x, 3 );
+// Settles on 1 after going a little past it, once.
+const spring = ( x ) => ( x >= 1 ? 1 : 1 - Math.exp( -6 * x ) * Math.cos( 9 * x ) );
+
+/**
+ * Draw the icon at one point of the loop.
+ *
+ * The white shape draws back, pushes up and to the right and settles; the
+ * mint one gives under it and springs back; two rings spread from where they
+ * meet, like a message leaving.
+ *
+ * @param {number} p Where in the loop, from 0 to 1.
+ */
+window.frame = function ( p ) {
+	const back   = easeOut( span( p, 0, 0.07 ) ) * ( 1 - span( p, 0.07, 0.11 ) );
+	const push   = easeOut( span( p, 0.07, 0.15 ) ) * ( 1 - spring( span( p, 0.15, 0.36 ) ) );
+	const x      = -0.5 * back + 1.5 * push;
+	const y      = 0.5 * back - 1.7 * push;
+	const squash = easeOut( span( p, 0.10, 0.16 ) ) * ( 1 - spring( span( p, 0.16, 0.38 ) ) );
+
+	document.getElementById( 'sail' ).setAttribute( 'transform', `translate(${ x.toFixed( 3 ) } ${ y.toFixed( 3 ) })` );
+	document.getElementById( 'drop' ).setAttribute(
+		'transform',
+		`translate(0 29) scale(${ ( 1 + 0.06 * squash ).toFixed( 4 ) } ${ ( 1 - 0.24 * squash ).toFixed( 4 ) }) translate(0 -29)`
+	);
+
+	[ [ 'ring1', 0.13 ], [ 'ring2', 0.23 ] ].forEach( ( [ id, start ] ) => {
+		const q    = span( p, start, start + 0.36 );
+		const ring = document.getElementById( id );
+
+		ring.setAttribute( 'r', ( 7 + 30 * easeOut( q ) ).toFixed( 3 ) );
+		ring.setAttribute( 'stroke-width', ( 1.7 - 1.1 * q ).toFixed( 3 ) );
+		ring.setAttribute( 'opacity', ( q > 0 && q < 1 ? 0.6 * ( 1 - q ) : 0 ).toFixed( 3 ) );
+	} );
+};
+
+window.frame( Number( new URLSearchParams( location.search ).get( 'p' ) || 0 ) );
+
+// Opened by hand, it plays.
+if ( ! new URLSearchParams( location.search ).has( 'p' ) ) {
+	const t0 = performance.now();
+	( function tick( now ) {
+		window.frame( ( ( now - t0 ) / 1000 / LOOP_S ) % 1 );
+		requestAnimationFrame( tick );
+	}( t0 ) );
+}
+</script>
+</body>
+</html>
