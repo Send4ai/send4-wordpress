@@ -3,6 +3,13 @@
 Older releases, newest first. The two latest are in readme.txt, as the WordPress.org plugin
 directory asks.
 
+= 0.2.1 =
+* Needs WordPress 6.2 or later. The retry queue now names its database table through WordPress's own
+  placeholder for table names, which arrived in 6.2.
+* A client secret pasted on the Connection screen is checked before it is tried. One that cannot be a Send4
+  secret, for example with a space inside it, is refused with a message saying so.
+* Every Send4 screen action checks its security token in the action itself. Nothing changes on screen.
+
 = 0.2.0 =
 * The dashboard starts with "Before Send4 can text your leads" while your Send4 account cannot text anyone yet,
   for example with no sending number or no flow listening for your forms, and links each missing step to the page

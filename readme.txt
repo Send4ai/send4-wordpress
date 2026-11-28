@@ -4,7 +4,7 @@ Tags: sms, leads, lead generation, contact form 7, wpforms
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.2
+Stable tag: 0.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -227,20 +227,22 @@ The sources and the build script, at the version shipped:
 
 == Changelog ==
 
+= 0.2.3 =
+* Tools → Site Health now reports on Send4. Two tests say whether this site is connected, and whether form
+  submissions are stuck on their way to Send4: waiting with nothing sending them, which usually means WP-Cron is
+  not running, or never delivered. Nothing is sent to Send4 to produce them.
+* Site Health's Info tab has a Send4 section with what a support request needs: the plugin version, the
+  connection, the retry queue and which form plugins are active. Copying the site info leaves out your account
+  name and client ID.
+* The plugin directory now shows the country picker on a visitor's form.
+
 = 0.2.2 =
 * Listing assets for WordPress.org: the plugin directory now has Send4's icon, banner and screenshots.
 * The plugin is now called "Send4 – AI SMS Lead Follow-up for Contact Forms" in the directory and on the Plugins screen. Nothing else changes.
-
-= 0.2.1 =
-* Needs WordPress 6.2 or later. The retry queue now names its database table through WordPress's own
-  placeholder for table names, which arrived in 6.2.
-* A client secret pasted on the Connection screen is checked before it is tried. One that cannot be a Send4
-  secret, for example with a space inside it, is refused with a message saying so.
-* Every Send4 screen action checks its security token in the action itself. Nothing changes on screen.
 
 Older releases are listed in `changelog.txt` in the plugin folder.
 
 == Upgrade Notice ==
 
-= 0.2.2 =
-Needs WordPress 6.2 or later. Includes 0.2.0 and 0.2.1: the dashboard shows what your Send4 account still needs before it can text your leads, and you are told when Send4 needs a newer version of this plugin.
+= 0.2.3 =
+Adds Send4 to Tools → Site Health: whether this site is connected, and whether any form submission is stuck on its way to Send4. Nothing changes in how your forms are sent.
