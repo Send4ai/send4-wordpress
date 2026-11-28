@@ -67,6 +67,9 @@ What the code has to hold to:
 - **New behaviour comes with a test.**
 - **If a change alters what leaves the site**, update `== External services ==` in `readme.txt` in
   the same pull request. WordPress.org requires that section to match what the plugin does.
+- **`readme.txt` has one line per paragraph and per list item.** WordPress.org draws every line
+  break inside a paragraph as a `<br>`, so a readme wrapped like code shows on the listing as
+  ragged lines that stop mid-sentence. A test checks it.
 - **No API keys, client secrets or real lead data** in code, tests, fixtures or screenshots.
 
 Contributions are licensed under GPL v2 or later, like the rest of the plugin.
