@@ -187,6 +187,8 @@ The country picker bundles **intl-tel-input** 29.2.3 by Jack O'Connor, under the
 2. Choosing which field holds the phone number.
 3. The forms list, showing delivery status per form.
 4. The country picker on a visitor's form: a searchable list of countries, and a number sent with its country code.
+5. Send4 → Connection: the account this site is connected to, and the flows listening for its forms.
+6. Tools → Site Health → Info: the connection, the retry queue and the form plugins found, ready to copy into a support request.
 
 == Changelog ==
 
@@ -194,7 +196,7 @@ The country picker bundles **intl-tel-input** 29.2.3 by Jack O'Connor, under the
 * Tools → Site Health now reports on Send4. Two tests say whether this site is connected, and whether form submissions are stuck on their way to Send4: waiting with nothing sending them, which usually means WP-Cron is not running, or never delivered. Nothing is sent to Send4 to produce them.
 * Site Health's Info tab has a Send4 section with what a support request needs: the plugin version, the connection, the retry queue and which form plugins are active. Copying the site info leaves out your account name and client ID.
 * The Send4 screens are tidier: checkboxes line up with their labels, cards are evenly spaced, and the Flows listening card on the dashboard no longer runs to its border.
-* The plugin directory has a new description, banner and screenshots, one of them the country picker on a visitor's form.
+* The plugin directory has a new description, banner and screenshots: the country picker on a visitor's form, the Connection screen and Site Health.
 
 = 0.2.2 =
 * Listing assets for WordPress.org: the plugin directory now has Send4's icon, banner and screenshots.
