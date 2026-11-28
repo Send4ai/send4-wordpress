@@ -195,4 +195,39 @@ class Send4_Connect_Secret_Test extends Send4_Test_Case {
 		$this->assertFalse( Send4_Settings::is_client_secret( null ) );
 		$this->assertFalse( Send4_Settings::is_client_secret( array( self::REAL_SECRET ) ) );
 	}
+
+	/**
+	 * The stored connection is read as strings whatever is in the option. An
+	 * array where the secret belongs, in an option edited by hand, used to
+	 * reach substr() on the Connection screen.
+	 *
+	 * @return void
+	 */
+	public function test_a_stored_connection_of_the_wrong_types_reads_as_not_set() {
+		update_option(
+			Send4_Settings::CONNECTION_OPTION,
+			array(
+				'client_id'     => 'client-1',
+				'client_secret' => array( self::REAL_SECRET ),
+				'client_name'   => null,
+				'connected_at'  => 1700000000,
+			)
+		);
+
+		$this->assertSame(
+			array(
+				'client_id'      => 'client-1',
+				'client_secret'  => '',
+				'client_name'    => '',
+				'connected_at'   => '1700000000',
+				'connect_id'     => '',
+				'connect_secret' => '',
+			),
+		Send4_Settings::connection()
+		);
+
+		update_option( Send4_Settings::CONNECTION_OPTION, 'not an array' );
+
+		$this->assertSame( '', Send4_Settings::connection()['client_id'] );
+	}
 }

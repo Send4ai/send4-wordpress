@@ -31,24 +31,26 @@ class Send4_Settings {
 	 */
 	public static function connection() {
 		$stored = get_option( self::CONNECTION_OPTION, array() );
+		$stored = is_array( $stored ) ? $stored : array();
 
-		/**
-		 * Every key is present because the defaults name every key.
-		 *
-		 * @var array{client_id:string,client_secret:string,client_name:string,connected_at:string,connect_id:string,connect_secret:string} $connection
-		 */
-		$connection = wp_parse_args(
-			is_array( $stored ) ? $stored : array(),
-			array(
-				'client_id'      => '',
-				'client_secret'  => '',
-				'client_name'    => '',
-				'connected_at'   => '',
-				// Only live between starting a connection and redeeming it.
-				'connect_id'     => '',
-				'connect_secret' => '',
-			)
+		$connection = array(
+			'client_id'      => '',
+			'client_secret'  => '',
+			'client_name'    => '',
+			'connected_at'   => '',
+			// Only live between starting a connection and redeeming it.
+			'connect_id'     => '',
+			'connect_secret' => '',
 		);
+
+		// This plugin only ever stores strings here. Anything else, in an option
+		// edited by hand or restored from somewhere, reads as not set instead of
+		// reaching substr() as an array.
+		foreach ( array_keys( $connection ) as $key ) {
+			if ( isset( $stored[ $key ] ) && is_scalar( $stored[ $key ] ) ) {
+				$connection[ $key ] = (string) $stored[ $key ];
+			}
+		}
 
 		return $connection;
 	}
