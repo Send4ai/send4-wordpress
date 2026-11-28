@@ -1,6 +1,6 @@
-# PHPStan baseline: what level 5 finds in the plugin as it stands.
+# PHPStan baseline: what level 8 finds in the plugin as it stands.
 #
-# Nothing here is a defect. Two groups, and one artefact:
+# Nothing here is a defect. One group, and one artefact:
 #
 #   * Defensive is_array()/is_object()/instanceof checks that PHPStan can prove
 #     redundant from the docblocks. They guard against form plugins handing over
@@ -11,8 +11,6 @@
 #     same, for hook arguments, and Send4_Phone_Validator guards a filter's
 #     return value: a callback that forgets to return would otherwise empty
 #     the calling-code table and refuse every number on every form that checks.
-#   * WP_Site::$blog_id is typed string, so Send4_Installer::on_new_site()'s
-#     isset() looks pointless — but that method also accepts a bare site id.
 #
 # The four require_once entries are an artefact of the analysis environment:
 # szepeviktor/phpstan-wordpress pins ABSPATH to '/' and marks it dynamic, so
@@ -79,12 +77,6 @@ parameters:
 		-
 			message: '#^Path in require_once\(\) "wp\-admin/includes/plugin\.php" is not a file or it does not exist\.$#'
 			identifier: requireOnce.fileNotFound
-			count: 1
-			path: includes/class-send4-installer.php
-
-		-
-			message: '#^Property WP_Site\:\:\$blog_id \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
 			count: 1
 			path: includes/class-send4-installer.php
 

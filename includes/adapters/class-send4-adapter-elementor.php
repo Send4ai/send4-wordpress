@@ -137,6 +137,8 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 *
 	 * @param object $page A row from pages_with_forms().
 	 * @return array<string,array>
+	 * @phpstan-return array<string, array{key: string, id: string, title: string, fields: array<int, array{id: string, label: string, type: string}>}>
+	 * @phpstan-param object{post_id: numeric-string, meta_value: string} $page
 	 */
 	private function forms_in( $page ) {
 		$data = json_decode( (string) $page->meta_value, true );
@@ -365,6 +367,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 * @param string $contains Optional extra JSON fragment the data must hold,
 	 *                         to narrow the search to one widget.
 	 * @return array<int,object>
+	 * @phpstan-return array<int,object{post_id: numeric-string, meta_value: string}>
 	 */
 	private function pages_with_forms( $contains = '' ): array {
 		global $wpdb;

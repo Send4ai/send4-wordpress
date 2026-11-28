@@ -76,7 +76,7 @@ class Send4_Installer {
 			return;
 		}
 
-		$site_id = is_object( $site ) && isset( $site->blog_id ) ? (int) $site->blog_id : (int) $site;
+		$site_id = $site instanceof WP_Site ? (int) $site->blog_id : (int) $site;
 
 		switch_to_blog( $site_id );
 		self::install();

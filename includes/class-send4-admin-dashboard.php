@@ -49,7 +49,7 @@ class Send4_Admin_Dashboard {
 			'state'      => $state,
 			'error'      => is_wp_error( $handshake ) ? $handshake->get_error_message() : '',
 			'handshake'  => $handshake,
-			'account'    => $connected && isset( $handshake['client']['name'] ) ? (string) $handshake['client']['name'] : '',
+			'account'    => $connected && is_array( $handshake ) && isset( $handshake['client']['name'] ) ? (string) $handshake['client']['name'] : '',
 			'readiness'  => $connected ? Send4_Readiness::failing( $handshake ) : array(),
 			'triggers'   => self::triggers(),
 			'flows'      => self::flows( $handshake ),

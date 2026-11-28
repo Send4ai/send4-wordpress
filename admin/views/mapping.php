@@ -30,7 +30,7 @@ foreach ( $send4_fields as $send4_field ) {
 
 $send4_bar_title   = __( 'Forms & Triggers', 'send4' );
 $send4_bar_state   = Send4_Admin::connection_state( $handshake );
-$send4_bar_account = 'connected' === $send4_bar_state && isset( $handshake['client']['name'] ) ? (string) $handshake['client']['name'] : '';
+$send4_bar_account = 'connected' === $send4_bar_state && is_array( $handshake ) && isset( $handshake['client']['name'] ) ? (string) $handshake['client']['name'] : '';
 ?>
 <div class="send4-app">
 	<?php require SEND4_PLUGIN_DIR . 'admin/views/partials/app-bar.php'; ?>

@@ -5,16 +5,23 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    # Level 6 asks for a type on every parameter, property and return value,
-    # native or in the docblock. The one thing it asks for that is left out is
+    # Level 8: every parameter, property and return value has a type, a value
+    # that may be one of several types is narrowed before it is used as one,
+    # and null is handled wherever it can arrive. The one thing left out is
     # the value type of every array: most arrays here are WordPress options and
     # hook payloads, and writing array<string, mixed> on 160 of them would add
     # words without adding a check.
-    level: 6
+    level: 8
 
     ignoreErrors:
         -
             identifier: missingType.iterableValue
+
+    # A row of {prefix}send4_queue as $wpdb returns it: every column a string.
+    # Named once here so the docblocks that pass a row around can say which
+    # columns exist, rather than "object".
+    typeAliases:
+        Send4QueueRow: 'object{id: numeric-string, submission_id: string, form_key: string, client_id: string, envelope: string, attempts: numeric-string, status: string, next_attempt_at: string, created_at: string, updated_at: string, last_error: string|null}'
 
     paths:
         - send4.php

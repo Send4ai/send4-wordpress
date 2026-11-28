@@ -1143,6 +1143,7 @@ class Send4_Admin {
 	 * @param array  $args    Extra query args.
 	 * @param string $slug    Page slug to land on.
 	 * @return void
+	 * @phpstan-return never
 	 */
 	private function redirect_with_notice( $type, $message, array $args = array(), $slug = self::PAGE_SLUG ): void {
 		$type = 'success' === $type ? 'success' : 'error';

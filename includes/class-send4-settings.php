@@ -32,7 +32,12 @@ class Send4_Settings {
 	public static function connection() {
 		$stored = get_option( self::CONNECTION_OPTION, array() );
 
-		return wp_parse_args(
+		/**
+		 * Every key is present because the defaults name every key.
+		 *
+		 * @var array{client_id:string,client_secret:string,client_name:string,connected_at:string,connect_id:string,connect_secret:string} $connection
+		 */
+		$connection = wp_parse_args(
 			is_array( $stored ) ? $stored : array(),
 			array(
 				'client_id'      => '',
@@ -44,6 +49,8 @@ class Send4_Settings {
 				'connect_secret' => '',
 			)
 		);
+
+		return $connection;
 	}
 
 	/**
@@ -318,6 +325,11 @@ class Send4_Settings {
 			'default_country' => is_string( $phone_field['default_country'] ) ? $phone_field['default_country'] : '',
 		);
 
+		/**
+		 * Every key is present because the defaults above name every key.
+		 *
+		 * @var array{enabled:bool,mapping:array,name:string,last_status:string,last_at:string,last_error:string,validate_phone:bool,phone_field:array{picker:bool,default_country:string}} $form
+		 */
 		return $form;
 	}
 

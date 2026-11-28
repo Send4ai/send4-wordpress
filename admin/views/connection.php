@@ -17,7 +17,7 @@ $send4_connected = 'connected' === $send4_state;
 $send4_failing   = 'unreachable' === $send4_state || 'rejected' === $send4_state;
 $send4_secret    = $connection['client_secret'];
 $send4_hint      = '' === $send4_secret ? '' : str_repeat( '•', 8 ) . substr( $send4_secret, -4 );
-$send4_account   = $send4_connected && isset( $handshake['client']['name'] ) ? (string) $handshake['client']['name'] : '';
+$send4_account   = $send4_connected && is_array( $handshake ) && isset( $handshake['client']['name'] ) ? (string) $handshake['client']['name'] : '';
 
 $send4_bar_title   = __( 'Connection', 'send4' );
 $send4_bar_state   = $send4_state;
@@ -120,7 +120,7 @@ $send4_bar_account = $send4_account;
 								?>
 								<div class="send4-notice <?php echo 'rejected' === $send4_state ? 'send4-notice--error' : 'send4-notice--warn'; ?> send4-notice--inline">
 									<p><strong><?php echo esc_html( Send4_Admin::outage_message( $send4_state ) ); ?></strong></p>
-									<p><?php echo esc_html( $handshake->get_error_message() ); ?></p>
+									<p><?php echo esc_html( is_wp_error( $handshake ) ? $handshake->get_error_message() : '' ); ?></p>
 								</div>
 							<?php endif; ?>
 
@@ -202,7 +202,7 @@ $send4_bar_account = $send4_account;
 										?>
 									</span>
 								</div>
-							<?php elseif ( empty( $handshake['flows'] ) ) : ?>
+							<?php elseif ( ! is_array( $handshake ) || empty( $handshake['flows'] ) ) : ?>
 								<div class="send4-notice send4-notice--warn send4-notice--inline">
 									<p><?php esc_html_e( 'No Send4 flow is listening for WordPress forms yet. Create one in your Send4 dashboard with a "WordPress form" trigger, then test the connection again.', 'send4' ); ?></p>
 								</div>

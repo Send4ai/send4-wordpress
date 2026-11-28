@@ -847,7 +847,12 @@ class Send4_Api_Client {
 			return 0;
 		}
 
-		$header = trim( (string) wp_remote_retrieve_header( $response, 'retry-after' ) );
+		$header = wp_remote_retrieve_header( $response, 'retry-after' );
+
+		// Sent twice, the header comes back as a list. Neither value can be
+		// preferred over the other, so it counts as not sent at all, which is
+		// also what casting the list to a string amounted to.
+		$header = is_array( $header ) ? '' : trim( $header );
 
 		if ( '' === $header ) {
 			return 0;
@@ -956,7 +961,8 @@ class Send4_Api_Client {
 		if ( null !== $body ) {
 			if ( $json ) {
 				$args['headers']['Content-Type'] = 'application/json';
-				$args['body']                    = wp_json_encode( $body );
+				$encoded                         = wp_json_encode( $body );
+				$args['body']                    = false === $encoded ? '' : $encoded;
 			} else {
 				$args['body'] = $body;
 			}

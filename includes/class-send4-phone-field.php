@@ -540,7 +540,9 @@ class Send4_Phone_Field {
 	 */
 	public static function countries(): array {
 		if ( null === self::$countries ) {
-			self::$countries = (array) preg_split( '/\s+/', trim( self::COUNTRIES ) );
+			$countries = preg_split( '/\s+/', trim( self::COUNTRIES ) );
+
+			self::$countries = is_array( $countries ) ? $countries : array();
 		}
 
 		return self::$countries;

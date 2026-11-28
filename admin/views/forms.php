@@ -18,7 +18,7 @@ $send4_connected = 'connected' === $send4_state;
 
 $send4_bar_title   = __( 'Forms & Triggers', 'send4' );
 $send4_bar_state   = $send4_state;
-$send4_bar_account = $send4_connected && isset( $handshake['client']['name'] ) ? (string) $handshake['client']['name'] : '';
+$send4_bar_account = $send4_connected && is_array( $handshake ) && isset( $handshake['client']['name'] ) ? (string) $handshake['client']['name'] : '';
 ?>
 <div class="send4-app">
 	<?php require SEND4_PLUGIN_DIR . 'admin/views/partials/app-bar.php'; ?>
@@ -41,7 +41,7 @@ $send4_bar_account = $send4_connected && isset( $handshake['client']['name'] ) ?
 			<div class="send4-notice <?php echo 'rejected' === $send4_state ? 'send4-notice--error' : 'send4-notice--warn'; ?>">
 				<p>
 					<strong><?php echo esc_html( Send4_Admin::outage_message( $send4_state ) ); ?></strong>
-					<?php echo esc_html( $handshake->get_error_message() ); ?>
+					<?php echo esc_html( is_wp_error( $handshake ) ? $handshake->get_error_message() : '' ); ?>
 					<a href="<?php echo esc_url( $admin->page_url( array(), Send4_Admin::CONNECTION_SLUG ) ); ?>"><?php esc_html_e( 'Check the connection', 'send4' ); ?></a>
 				</p>
 			</div>

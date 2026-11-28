@@ -57,6 +57,7 @@ class WP_CLI {
 	 * @param string $message Message.
 	 * @param bool|int $exit  Exit code, or false to carry on.
 	 * @return void
+	 * @phpstan-return ($exit is false ? void : never)
 	 */
 	public static function error( $message, $exit = true ) {}
 }

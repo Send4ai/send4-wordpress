@@ -351,6 +351,7 @@ class Send4_Queue {
 	 *
 	 * @param object $row Row as returned by due().
 	 * @return bool True when this worker now owns the row.
+	 * @phpstan-param Send4QueueRow $row
 	 */
 	public static function claim( $row ): bool {
 		global $wpdb;
@@ -490,6 +491,7 @@ class Send4_Queue {
 	 * @param string      $submission_id Idempotency key.
 	 * @param string|null $client_id     Owning client, or null for any row.
 	 * @return object|null
+	 * @phpstan-return Send4QueueRow|null
 	 */
 	public static function find_by_submission_id( $submission_id, $client_id = null ) {
 		global $wpdb;
@@ -517,6 +519,7 @@ class Send4_Queue {
 	 *
 	 * @param int $limit Maximum rows.
 	 * @return array<int,object>
+	 * @phpstan-return array<int,Send4QueueRow>
 	 */
 	public static function due( $limit = 20 ): array {
 		global $wpdb;
@@ -542,6 +545,7 @@ class Send4_Queue {
 	 *
 	 * @param int $limit Maximum rows.
 	 * @return array<int,object>
+	 * @phpstan-return array<int,Send4QueueRow>
 	 */
 	public static function all( $limit = 50 ): array {
 		global $wpdb;
@@ -564,6 +568,7 @@ class Send4_Queue {
 	 * @param int $after_id Row id to start after; 0 for the beginning.
 	 * @param int $limit    Maximum rows.
 	 * @return array<int,object>
+	 * @phpstan-return array<int,Send4QueueRow>
 	 */
 	public static function after( $after_id, $limit = 500 ): array {
 		global $wpdb;
@@ -608,6 +613,7 @@ class Send4_Queue {
 	 *
 	 * @param object $row Queue row.
 	 * @return array
+	 * @phpstan-param Send4QueueRow $row
 	 */
 	public static function envelope( $row ): array {
 		$decoded = json_decode( isset( $row->envelope ) ? $row->envelope : '', true );
@@ -622,6 +628,7 @@ class Send4_Queue {
 	 * @param string $error       Failure detail.
 	 * @param int    $retry_after Seconds Send4 asked us to wait; the longer of this and the backoff wins.
 	 * @return string The row's new status: pending, or failed once the attempts are used up.
+	 * @phpstan-param Send4QueueRow $row
 	 */
 	public static function record_failure( $row, $error, $retry_after = 0 ): string {
 		global $wpdb;
@@ -680,6 +687,7 @@ class Send4_Queue {
 	 * @param object $row   Queue row.
 	 * @param string $error Failure detail.
 	 * @return void
+	 * @phpstan-param Send4QueueRow $row
 	 */
 	public static function record_permanent_failure( $row, $error ): void {
 		global $wpdb;

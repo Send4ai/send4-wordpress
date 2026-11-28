@@ -215,6 +215,7 @@ class Send4_Privacy {
 	 * @param string $email_address Email address.
 	 * @param int    $page          Page number, 1-indexed.
 	 * @return array{0:array<int,object>,1:bool} The matching rows, and whether the table is finished.
+	 * @phpstan-return array{0:array<int,Send4QueueRow>,1:bool}
 	 */
 	private static function page_of_rows( $kind, $email_address, $page ): array {
 		$email_address = strtolower( trim( (string) $email_address ) );

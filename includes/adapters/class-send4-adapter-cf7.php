@@ -256,7 +256,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	 * @return Send4_Submission|null
 	 */
 	public function capture( $contact_form, $submission = null ): ?Send4_Submission {
-		if ( ! is_object( $contact_form ) || ! method_exists( $contact_form, 'id' ) ) {
+		if ( ! is_object( $contact_form ) || ! method_exists( $contact_form, 'id' ) || ! method_exists( $contact_form, 'title' ) ) {
 			return null;
 		}
 

@@ -92,7 +92,7 @@ class Send4_Submission_Id {
 	 * @return string
 	 */
 	private static function random_hex( $length ): string {
-		$bytes = (int) ceil( $length / 2 );
+		$bytes = max( 1, (int) ceil( $length / 2 ) );
 
 		if ( function_exists( 'random_bytes' ) ) {
 			try {
