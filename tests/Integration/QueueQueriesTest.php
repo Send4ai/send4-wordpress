@@ -8,7 +8,7 @@
 /**
  * 0.2.1 names the queue table through $wpdb->prepare()'s %i placeholder
  * (WordPress 6.2) instead of interpolating it, so that Plugin Check sees every
- * statement as prepared (#1531). A mistake there is a SQL error the higher-level
+ * statement as prepared. A mistake there is a SQL error the higher-level
  * tests could mistake for "no rows", so each method is run here on its own and
  * the database is asked whether it complained.
  */

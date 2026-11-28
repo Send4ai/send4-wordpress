@@ -453,7 +453,7 @@ class Send4_Adapter_Gravityforms implements Send4_Form_Adapter, Send4_Validating
 
 	/**
 	 * The values of a pick-list field's choices, so Send4's conditional card can
-	 * offer them (#0687). Gravity Forms stores them on the field as
+	 * offer them. Gravity Forms stores them on the field as
 	 * `choices => [['text' => …, 'value' => …]]`, on an object or an array.
 	 *
 	 * @param mixed $field Field.

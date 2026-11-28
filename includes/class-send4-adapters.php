@@ -138,7 +138,7 @@ class Send4_Adapters {
 	/**
 	 * Forms detected across every active form plugin.
 	 *
-	 * Worked out once per request (#0697). Each adapter queries its plugin,
+	 * Worked out once per request. Each adapter queries its plugin,
 	 * and Elementor's pattern-matches every page's builder data and decodes
 	 * it; the forms screen asked two or three times per load and saving one
 	 * mapping three times. Any write that could change a form (see
@@ -392,7 +392,7 @@ class Send4_Adapters {
 
 	/**
 	 * Hook every active adapter that can refuse a submission up to the phone
-	 * check (#0688).
+	 * check.
 	 *
 	 * Its own method rather than part of register_hooks(): the suite re-runs
 	 * register_hooks() after clearing only the submission hooks, and a second

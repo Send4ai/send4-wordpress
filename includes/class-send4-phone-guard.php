@@ -8,8 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Hands the four builder bindings everything that is not builder-specific
- * (#0688).
+ * Hands the four builder bindings everything that is not builder-specific.
  *
  * A typed object rather than a closure, because a binding needs two answers
  * at two different moments: which field to look at before it has read any

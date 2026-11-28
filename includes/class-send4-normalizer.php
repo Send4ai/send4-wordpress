@@ -229,7 +229,7 @@ class Send4_Normalizer {
 	 * Public because the phone validation bindings receive raw builder values —
 	 * a WPForms composite, a Contact Form 7 tag that posts an array — and must
 	 * judge exactly the string the envelope will carry, not their own reading
-	 * of it (#0688).
+	 * of it.
 	 *
 	 * @param mixed $value Field value.
 	 * @return string
@@ -265,7 +265,7 @@ class Send4_Normalizer {
 	 * in the field list.
 	 *
 	 * Public because the form descriptors this plugin reports to Send4 must
-	 * name the keys a submission will ACTUALLY carry (#0687). Slugging a label
+	 * name the keys a submission will ACTUALLY carry. Slugging a label
 	 * independently would be right most of the time and quietly wrong for a
 	 * renamed collision or a duplicate label — and Send4 would then offer the
 	 * customer a variable that is never populated, with nothing erroring

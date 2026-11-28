@@ -9,7 +9,7 @@
  * Elementor keeps a form inside the builder data of whatever post it sits on,
  * and copies that data onto every revision. Detection has to see each live
  * form once, with the field list the site is serving, however many old copies
- * the database holds (#0697).
+ * the database holds.
  */
 class Send4_Elementor_Detection_Test extends Send4_Test_Case {
 

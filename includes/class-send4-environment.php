@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * The versions reported alongside the form inventory (#1531).
+ * The versions reported alongside the form inventory.
  *
  * WordPress.org cannot force an update, so once the plugin is listed every
  * version ever released can still be installed somewhere. Send4 reads these

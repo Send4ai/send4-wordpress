@@ -687,8 +687,8 @@ class Send4_Admin {
 		self::remember_handshake( $result );
 
 		// Tell the workspace what forms this site has, so its flow builder can
-		// offer them straight away rather than after the first submission
-		// (#0687). Forgotten and forced, because a reconnect may be a different
+		// offer them straight away rather than after the first submission.
+		// Forgotten and forced, because a reconnect may be a different
 		// workspace that has never been told anything about this site. A
 		// failure here does not undo the connection — the daily sweep retries.
 		Send4_Forms_Sync::forget();
@@ -903,7 +903,7 @@ class Send4_Admin {
 
 		$enable = ! empty( $_POST['enabled'] );
 
-		// Phone checks (#0688). Saved on BOTH paths below: the enable-without-
+		// Phone checks. Saved on BOTH paths below: the enable-without-
 		// phone path redirects early, and dropping the operator's ticks there
 		// would silently switch validation off on their next save.
 		$default_country = isset( $_POST['phone_default_country'] ) ? sanitize_key( wp_unslash( $_POST['phone_default_country'] ) ) : '';

@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Reads the handshake's `readiness` rows for the dashboard (#1531).
+ * Reads the handshake's `readiness` rows for the dashboard.
  *
  * Send4 accepts a submission with a 202 whether or not anything can text the
  * lead: a workspace with no sending number, or no flow listening, takes the

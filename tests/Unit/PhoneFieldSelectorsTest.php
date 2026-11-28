@@ -7,7 +7,7 @@
 
 /**
  * Turns "I believe Gravity Forms names its inputs input_5" into a checked
- * assertion (#0688). Contact Form 7 and WPForms are real, so their selectors
+ * assertion. Contact Form 7 and WPForms are real, so their selectors
  * run against the markup they actually render; Gravity Forms and Elementor Pro
  * are paid, so theirs run against committed renders in tests/fixtures.
  *
@@ -90,7 +90,7 @@ class Send4_Phone_Field_Selectors_Test extends Send4_Test_Case {
 	/**
 	 * Contact Form 7 5.x: the wrapper has no data-wpcf7-id, only its unit tag.
 	 * Form 42's picker lands on both of form 42's copies and never on form 420,
-	 * whose unit tag starts with the same characters (#0697).
+	 * whose unit tag starts with the same characters.
 	 *
 	 * @return void
 	 */

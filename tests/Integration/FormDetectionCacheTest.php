@@ -8,7 +8,7 @@
 /**
  * Detection queries every active form plugin, and Elementor's decodes the
  * builder tree of every page carrying a form. The forms screen and a single
- * mapping save used to pay for it two or three times over (#0697).
+ * mapping save used to pay for it two or three times over.
  */
 class Send4_Form_Detection_Cache_Test extends Send4_Test_Case {
 

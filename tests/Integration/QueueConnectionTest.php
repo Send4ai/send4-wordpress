@@ -388,8 +388,8 @@ class Send4_Queue_Connection_Test extends Send4_Test_Case {
 	 * The notice the screen at this URL would show.
 	 *
 	 * Read the way the screen reads it rather than out of the URL, so the test
-	 * does not care whether the text travels in the query string or, as #0686
-	 * arranges, in a per-user transient behind a marker.
+	 * does not care whether the text travels in the query string or, as it
+	 * does now, in a per-user transient behind a marker.
 	 *
 	 * @param string $location Redirect location.
 	 * @return string

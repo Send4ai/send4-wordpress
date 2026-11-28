@@ -7,7 +7,7 @@
 
 /**
  * Gravity Forms is paid, so the filter is fired by hand with its documented
- * arguments ($result, $value, $form, $field) (#0688). Each case runs twice:
+ * arguments ($result, $value, $form, $field). Each case runs twice:
  * once with the fixture's plain field array, and once with an object carrying
  * ->id and ->type, because real Gravity Forms passes GF_Field objects.
  */
@@ -193,7 +193,7 @@ class Send4_Gravity_Forms_Phone_Validation_Test extends Send4_Test_Case {
 	 * Gravity Forms' "standard" phone format accepts only (###) ###-####, and
 	 * Send4 only numbers with a country code: with both on, no number passes
 	 * and the form refuses every visitor. The field's own format wins, and the
-	 * log says once why Send4 is not checking (#0698).
+	 * log says once why Send4 is not checking.
 	 *
 	 * @dataProvider fieldShapeProvider
 	 *

@@ -6,7 +6,7 @@
  */
 
 /**
- * The lazy-enqueue decision, pinned (#0688): the plugin's first front-end
+ * The lazy-enqueue decision, pinned: the plugin's first front-end
  * asset must never cost a page that has no form wanting it.
  */
 class Send4_Phone_Field_Enqueue_Test extends Send4_Test_Case {
@@ -244,7 +244,7 @@ class Send4_Phone_Field_Enqueue_Test extends Send4_Test_Case {
 		};
 
 		// The name Elementor Pro's Form::render() really fires: a hyphen, where
-		// its submission hooks use an underscore (#0697).
+		// its submission hooks use an underscore.
 		do_action( 'elementor-pro/forms/pre_render', array(), $widget );
 
 		$this->assertSame(
@@ -258,7 +258,7 @@ class Send4_Phone_Field_Enqueue_Test extends Send4_Test_Case {
 	 * with, accepts (###) ###-#### and nothing else. The picker rewrites the
 	 * field to +12025550123, so with both on Gravity Forms itself refused every
 	 * submission, whether or not Send4's own check was on. The field's format
-	 * wins, as it does for validation (#0698): no picker, and the log says why.
+	 * wins, as it does for validation: no picker, and the log says why.
 	 *
 	 * @dataProvider fieldShapeProvider
 	 *
@@ -363,7 +363,7 @@ class Send4_Phone_Field_Enqueue_Test extends Send4_Test_Case {
 	 * The library lives under its own name and is kept off the global, which
 	 * WPForms Pro's older copy may claim — and which a site's own snippet may
 	 * call, on a page where its library is not loaded, to build a second picker
-	 * out of ours (#0692). The name is claimed before our file runs, because
+	 * out of ours. The name is claimed before our file runs, because
 	 * the file ends `var intlTelInput = …` and that cannot be taken back.
 	 *
 	 * @return void

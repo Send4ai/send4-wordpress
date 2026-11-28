@@ -7,7 +7,7 @@
 
 /**
  * Once the plugin is on WordPress.org, every released version can still be
- * installed somewhere, and Send4 can only find out which by being told (#1531).
+ * installed somewhere, and Send4 can only find out which by being told.
  * The report rides on the forms push, so it must never cost the site its form
  * inventory, and it must reach Send4 soon after anything in it changes.
  */

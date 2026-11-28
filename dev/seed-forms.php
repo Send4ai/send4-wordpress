@@ -305,7 +305,7 @@ if ( $send4_wpforms_id ) {
 	send4_dev_seed_page_content( sprintf( '[wpforms id="%d"]', $send4_wpforms_id ), 'contact-wpforms', 'Contact (WPForms)' );
 }
 
-// The phone picker's awkward cases on one page (#0688): the same form twice,
+// The phone picker's awkward cases on one page: the same form twice,
 // and two different form plugins, so one library load serves three pickers.
 if ( $send4_cf7_choices_id && $send4_wpforms_id ) {
 	send4_dev_seed_page_content(

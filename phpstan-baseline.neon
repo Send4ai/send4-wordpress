@@ -7,7 +7,7 @@
 #     something other than what they document — Gravity Forms in particular
 #     hands back GF_Field objects where the form object says array — so the
 #     runtime check earns its keep even when the type says it cannot fail.
-#     The phone validation bindings and render hooks (#0688) add more of the
+#     The phone validation bindings and render hooks add more of the
 #     same, for hook arguments, and Send4_Phone_Validator guards a filter's
 #     return value: a callback that forgets to return would otherwise empty
 #     the calling-code table and refuse every number on every form that checks.

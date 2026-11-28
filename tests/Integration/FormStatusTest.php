@@ -9,7 +9,7 @@
  * A delivery holds its copy of the settings across a blocking HTTP call — a
  * queue drain across many. When recording the outcome rewrote the whole forms
  * option from that copy, an admin who disabled a form or saved a mapping in
- * the meantime had the change silently reverted (#0696). These tests play the
+ * the meantime had the change silently reverted. These tests play the
  * other request by writing straight to the database, behind this request's
  * object cache, which is exactly what a second PHP process looks like.
  */
@@ -209,8 +209,9 @@ class Send4_Form_Status_Test extends Send4_Test_Case {
 	}
 
 	/**
-	 * A site upgraded from before #0696 keeps showing its last outcome, and the
-	 * next admin save moves it out of the configuration for good.
+	 * A site upgraded from a version that kept the last outcome inside the
+	 * form's configuration keeps showing it, and the next admin save moves it
+	 * out of the configuration for good.
 	 *
 	 * @return void
 	 */

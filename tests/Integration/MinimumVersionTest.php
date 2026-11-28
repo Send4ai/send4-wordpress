@@ -7,7 +7,7 @@
 
 /**
  * WordPress.org cannot force an update, so the minimum version is the only way
- * left to ask (#1531). The notice has to reach someone who can act on it, stay
+ * left to ask. The notice has to reach someone who can act on it, stay
  * where guideline 11 allows it, go away when dismissed, and never stand
  * between a visitor's form and Send4.
  */

@@ -9,7 +9,7 @@
  * public/css/intl-tel-input-scoped.css is generated from the vendored
  * stylesheet. Loading the vendored one as published restyled every other copy
  * of intl-tel-input on the page — a client's theme ran 18.x on another form,
- * and got our sprite behind its flag offsets (#0692).
+ * and got our sprite behind its flag offsets.
  */
 class Send4_Phone_Scoped_Css_Test extends Send4_Test_Case {
 

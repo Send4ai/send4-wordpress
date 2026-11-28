@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Asset URLs that change when the plugin does (#0692).
+ * Asset URLs that change when the plugin does.
  *
  * WordPress busts caches with `?ver=`. A CDN set to ignore the query string —
  * a Cloudflare caching level, and the default on several hosts — never sees

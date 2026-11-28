@@ -78,7 +78,7 @@ class Send4_Wpforms_Envelope_Test extends Send4_Test_Case {
 
 	/**
 	 * A password and a card are never sent, and the container and note fields
-	 * that never hold a value are never declared (#0698). Both sides skip the
+	 * that never hold a value are never declared. Both sides skip the
 	 * same types, so the descriptor still matches the payload.
 	 *
 	 * @return void

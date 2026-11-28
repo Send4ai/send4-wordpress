@@ -18,7 +18,7 @@ class Send4_Form_Disable_Redirected extends Exception {}
  * for a key that is not a form — a stale Elementor widget id, a typo on the
  * command line — used to leave a junk entry that nothing ever prunes. And the
  * CLI switched forms on and off without telling Send4, which the admin screen
- * always did (#0696).
+ * always did.
  */
 class Send4_Form_Key_Validation_Test extends Send4_Test_Case {
 

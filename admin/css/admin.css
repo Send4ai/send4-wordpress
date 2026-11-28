@@ -1156,7 +1156,7 @@ body.send4-screen .notice:not(.send4-notice) {
 
 /* ---------------------------------------------------------------- readiness */
 
-/* "Before Send4 can text your leads" (#1531): above everything else on the
+/* "Before Send4 can text your leads": above everything else on the
    dashboard, because until it is empty no lead is texted. */
 .send4-readiness {
 	margin-bottom: 20px;

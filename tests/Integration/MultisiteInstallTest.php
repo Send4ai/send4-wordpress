@@ -312,7 +312,7 @@ class Send4_Multisite_Install_Test extends Send4_Test_Case {
 	}
 
 	/**
-	 * Phone checks are per site (#0688): turning validation on for a form on one
+	 * Phone checks are per site: turning validation on for a form on one
 	 * subsite must not start refusing numbers on another subsite whose form
 	 * happens to share the key.
 	 *

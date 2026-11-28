@@ -6,7 +6,7 @@
  */
 
 /**
- * Send4_Assets (#0692).
+ * Send4_Assets.
  */
 class Send4_Assets_Test extends Send4_Test_Case {
 

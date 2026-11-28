@@ -7,8 +7,8 @@
 
 /**
  * Send4 answers 202 to a submission whether or not anything can text the lead,
- * so this card is the only place a site learns that nobody will be texted
- * (#1531). It shows what Send4 said and nothing it did not: no card from an
+ * so this card is the only place a site learns that nobody will be texted.
+ * It shows what Send4 said and nothing it did not: no card from an
  * older Send4, none when the connection failed, and no link that leads
  * anywhere but Send4.
  */

@@ -28,7 +28,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 *
 	 * A password field: a registration form with a mapped phone would
 	 * otherwise send the visitor's password to Send4, and keep it in the retry
-	 * queue while Send4 is unreachable (#0697). Applied to capture and to the
+	 * queue while Send4 is unreachable. Applied to capture and to the
 	 * declared fields alike, so the keys Send4 is told about are the keys it
 	 * receives.
 	 *
@@ -352,7 +352,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 * Posts whose Elementor data contains a form widget, the copy to trust
 	 * first.
 	 *
-	 * Joined to the posts table because the meta alone lies (#0697). Elementor
+	 * Joined to the posts table because the meta alone lies. Elementor
 	 * copies _elementor_data onto every revision, so one form edited thirty
 	 * times was thirty-one rows — some with a field list long since changed —
 	 * which filled the limit and pushed live forms out of it. Trashed pages
@@ -458,7 +458,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	}
 
 	/**
-	 * The choices of a pick-list field, as they will REACH Send4 (#0687).
+	 * The choices of a pick-list field, as they will REACH Send4.
 	 *
 	 * Elementor stores them as newline-separated lines in one string, and a line
 	 * may carry a custom value as `Label|value`. It submits the VALUE half, so
