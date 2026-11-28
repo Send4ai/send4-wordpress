@@ -5,8 +5,15 @@
 	.wordpress-org/icon-256x256.gif and icon-128x128.gif are frames of this file:
 	window.frame( p ) draws the icon at the point p of the loop (0 to 1), a
 	screenshot is taken at 512 by 512 for each of FRAMES points, and the frames
-	are scaled down and joined. The loop is LOOP_S seconds long; the icon stands
-	still for the last two of them, and those frames are one frame held.
+	are scaled down and joined. Frames that repeat the one before are one frame
+	held.
+
+	The tile shows the mark, then three pictures of what happens to a lead: the
+	form, the text message, the booking. Each one rises into the tile from
+	below as the one before it leaves at the top, the way the website's
+	headlines arrive. The pictures are the website's own line icons. The loop
+	starts and ends on the mark at rest, so that is what a GIF that is not
+	playing shows.
 
 	The directory shows icon.svg in preference to the GIF when both exist, which
 	is why there is no icon.svg in .wordpress-org/ any more: icon.svg here is it.
@@ -30,52 +37,109 @@ svg { display: block; width: 100vmin; height: 100vmin; }
 		<clipPath id="tile"><rect width="48" height="48" rx="12"/></clipPath>
 	</defs>
 	<rect width="48" height="48" rx="12" fill="url(#grad)"/>
-	<g clip-path="url(#tile)" fill="none" stroke="#a7f3d0">
-		<circle id="ring1" cx="31" cy="29" r="7"/>
-		<circle id="ring2" cx="31" cy="29" r="7"/>
+
+	<g clip-path="url(#tile)">
+		<g class="face" id="mark">
+			<path d="M31 6 L31 29 L8 29 Z" fill="#ffffff"/>
+			<path d="M24 29 a7 7 0 0 0 14 0 Z" fill="#a7f3d0"/>
+		</g>
+
+		<!-- The line icons are drawn on a 24 grid; here at 1.3 times, centred. -->
+		<g class="face" id="form" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<g transform="translate(8.4 8.4) scale(1.3)">
+				<path d="M8 6h13 M8 12h13 M8 18h13" stroke="#ffffff"/>
+				<path d="M3 6h.01 M3 12h.01 M3 18h.01" stroke="#a7f3d0" stroke-width="2.6"/>
+			</g>
+		</g>
+
+		<g class="face" id="text" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<g transform="translate(8.4 8.4) scale(1.3)">
+				<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#ffffff"/>
+				<path d="M8 8h8 M8 12h5" stroke="#a7f3d0"/>
+			</g>
+		</g>
+
+		<g class="face" id="booked" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<g transform="translate(8.4 8.4) scale(1.3)">
+				<path d="M8 2v4 M16 2v4 M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M3 10h18" stroke="#ffffff"/>
+				<path d="m9 16 2 2 4-4" stroke="#a7f3d0"/>
+			</g>
+		</g>
 	</g>
-	<path id="sail" d="M31 6 L31 29 L8 29 Z" fill="#ffffff"/>
-	<path id="drop" d="M24 29 a7 7 0 0 0 14 0 Z" fill="#a7f3d0"/>
 </svg>
 <script>
-const LOOP_S = 4.8;
-const FRAMES = 96;
+const LOOP_S = 6.4;
+const FRAMES = 128;
+
+// What is on the tile, in order, and the point of the loop at which each one
+// has finished arriving. The mark is back at .94 and still there at 0.
+const FACES   = [ 'mark', 'form', 'text', 'booked' ];
+const ARRIVES = [ 0.94, 0.31, 0.52, 0.73 ];
+const RISE    = 0.085; // of the loop: how long one takes to rise in
 
 const clamp = ( x ) => Math.min( 1, Math.max( 0, x ) );
-const span = ( p, from, to ) => clamp( ( p - from ) / ( to - from ) );
-const easeOut = ( x ) => 1 - Math.pow( 1 - x, 3 );
-// Settles on 1 after going a little past it, once.
-const spring = ( x ) => ( x >= 1 ? 1 : 1 - Math.exp( -6 * x ) * Math.cos( 9 * x ) );
+// Close to the site's cubic-bezier(.2, .7, .2, 1): fast away, long settle.
+const ease = ( x ) => 1 - Math.pow( 1 - x, 3.4 );
 
 /**
  * Draw the icon at one point of the loop.
  *
- * The white shape draws back, pushes up and to the right and settles; the
- * mint one gives under it and springs back; two rings spread from where they
- * meet, like a message leaving.
- *
  * @param {number} p Where in the loop, from 0 to 1.
  */
 window.frame = function ( p ) {
-	const back   = easeOut( span( p, 0, 0.07 ) ) * ( 1 - span( p, 0.07, 0.11 ) );
-	const push   = easeOut( span( p, 0.07, 0.15 ) ) * ( 1 - spring( span( p, 0.15, 0.36 ) ) );
-	const x      = -0.5 * back + 1.5 * push;
-	const y      = 0.5 * back - 1.7 * push;
-	const squash = easeOut( span( p, 0.10, 0.16 ) ) * ( 1 - spring( span( p, 0.16, 0.38 ) ) );
+	// How far each face is through its own rise, 0 before it starts and 1 once it has landed.
+	const progress = ARRIVES.map( ( at ) => {
+		const start = at - RISE;
+		let since   = p - start;
 
-	document.getElementById( 'sail' ).setAttribute( 'transform', `translate(${ x.toFixed( 3 ) } ${ y.toFixed( 3 ) })` );
-	document.getElementById( 'drop' ).setAttribute(
-		'transform',
-		`translate(0 29) scale(${ ( 1 + 0.06 * squash ).toFixed( 4 ) } ${ ( 1 - 0.24 * squash ).toFixed( 4 ) }) translate(0 -29)`
-	);
+		if ( since < 0 ) {
+			since += 1;
+		}
 
-	[ [ 'ring1', 0.13 ], [ 'ring2', 0.23 ] ].forEach( ( [ id, start ] ) => {
-		const q    = span( p, start, start + 0.36 );
-		const ring = document.getElementById( id );
+		return since <= RISE ? clamp( since / RISE ) : 1;
+	} );
 
-		ring.setAttribute( 'r', ( 7 + 30 * easeOut( q ) ).toFixed( 3 ) );
-		ring.setAttribute( 'stroke-width', ( 1.7 - 1.1 * q ).toFixed( 3 ) );
-		ring.setAttribute( 'opacity', ( q > 0 && q < 1 ? 0.6 * ( 1 - q ) : 0 ).toFixed( 3 ) );
+	// The face on the tile is the one that landed last; one may be rising under it.
+	let rising = -1;
+
+	progress.forEach( ( q, i ) => {
+		if ( q < 1 ) {
+			rising = i;
+		}
+	} );
+
+	let shown = 0;
+	let best  = 2;
+
+	ARRIVES.forEach( ( at, i ) => {
+		if ( i === rising ) {
+			return;
+		}
+
+		let since = p - at;
+
+		if ( since < 0 ) {
+			since += 1;
+		}
+
+		if ( since < best ) {
+			best  = since;
+			shown = i;
+		}
+	} );
+
+	FACES.forEach( ( id, i ) => {
+		const el = document.getElementById( id );
+		let y    = null;
+
+		if ( i === rising ) {
+			y = 48 * ( 1 - ease( progress[ i ] ) );
+		} else if ( i === shown ) {
+			y = rising === -1 ? 0 : -48 * ease( progress[ rising ] );
+		}
+
+		el.setAttribute( 'opacity', y === null ? '0' : '1' );
+		el.setAttribute( 'transform', `translate(0 ${ ( y || 0 ).toFixed( 3 ) })` );
 	} );
 };
 
