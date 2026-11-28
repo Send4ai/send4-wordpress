@@ -470,48 +470,54 @@ $send4_bar_account = $data['account'];
 					</div>
 				</div>
 
-				<div class="send4-card">
-					<h2 class="send4-card__title"><?php esc_html_e( 'Flows listening', 'send4' ); ?></h2>
-					<div class="send4-triple">
-						<div>
-							<p class="send4-triple__value"><?php echo esc_html( number_format_i18n( (int) $data['flows']['total'] ) ); ?></p>
-							<p class="send4-xs send4-muted"><?php esc_html_e( 'Total', 'send4' ); ?></p>
-						</div>
-						<div>
-							<p class="send4-triple__value send4-triple__value--ok"><?php echo esc_html( number_format_i18n( (int) $data['flows']['active'] ) ); ?></p>
-							<p class="send4-xs send4-muted"><?php esc_html_e( 'Active', 'send4' ); ?></p>
-						</div>
-						<div>
-							<p class="send4-triple__value"><?php echo esc_html( number_format_i18n( (int) $data['flows']['catchall'] ) ); ?></p>
-							<p class="send4-xs send4-muted"><?php esc_html_e( 'Every form', 'send4' ); ?></p>
-						</div>
+				<div class="send4-card send4-card--flush">
+					<div class="send4-card__head send4-card__head--stacked">
+						<h2><?php esc_html_e( 'Flows listening', 'send4' ); ?></h2>
 					</div>
-					<p class="send4-xs send4-muted send4-card__note">
-						<?php esc_html_e( 'If Send4 is unreachable when someone submits, the submission is queued and retried for about a day and a half. Nothing is lost.', 'send4' ); ?>
-					</p>
-					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-						<?php wp_nonce_field( 'send4_run_queue' ); ?>
-						<input type="hidden" name="action" value="send4_run_queue" />
-						<button type="submit" class="send4-btn send4-btn--block"><?php esc_html_e( 'Retry queued now', 'send4' ); ?></button>
-					</form>
-					<?php if ( $send4_exhausted + $send4_rejected > 0 ) : ?>
+					<div class="send4-card__body">
+						<div class="send4-triple">
+							<div>
+								<p class="send4-triple__value"><?php echo esc_html( number_format_i18n( (int) $data['flows']['total'] ) ); ?></p>
+								<p class="send4-xs send4-muted"><?php esc_html_e( 'Total', 'send4' ); ?></p>
+							</div>
+							<div>
+								<p class="send4-triple__value send4-triple__value--ok"><?php echo esc_html( number_format_i18n( (int) $data['flows']['active'] ) ); ?></p>
+								<p class="send4-xs send4-muted"><?php esc_html_e( 'Active', 'send4' ); ?></p>
+							</div>
+							<div>
+								<p class="send4-triple__value"><?php echo esc_html( number_format_i18n( (int) $data['flows']['catchall'] ) ); ?></p>
+								<p class="send4-xs send4-muted"><?php esc_html_e( 'Every form', 'send4' ); ?></p>
+							</div>
+						</div>
+						<p class="send4-xs send4-muted send4-card__note">
+							<?php esc_html_e( 'If Send4 is unreachable when someone submits, the submission is queued and retried for about a day and a half. Nothing is lost.', 'send4' ); ?>
+						</p>
+					</div>
+					<div class="send4-card__foot">
 						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-							<?php // Not wp_nonce_field(): it prints a second id="_wpnonce" on this page. ?>
-							<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( 'send4_requeue' ) ); ?>" />
-							<input type="hidden" name="action" value="send4_requeue" />
-							<button type="submit" class="send4-btn send4-btn--block">
-								<?php
-								echo esc_html(
-									sprintf(
-										/* translators: %s: number of failed submissions. */
-										_n( 'Resend %s failed submission', 'Resend %s failed submissions', $send4_exhausted + $send4_rejected, 'send4' ),
-										number_format_i18n( $send4_exhausted + $send4_rejected )
-									)
-								);
-								?>
-							</button>
+							<?php wp_nonce_field( 'send4_run_queue' ); ?>
+							<input type="hidden" name="action" value="send4_run_queue" />
+							<button type="submit" class="send4-btn send4-btn--block"><?php esc_html_e( 'Retry queued now', 'send4' ); ?></button>
 						</form>
-					<?php endif; ?>
+						<?php if ( $send4_exhausted + $send4_rejected > 0 ) : ?>
+							<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+								<?php // Not wp_nonce_field(): it prints a second id="_wpnonce" on this page. ?>
+								<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( 'send4_requeue' ) ); ?>" />
+								<input type="hidden" name="action" value="send4_requeue" />
+								<button type="submit" class="send4-btn send4-btn--block">
+									<?php
+									echo esc_html(
+										sprintf(
+											/* translators: %s: number of failed submissions. */
+											_n( 'Resend %s failed submission', 'Resend %s failed submissions', $send4_exhausted + $send4_rejected, 'send4' ),
+											number_format_i18n( $send4_exhausted + $send4_rejected )
+										)
+									);
+									?>
+								</button>
+							</form>
+						<?php endif; ?>
+					</div>
 				</div>
 			</div>
 		</div>

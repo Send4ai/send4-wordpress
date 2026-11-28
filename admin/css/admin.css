@@ -50,9 +50,16 @@
 }
 
 /* wp-admin paints the content area white; the design is cards on slate. */
+/* The body too: the content only reaches as far as it is tall, and on a
+   short screen WordPress's grey showed below it. */
+body.send4-screen,
 body.send4-screen #wpcontent,
 body.send4-screen #wpbody-content {
 	background: var(--s4-slate-50);
+}
+
+body.send4-screen #wpcontent,
+body.send4-screen #wpbody-content {
 	padding-left: 0;
 }
 
@@ -181,11 +188,17 @@ body.send4-screen .notice:not(.send4-notice) {
    extra class outranks `.send4-app h2`, as `.send4-app h3` did before. */
 .send4-app h3,
 .send4-app .send4-step__body h2,
-.send4-app h2.send4-eyebrow,
 .send4-app h2.send4-card__title--sub {
 	margin: 0;
 	font-size: 15px;
 	font-weight: 600;
+}
+
+/* A card's own title, when a field or a checkbox follows it rather than a
+   paragraph. A paragraph's top margin collapses with this one, so a title
+   that already had room below it keeps exactly that. */
+.send4-app h2.send4-card__title--sub {
+	margin-bottom: 12px;
 }
 
 .send4-sub {
@@ -324,6 +337,13 @@ body.send4-screen .notice:not(.send4-notice) {
 	padding: 24px;
 }
 
+/* The padding is the card's edge. A last child's own bottom margin added to
+   it, and the bottom of a card came out deeper than its top. */
+.send4-card--pad > :last-child,
+.send4-card__body > :last-child {
+	margin-bottom: 0;
+}
+
 .send4-card--flush {
 	padding: 0;
 	overflow: hidden;
@@ -354,9 +374,17 @@ body.send4-screen .notice:not(.send4-notice) {
 	margin-top: 12px;
 }
 
+.send4-card__body {
+	padding: 16px 20px;
+}
+
 .send4-card__foot {
 	padding: 12px 20px;
 	border-top: 1px solid var(--s4-slate-200);
+}
+
+.send4-card__foot form + form {
+	margin-top: 8px;
 }
 
 .send4-empty {
@@ -893,6 +921,10 @@ body.send4-screen .notice:not(.send4-notice) {
 	margin-bottom: 16px;
 }
 
+.send4-grid > .send4-field {
+	margin-bottom: 0;
+}
+
 .send4-field > label {
 	display: flex;
 	align-items: center;
@@ -944,6 +976,19 @@ body.send4-screen .notice:not(.send4-notice) {
 
 .send4-check--top + p {
 	padding-left: 24px;
+}
+
+/* WordPress gives every checkbox margin: -4px 4px 0 0, sized for a box that
+   sits inline in a sentence. In a flex row that lifted the box above its
+   label and pushed the label 4px past the note indented beneath it. */
+.send4-check input[type="checkbox"] {
+	flex: none;
+	margin: 0;
+}
+
+/* Beside the first line of a label that may wrap: a 16px box on a 20px line. */
+.send4-check--top input[type="checkbox"] {
+	margin-top: 2px;
 }
 
 /* ----------------------------------------------------------------- tables */
@@ -1180,7 +1225,9 @@ body.send4-screen .notice:not(.send4-notice) {
 
 /* -------------------------------------------------------------- odds & ends */
 
-.send4-eyebrow {
+/* Scoped, and so above `.send4-app h2`: unscoped, the heading rules won and
+   every eyebrow was drawn at their 15px with no room beneath it. */
+.send4-app .send4-eyebrow {
 	margin: 0 0 12px;
 	font-size: 11px;
 	font-weight: 600;
@@ -1228,6 +1275,10 @@ body.send4-screen .notice:not(.send4-notice) {
 	margin: 0 0 2px;
 }
 
+.send4-adapters {
+	margin-bottom: 16px;
+}
+
 .send4-adapters ul {
 	display: flex;
 	flex-wrap: wrap;
@@ -1258,6 +1309,9 @@ body.send4-screen .notice:not(.send4-notice) {
 	align-items: center;
 	justify-content: space-between;
 	gap: 8px;
+	/* WordPress puts 6px under every list item, which made each row deeper
+	   below its text than above it. */
+	margin: 0;
 	padding: 7px 0;
 	border-top: 1px solid var(--s4-slate-100);
 	font-size: 13px;
@@ -1266,6 +1320,10 @@ body.send4-screen .notice:not(.send4-notice) {
 
 .send4-passthrough li:first-child {
 	border-top: 0;
+}
+
+.send4-passthrough li:last-child {
+	padding-bottom: 0;
 }
 
 .send4-passthrough code {
