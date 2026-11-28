@@ -1,6 +1,6 @@
 {
 	"name": "send4/send4-wordpress",
-	"description": "Send4 — AI follow-up for your WordPress forms.",
+	"description": "Send4: SMS lead follow-up for WordPress forms.",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
 	"require": {

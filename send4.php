@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Send4 – AI SMS Lead Follow-up for Contact Forms
  * Plugin URI:        https://send4.ai/integrations/wordpress
- * Description:       Sends your form submissions to Send4 so an AI can follow up with the lead over SMS. Works with Contact Form 7, WPForms, Gravity Forms and Elementor Pro.
+ * Description:       SMS lead follow-up for your forms. Sends each submission to Send4, where an AI assistant texts the lead. Works with Contact Form 7, WPForms, Gravity Forms and Elementor Pro.
  * Version:           0.2.3
  * Requires at least: 6.2
  * Requires PHP:      7.4

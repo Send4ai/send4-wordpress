@@ -1,6 +1,6 @@
 === Send4 – AI SMS Lead Follow-up for Contact Forms ===
 Contributors: send4
-Tags: sms, leads, lead generation, contact form 7, wpforms
+Tags: sms, lead follow-up, lead generation, contact form 7, wpforms
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -8,26 +8,52 @@ Stable tag: 0.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Text every new form lead within seconds. Send4's AI follows up over SMS for Contact Form 7, WPForms, Gravity Forms and Elementor Pro.
+SMS lead follow-up for Contact Form 7, WPForms, Gravity Forms and Elementor Pro: an AI assistant texts each new lead in about a minute.
 
 == Description ==
 
-Send4 texts every new lead from your WordPress contact forms within seconds. When someone submits a Contact Form 7, WPForms, Gravity Forms or Elementor Pro form on your site, this plugin hands the submission to your Send4 account, and the AI flow you set up there starts an SMS conversation with that person: it answers their questions, asks what you need to know, and can book a call.
+Send4 is SMS lead follow-up for WordPress forms. When someone submits a Contact Form 7, WPForms, Gravity Forms or Elementor Pro form, this plugin hands the submission to your Send4 account, and an AI assistant texts that person in about a minute: it answers their questions, asks your qualifying questions, and books a call.
 
-Most leads that come through a contact form go cold before anybody answers them. Send4 is the follow-up that answers first.
+Most leads that come through a contact form go cold before anybody answers them. The name for that gap is speed to lead, or lead response time: how long a new lead waits for the first reply. Send4 brings it down to about a minute, without anyone on your team watching the inbox.
 
-You do not have to build a payload, sign a webhook, or write a line of code. Install the plugin, connect it to your Send4 account with one button, pick which form field holds the phone number, and turn the form on.
+[What it does for your site](https://send4.ai/integrations/wordpress) | [Send4](https://send4.ai) | [Source code on GitHub](https://github.com/Send4ai/send4-wordpress)
 
-**What it does**
+= What Send4 does with a lead =
 
-* Works with Contact Form 7, WPForms, Gravity Forms and Elementor Pro.
-* Maps the phone number, name and email once per form, in wp-admin.
-* Passes every other field through as context, so the AI knows what the person asked for.
-* Retries for about a day and a half if Send4 is briefly unreachable, so a lead is never lost.
-* Tells you, per form, whether the last submission arrived and whether a Send4 flow is listening for it.
-* Optionally adds a country picker to your phone field, and refuses a number with no country code while the visitor is still on the form — so the number Send4 gets is one it can text.
+* **SMS lead follow-up.** Every form lead gets a text, and it is a two-way SMS conversation, not a one-way notification.
+* **Lead qualification.** The AI assistant asks the questions you would ask yourself, before a salesperson spends time on the lead.
+* **Appointment booking.** It offers a time for a call, and the booking goes on your Send4 calendar.
+* **Round-robin lead routing.** Each qualified lead goes to the next salesperson in turn.
+* **A person can take over.** Anyone on your team can step into a conversation whenever they want to.
 
-**You need a Send4 account and a number to text from.** Send4 is a paid service; this plugin is the WordPress half of it. Send4 texts your leads through your own Twilio or Vonage account, which you connect in Send4. If your leads are in Lithuania, Send4 can provide the sending number instead. Until everything is in place, the plugin's dashboard lists what is still missing, with a link to fix each step in Send4.
+= What the plugin does =
+
+* **No code, no webhooks.** Connect with one button, pick the field that holds the phone number, and turn the form on.
+* **Works with the forms you have.** Contact Form 7, WPForms (including Lite), Gravity Forms and Elementor Pro.
+* **Context included.** Every field you do not map is passed along, so the AI assistant knows what the person asked for.
+* **No lost leads.** If Send4 cannot be reached, the submission waits in a queue on your site and is retried for about a day and a half.
+* **Numbers that can be texted.** Optionally adds a country picker to your phone field, and asks the visitor for a country code while they are still on the form.
+* **Nothing hidden.** A dashboard in wp-admin shows, per form, what was delivered, what is waiting and whether a Send4 flow is listening.
+* **Site Health and WP-CLI.** Tools → Site Health reports on the connection and the retry queue, and `wp send4 status` prints the same from a shell.
+
+= How it works =
+
+1. A visitor submits one of your forms.
+2. The plugin sends the submission to Send4. Your visitor sees their usual confirmation and is not kept waiting.
+3. In Send4, a flow, the workflow you build for that form, takes over: the AI assistant texts the lead, asks your qualifying questions, books a call on your Send4 calendar and hands the lead to your team.
+
+= What you need =
+
+**A Send4 account and a number to text from.** Send4 is a paid service; this plugin is the WordPress half of it. Send4 texts your leads through your own Twilio or Vonage account, which you connect in Send4. If your leads are in Lithuania, Send4 can provide the sending number instead. Until everything is in place, the plugin's dashboard lists what is still missing, with a link to fix each step in Send4.
+
+= Bugs and security =
+
+* Found a bug? [Open an issue on GitHub](https://github.com/Send4ai/send4-wordpress/issues).
+* Found a security problem? Please report it privately, as the [security policy](https://github.com/Send4ai/send4-wordpress/security/policy) describes.
+
+= Trademarks =
+
+Contact Form 7, WPForms, Gravity Forms, Elementor, Twilio and Vonage are trademarks of their respective owners. Send4 is not affiliated with or endorsed by them.
 
 == External services ==
 
@@ -59,7 +85,19 @@ Use one API key per website. Send4 binds a key to the site it was created for an
 
 = How do I text a lead as soon as they submit a contact form? =
 
-Connect the plugin to Send4, then go to **Send4 → Forms & Triggers**, pick the form, choose the field that holds the phone number and turn the form on. In Send4, a flow with a **WordPress form** trigger texts each new lead within seconds. The steps are the same for Contact Form 7, WPForms, Gravity Forms and Elementor Pro.
+Connect the plugin to Send4, then go to **Send4 → Forms & Triggers**, pick the form, choose the field that holds the phone number and turn the form on. In Send4, a flow with a **WordPress form** trigger texts each new lead in about a minute. The steps are the same for Contact Form 7, WPForms, Gravity Forms and Elementor Pro.
+
+= What is speed to lead? =
+
+Speed to lead, or lead response time, is how long a new lead waits for the first reply after sending a form. The longer it is, the more leads go cold. With this plugin and a flow in Send4, the first reply is a text in about a minute.
+
+= Does it qualify leads and book appointments? =
+
+Yes, in Send4. The flow you build there decides what the AI assistant does with each lead: lead qualification with your own questions, appointment booking on your Send4 calendar, and round-robin lead routing to the next salesperson. The plugin's part is getting every form submission there.
+
+= Is this two-way SMS? =
+
+Yes. The lead can answer the text and the AI assistant replies, for as long as the conversation takes. A person on your team can take over at any point, and anyone who replies STOP is not texted again.
 
 = Do I need a phone number field? =
 
@@ -77,11 +115,11 @@ If your leads are in Lithuania, Send4 can provide the number instead: ask us to 
 
 = What happens to fields I do not map? =
 
-They are all sent as context, keyed by their label, and Send4 gives them to the AI so it can answer questions about what the person actually asked for. Nothing is dropped.
+They are all sent as context, keyed by their label, and Send4 gives them to the AI assistant so it can answer questions about what the person actually asked for. Nothing is dropped.
 
 = Does the visitor wait for Send4? =
 
-No longer than three seconds. If Send4 does not answer within that, the submission goes into a local retry queue and the visitor sees their normal confirmation immediately.
+No. The plugin gives Send4 a three-second limit to answer. If it has not, the submission goes into a retry queue on your site, and the visitor sees their normal confirmation as usual.
 
 = What if Send4 is down? =
 
@@ -156,7 +194,7 @@ The country picker bundles **intl-tel-input** 29.2.3 by Jack O'Connor, under the
 * Tools → Site Health now reports on Send4. Two tests say whether this site is connected, and whether form submissions are stuck on their way to Send4: waiting with nothing sending them, which usually means WP-Cron is not running, or never delivered. Nothing is sent to Send4 to produce them.
 * Site Health's Info tab has a Send4 section with what a support request needs: the plugin version, the connection, the retry queue and which form plugins are active. Copying the site info leaves out your account name and client ID.
 * The Send4 screens are tidier: checkboxes line up with their labels, cards are evenly spaced, and the Flows listening card on the dashboard no longer runs to its border.
-* The plugin directory has new screenshots, one of them the country picker on a visitor's form, and its description no longer breaks lines in mid-sentence.
+* The plugin directory has a new description, banner and screenshots, one of them the country picker on a visitor's form.
 
 = 0.2.2 =
 * Listing assets for WordPress.org: the plugin directory now has Send4's icon, banner and screenshots.
