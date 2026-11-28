@@ -59,6 +59,10 @@ class Send4_Plugin {
 		// admin-ajax.php. Registers hooks only.
 		Send4_Phone_Field::boot();
 
+		// Not behind is_admin() either: WordPress runs its Site Health tests
+		// from a weekly cron event as well as from the screen.
+		Send4_Site_Health::boot();
+
 		if ( is_admin() ) {
 			$this->admin = new Send4_Admin();
 			$this->admin->boot();

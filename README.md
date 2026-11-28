@@ -129,6 +129,10 @@ form plugin hooks ──► Normalizer ──► Delivery (sync POST, 3s) ──
 
 A form key is the form plugin's slug and the form's id, as in `contact-form-7:42`.
 
+Without a shell, **Tools → Site Health** has the same facts: two tests (the connection, and the
+retry queue) and a Send4 section on the Info tab to paste into a support request. Neither
+contacts Send4, and the account name and client ID are left out of the copied text.
+
 ## Hooks
 
 All of these are filters.
