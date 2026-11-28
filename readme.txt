@@ -44,7 +44,7 @@ Most leads that come through a contact form go cold before anybody answers them.
 
 = What you need =
 
-**A Send4 account and a number to text from.** Send4 is a paid service; this plugin is the WordPress half of it. Send4 texts your leads through your own Twilio or Vonage account, which you connect in Send4. If your leads are in Lithuania, Send4 can provide the sending number instead. Until everything is in place, the plugin's dashboard lists what is still missing, with a link to fix each step in Send4.
+**A Send4 account and a number to text from.** Send4 is a paid service; this plugin is the WordPress half of it. Send4 texts your leads through your own Twilio or Vonage account, which you connect in Send4. Until everything is in place, the plugin's dashboard lists what is still missing, with a link to fix each step in Send4.
 
 = Bugs and security =
 
@@ -110,8 +110,6 @@ Open **Send4 → Dashboard**. When your Send4 account cannot text anyone yet, a 
 = Which number are my leads texted from? =
 
 One you connect in Send4. Send4 sends through your own Twilio or Vonage account: add the account's keys under **Settings → Integrations → Provider credentials** in Send4, add the phone number under **Settings → Phones**, and put the reply addresses Send4 shows you into your Twilio or Vonage console so that answers come back. The account, the number and what they cost are yours, and so are the rules your country sets for business texting, such as 10DLC registration in the United States.
-
-If your leads are in Lithuania, Send4 can provide the number instead: ask us to add one to your account. It texts Lithuanian numbers only.
 
 = What happens to fields I do not map? =
 
