@@ -67,7 +67,7 @@ This plugin sends data to Send4 (https://send4.ai), the service it integrates wi
 * **Which versions this site runs.** With the list of forms, the plugin sends the version of this plugin, of WordPress, of PHP and, when it is installed, of WooCommerce, the site's language, and whether the site is part of a multisite network. Send4 uses this to know which versions are still in use before it changes anything they depend on.
 * **Checking the account.** When you open the plugin's screens, and once a day, the plugin asks Send4 which flows listen for this site's forms, whether your account is ready to text leads, and which version of this plugin Send4 needs. That request sends nothing but the connection's credentials and the User-Agent described below.
 * **With every request** the plugin identifies itself and its version, and includes your site's address, in the HTTP User-Agent header.
-* Send4's terms of service: https://send4.ai/terms — privacy policy: https://send4.ai/privacy
+* Send4's [terms of service](https://send4.ai/terms) and [privacy policy](https://send4.ai/privacy)
 
 Because the data you forward includes personal information about your visitors, tell them so. Your form needs a clear consent line explaining that submitting it means Send4 may text them, and your privacy policy should name Send4 as a processor. In the United States, SMS follow-up is also regulated by the TCPA and carrier 10DLC rules; get consent language right before you switch a form on.
 
@@ -172,12 +172,12 @@ No. Until you start connecting the site, the plugin makes no outbound requests a
 
 == Third-party libraries ==
 
-The country picker bundles **intl-tel-input** 29.2.3 by Jack O'Connor, under the MIT licence (https://github.com/jackocnr/intl-tel-input). It is shipped unmodified in `public/lib/intl-tel-input/`, with its licence, and the unminified source sits next to the minified build. One image is renamed, `flags@2x.webp` to `flags-2x.webp`, because the plugin directory does not accept an "@" in a file name. Everything is served from your own site; nothing is loaded from a third-party host.
+The country picker bundles [intl-tel-input](https://github.com/jackocnr/intl-tel-input) 29.2.3 by Jack O'Connor, under the MIT licence. It is shipped unmodified in `public/lib/intl-tel-input/`, with its licence, and the unminified source sits next to the minified build. One image is renamed, `flags@2x.webp` to `flags-2x.webp`, because the plugin directory does not accept an "@" in a file name. Everything is served from your own site; nothing is loaded from a third-party host.
 
-The file `utils.js`, which formats and checks the number, is a compiled build. It is Google's libphonenumber (Apache License 2.0, https://github.com/google/libphonenumber) with intl-tel-input's wrapper, compiled by Google Closure Compiler. The sources and the build script, at the version shipped:
+The file `utils.js`, which formats and checks the number, is a compiled build. It is Google's [libphonenumber](https://github.com/google/libphonenumber) (Apache License 2.0) with intl-tel-input's wrapper, compiled by Google Closure Compiler. The sources and the build script, at the version shipped:
 
-* Wrapper source: https://github.com/jackocnr/intl-tel-input/blob/v29.2.3/packages/core/src/js/utils.js
-* Build script: https://github.com/jackocnr/intl-tel-input/blob/v29.2.3/scripts/build-utils.js (`npm run build:utils` in that repository, which pulls libphonenumber in as a git submodule)
+* [Wrapper source](https://github.com/jackocnr/intl-tel-input/blob/v29.2.3/packages/core/src/js/utils.js)
+* [Build script](https://github.com/jackocnr/intl-tel-input/blob/v29.2.3/scripts/build-utils.js) (`npm run build:utils` in that repository, which pulls libphonenumber in as a git submodule)
 
 == Screenshots ==
 
