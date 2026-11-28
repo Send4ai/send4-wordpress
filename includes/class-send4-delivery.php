@@ -173,7 +173,7 @@ class Send4_Delivery {
 	 * @param int    $retry_after Seconds Send4 asked us to wait, 0 for none.
 	 * @return bool True when the row is on the queue.
 	 */
-	private static function store( array $envelope, $form_key, $error, $status, $retry_after = 0 ) {
+	private static function store( array $envelope, $form_key, $error, $status, $retry_after = 0 ): bool {
 		$id = Send4_Queue::enqueue( $envelope, $form_key, $error, $status );
 
 		if ( false === $id ) {
@@ -206,7 +206,7 @@ class Send4_Delivery {
 	 * @param int $limit Maximum rows to attempt in one pass.
 	 * @return array{attempted:int,delivered:int,failed:int}
 	 */
-	public static function process_queue( $limit = 20 ) {
+	public static function process_queue( $limit = 20 ): array {
 		$summary = array(
 			'attempted' => 0,
 			'delivered' => 0,
@@ -374,7 +374,7 @@ class Send4_Delivery {
 	 *
 	 * @return int Rows requeued.
 	 */
-	public static function requeue() {
+	public static function requeue(): int {
 		if ( ! Send4_Settings::has_credentials() || ! Send4_Queue::table_exists() ) {
 			return 0;
 		}
@@ -398,7 +398,7 @@ class Send4_Delivery {
 	 *
 	 * @return void
 	 */
-	private static function unschedule_when_idle() {
+	private static function unschedule_when_idle(): void {
 		if ( ! Send4_Queue::has_pending() ) {
 			Send4_Cron::unschedule();
 		}

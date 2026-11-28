@@ -29,7 +29,7 @@ class Send4_Admin_Dashboard {
 	 * @param string      $range One of 24h|7d|30d.
 	 * @return array
 	 */
-	public static function build( Send4_Admin $admin, $range ) {
+	public static function build( Send4_Admin $admin, $range ): array {
 		$handshake = Send4_Settings::has_credentials() ? $admin->handshake( false ) : null;
 		$state     = Send4_Admin::connection_state( $handshake );
 		$connected = 'connected' === $state;
@@ -76,7 +76,7 @@ class Send4_Admin_Dashboard {
 	 * @param array $totals Totals keyed by status.
 	 * @return array{segments:array<int,array>,total:int,refused:int}
 	 */
-	private static function outcomes( array $totals ) {
+	private static function outcomes( array $totals ): array {
 		$segments = array(
 			array(
 				'status' => 'delivered',
@@ -125,7 +125,7 @@ class Send4_Admin_Dashboard {
 	 * @param array $totals Totals keyed by status.
 	 * @return int|null
 	 */
-	private static function rate( array $totals ) {
+	private static function rate( array $totals ): ?int {
 		$reached = self::sum( $totals, array( 'delivered', 'duplicate' ) );
 		$settled = $reached + self::sum( $totals, array( 'unrouted', 'failed' ) );
 
@@ -143,7 +143,7 @@ class Send4_Admin_Dashboard {
 	 * @param string      $range One of 24h|7d|30d.
 	 * @return array<int,array>
 	 */
-	private static function forms( Send4_Admin $admin, $range ) {
+	private static function forms( Send4_Admin $admin, $range ): array {
 		$statuses = Send4_Settings::form_statuses();
 		$detected = self::detected_titles();
 		$rows     = array();
@@ -197,7 +197,7 @@ class Send4_Admin_Dashboard {
 	 * @param string $range One of 24h|7d|30d.
 	 * @return string
 	 */
-	private static function forms_note( $range ) {
+	private static function forms_note( $range ): string {
 		$since = Send4_Stats::forms_since();
 
 		if ( $since <= 0 || $since <= time() - Send4_Stats::range_seconds( $range ) ) {
@@ -312,7 +312,7 @@ class Send4_Admin_Dashboard {
 	 *
 	 * @return bool
 	 */
-	private static function woocommerce_is_active() {
+	private static function woocommerce_is_active(): bool {
 		return class_exists( 'WooCommerce' ) || defined( 'WC_VERSION' );
 	}
 
@@ -388,7 +388,7 @@ class Send4_Admin_Dashboard {
 	 * @param Send4_Admin $admin Admin instance, for the status label.
 	 * @return array{at:string,ago:string,label:string,tone:string}|null
 	 */
-	private static function last_delivery( Send4_Admin $admin ) {
+	private static function last_delivery( Send4_Admin $admin ): ?array {
 		$latest = null;
 
 		foreach ( Send4_Settings::form_statuses() as $state ) {
@@ -420,7 +420,7 @@ class Send4_Admin_Dashboard {
 	 * @param string[] $statuses Statuses to add.
 	 * @return int
 	 */
-	private static function sum( array $totals, array $statuses ) {
+	private static function sum( array $totals, array $statuses ): int {
 		$sum = 0;
 
 		foreach ( $statuses as $status ) {
@@ -440,7 +440,7 @@ class Send4_Admin_Dashboard {
 	 * @param int $previous The window before.
 	 * @return int|null
 	 */
-	private static function delta( $now, $previous ) {
+	private static function delta( $now, $previous ): ?int {
 		if ( $previous <= 0 ) {
 			return null;
 		}
@@ -523,7 +523,7 @@ class Send4_Admin_Dashboard {
 	 * @param string $label Form name.
 	 * @return string
 	 */
-	private static function initials( $label ) {
+	private static function initials( $label ): string {
 		$label = trim( wp_strip_all_tags( (string) $label ) );
 
 		if ( '' === $label ) {
@@ -552,7 +552,7 @@ class Send4_Admin_Dashboard {
 	 * @param array $entry Log entry.
 	 * @return string
 	 */
-	private static function level_tone( array $entry ) {
+	private static function level_tone( array $entry ): string {
 		$level = isset( $entry['level'] ) ? $entry['level'] : 'info';
 
 		if ( 'error' === $level ) {

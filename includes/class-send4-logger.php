@@ -28,7 +28,7 @@ class Send4_Logger {
 	 * @param array  $context Extra scalar context.
 	 * @return void
 	 */
-	public static function log( $level, $message, array $context = array() ) {
+	public static function log( $level, $message, array $context = array() ): void {
 		$entry = array(
 			'at'      => gmdate( 'Y-m-d H:i:s' ),
 			'level'   => $level,
@@ -54,7 +54,7 @@ class Send4_Logger {
 	 *
 	 * @return array<int,array>
 	 */
-	public static function entries() {
+	public static function entries(): array {
 		$entries = get_option( self::OPTION, array() );
 
 		return is_array( $entries ) ? $entries : array();
@@ -65,7 +65,7 @@ class Send4_Logger {
 	 *
 	 * @return void
 	 */
-	public static function clear() {
+	public static function clear(): void {
 		delete_option( self::OPTION );
 	}
 

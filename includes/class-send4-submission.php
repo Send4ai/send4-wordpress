@@ -66,7 +66,7 @@ class Send4_Submission {
 	 * @param mixed  $value Field value.
 	 * @return array{id:string,label:string,value:mixed}
 	 */
-	public static function field( $id, $label, $value ) {
+	public static function field( $id, $label, $value ): array {
 		return array(
 			'id'    => (string) $id,
 			'label' => (string) $label,

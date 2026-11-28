@@ -49,14 +49,14 @@ class Send4_Admin {
 	 *
 	 * @var array<string,string>
 	 */
-	private $hooks = array();
+	private array $hooks = array();
 
 	/**
 	 * Register hooks.
 	 *
 	 * @return void
 	 */
-	public function boot() {
+	public function boot(): void {
 		add_action( 'admin_menu', array( $this, 'register_page' ) );
 		add_action( 'admin_init', array( $this, 'maybe_redirect_legacy_url' ) );
 		add_action( 'admin_init', array( $this, 'maybe_complete_connect' ) );
@@ -80,7 +80,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function register_page() {
+	public function register_page(): void {
 		// The hook suffixes are kept rather than rebuilt from the slugs later:
 		// WordPress names a submenu's screen after sanitize_title() of the
 		// parent's *translated* menu title, so "send4_page_send4-forms" only
@@ -145,7 +145,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function maybe_redirect_legacy_url() {
+	public function maybe_redirect_legacy_url(): void {
 		global $pagenow;
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
@@ -193,7 +193,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function maybe_complete_connect() {
+	public function maybe_complete_connect(): void {
 		global $pagenow;
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
@@ -236,7 +236,7 @@ class Send4_Admin {
 	 * @param string $hook_suffix Current admin page.
 	 * @return void
 	 */
-	public function enqueue( $hook_suffix ) {
+	public function enqueue( $hook_suffix ): void {
 		if ( ! $this->is_send4_screen( $hook_suffix ) ) {
 			return;
 		}
@@ -274,7 +274,7 @@ class Send4_Admin {
 	 * @param string $hook_suffix Hook suffix or screen id.
 	 * @return bool
 	 */
-	private function is_send4_screen( $hook_suffix ) {
+	private function is_send4_screen( $hook_suffix ): bool {
 		return '' !== (string) $hook_suffix && in_array( (string) $hook_suffix, $this->hooks, true );
 	}
 
@@ -297,7 +297,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function render_dashboard() {
+	public function render_dashboard(): void {
 		$this->guard();
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -314,7 +314,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function render_forms() {
+	public function render_forms(): void {
 		$this->guard();
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -339,7 +339,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function render_connection() {
+	public function render_connection(): void {
 		$this->guard();
 
 		$connection = Send4_Settings::connection();
@@ -355,7 +355,7 @@ class Send4_Admin {
 	 * @param string $form_key Form key.
 	 * @return void
 	 */
-	private function render_mapping( $form_key ) {
+	private function render_mapping( $form_key ): void {
 		$descriptor = $this->find_form( $form_key );
 
 		if ( null === $descriptor ) {
@@ -382,7 +382,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	private function guard() {
+	private function guard(): void {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
 			wp_die( esc_html__( 'You do not have permission to configure Send4.', 'send4' ) );
 		}
@@ -467,7 +467,7 @@ class Send4_Admin {
 	 * @param array|WP_Error $result Handshake result.
 	 * @return void
 	 */
-	private static function remember_handshake( $result ) {
+	private static function remember_handshake( $result ): void {
 		if ( ! is_wp_error( $result ) ) {
 			set_transient( self::HANDSHAKE_CACHE, $result, self::HANDSHAKE_CACHE_S );
 			Send4_Minimum_Version::remember( $result );
@@ -508,7 +508,7 @@ class Send4_Admin {
 	 * @param array|WP_Error|null $handshake Handshake result.
 	 * @return string
 	 */
-	public static function connection_state( $handshake ) {
+	public static function connection_state( $handshake ): string {
 		if ( ! Send4_Settings::has_credentials() ) {
 			return 'disconnected';
 		}
@@ -560,7 +560,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public static function forget_handshake() {
+	public static function forget_handshake(): void {
 		delete_transient( self::HANDSHAKE_CACHE );
 	}
 
@@ -571,7 +571,7 @@ class Send4_Admin {
 	 * @param string              $form_key  Form key.
 	 * @return array<int,array>
 	 */
-	public function flows_for( $handshake, $form_key ) {
+	public function flows_for( $handshake, $form_key ): array {
 		if ( ! is_array( $handshake ) || empty( $handshake['flows'] ) ) {
 			return array();
 		}
@@ -600,7 +600,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function handle_connect() {
+	public function handle_connect(): void {
 		$this->require_capability();
 		check_admin_referer( 'send4_connect' );
 
@@ -706,7 +706,7 @@ class Send4_Admin {
 	 * @param string $client_secret Candidate client secret.
 	 * @return void
 	 */
-	private function confirm_connection( $client_id, $client_secret ) {
+	private function confirm_connection( $client_id, $client_secret ): void {
 		$had_credentials = Send4_Settings::has_credentials();
 		$result          = self::establish_connection( $client_id, $client_secret );
 
@@ -738,7 +738,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function handle_start_connect() {
+	public function handle_start_connect(): void {
 		$this->require_capability();
 		check_admin_referer( 'send4_start_connect' );
 
@@ -776,7 +776,7 @@ class Send4_Admin {
 	 * @param string $connect_id The connection the code belongs to.
 	 * @return void
 	 */
-	private function complete_connect( $code, $connect_id ) {
+	private function complete_connect( $code, $connect_id ): void {
 		$connection = Send4_Settings::connection();
 
 		if ( '' === $connection['connect_id'] || $connection['connect_id'] !== $connect_id ) {
@@ -811,7 +811,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function handle_test() {
+	public function handle_test(): void {
 		$this->require_capability();
 		check_admin_referer( 'send4_test' );
 
@@ -846,7 +846,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function handle_disconnect() {
+	public function handle_disconnect(): void {
 		$this->require_capability();
 		check_admin_referer( 'send4_disconnect' );
 
@@ -873,7 +873,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function handle_save_mapping() {
+	public function handle_save_mapping(): void {
 		$this->require_capability();
 		check_admin_referer( 'send4_save_mapping' );
 
@@ -964,7 +964,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function handle_disable_form() {
+	public function handle_disable_form(): void {
 		$this->require_capability();
 		check_admin_referer( 'send4_disable_form' );
 
@@ -1000,7 +1000,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	private static function defer_forms_sync() {
+	private static function defer_forms_sync(): void {
 		wp_schedule_single_event( time(), Send4_Forms_Sync::HOOK );
 	}
 
@@ -1013,7 +1013,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function handle_sync_forms() {
+	public function handle_sync_forms(): void {
 		$this->require_capability();
 		check_admin_referer( 'send4_sync_forms' );
 
@@ -1045,7 +1045,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function handle_run_queue() {
+	public function handle_run_queue(): void {
 		$this->require_capability();
 		check_admin_referer( 'send4_run_queue' );
 
@@ -1072,7 +1072,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function handle_clear_log() {
+	public function handle_clear_log(): void {
 		$this->require_capability();
 		check_admin_referer( 'send4_clear_log' );
 
@@ -1089,7 +1089,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	public function handle_requeue() {
+	public function handle_requeue(): void {
 		$this->require_capability();
 		check_admin_referer( 'send4_requeue' );
 
@@ -1123,7 +1123,7 @@ class Send4_Admin {
 	 *
 	 * @return void
 	 */
-	private function require_capability() {
+	private function require_capability(): void {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
 			wp_die( esc_html__( 'You do not have permission to configure Send4.', 'send4' ) );
 		}
@@ -1144,7 +1144,7 @@ class Send4_Admin {
 	 * @param string $slug    Page slug to land on.
 	 * @return void
 	 */
-	private function redirect_with_notice( $type, $message, array $args = array(), $slug = self::PAGE_SLUG ) {
+	private function redirect_with_notice( $type, $message, array $args = array(), $slug = self::PAGE_SLUG ): void {
 		$type = 'success' === $type ? 'success' : 'error';
 
 		set_transient(
@@ -1170,7 +1170,7 @@ class Send4_Admin {
 	 *
 	 * @return array{type:string,message:string}|null
 	 */
-	public function current_notice() {
+	public function current_notice(): ?array {
 		// The marker only says a notice may be waiting; nothing in the URL is
 		// rendered. A marker with nothing stored behind it — a forged link, or
 		// one older than the transient — shows nothing at all.
@@ -1201,7 +1201,7 @@ class Send4_Admin {
 	 *
 	 * @return string
 	 */
-	private static function notice_key() {
+	private static function notice_key(): string {
 		return self::NOTICE_PREFIX . get_current_user_id();
 	}
 
@@ -1234,7 +1234,7 @@ class Send4_Admin {
 	 * @param string $status Stored status.
 	 * @return string One of ok|info|warn|bad|neutral.
 	 */
-	public function status_tone( $status ) {
+	public function status_tone( $status ): string {
 		switch ( $status ) {
 			case 'delivered':
 				return 'ok';
@@ -1284,7 +1284,7 @@ class Send4_Admin {
 	 * @param string $utc Timestamp as stored, Y-m-d H:i:s in UTC.
 	 * @return string Empty when there is nothing readable to show.
 	 */
-	public function format_utc( $utc ) {
+	public function format_utc( $utc ): string {
 		$stamp = '' === (string) $utc ? false : strtotime( $utc . ' UTC' );
 
 		if ( false === $stamp ) {
@@ -1306,7 +1306,7 @@ class Send4_Admin {
 	 * @param string $action Nonce action.
 	 * @return void
 	 */
-	public function nonce_field( $action ) {
+	public function nonce_field( $action ): void {
 		echo '<input type="hidden" name="_wpnonce" value="' . esc_attr( wp_create_nonce( $action ) ) . '" />';
 	}
 }

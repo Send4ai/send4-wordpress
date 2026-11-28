@@ -23,7 +23,10 @@ with that person: it answers their questions, asks what you need to know, and ca
 - **Numbers that can be texted.** Optionally adds a country picker to the phone field, and refuses a
   number with no country code while the visitor is still on the form.
 
-<img src=".wordpress-org/screenshot-1.png" alt="The Send4 dashboard in wp-admin: connection status, submissions sent, the retry queue, what happened to each submission, and a table of leads by form." width="820">
+<p>
+  <img src=".wordpress-org/screenshot-1.png" alt="The Send4 dashboard in wp-admin: connection status, submissions sent, the retry queue, what happened to each submission, and a table of leads by form." width="49%">
+  <img src=".wordpress-org/screenshot-4.png" alt="A contact form on a site's front end with the country picker open on its phone field: a search box, and a list of countries with their calling codes." width="49%">
+</p>
 
 Send4 is a paid service, and this plugin is the WordPress half of it: you need a Send4 account and a
 number to text from. [What it does for your site](https://send4.ai/integrations/wordpress).
@@ -129,6 +132,10 @@ form plugin hooks ──► Normalizer ──► Delivery (sync POST, 3s) ──
 
 A form key is the form plugin's slug and the form's id, as in `contact-form-7:42`.
 
+Without a shell, **Tools → Site Health** has the same facts: two tests (the connection, and the
+retry queue) and a Send4 section on the Info tab to paste into a support request. Neither
+contacts Send4, and the account name and client ID are left out of the copied text.
+
 ## Hooks
 
 All of these are filters.
@@ -190,7 +197,7 @@ environment, the tests and how a release is cut. In short:
 ```bash
 make install   # WordPress, Contact Form 7, WPForms Lite and seeded test forms, in Docker
 make test      # PHPUnit against a real WordPress
-make lint      # PHPCS (WordPress Coding Standards) and PHPStan
+make lint      # PHPCS (WordPress Coding Standards), PHPStan and ESLint
 ```
 
 For a question about using the plugin, ask in the

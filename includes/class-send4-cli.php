@@ -21,7 +21,7 @@ class Send4_Cli {
 	 *
 	 * @return void
 	 */
-	public static function register() {
+	public static function register(): void {
 		WP_CLI::add_command( 'send4', __CLASS__ );
 	}
 
@@ -51,7 +51,7 @@ class Send4_Cli {
 	 * @param array $assoc_args Flags.
 	 * @return void
 	 */
-	public function connect( $args, $assoc_args ) {
+	public function connect( $args, $assoc_args ): void {
 		unset( $args );
 
 		$client_id     = isset( $assoc_args['client-id'] ) ? (string) $assoc_args['client-id'] : '';
@@ -110,7 +110,7 @@ class Send4_Cli {
 	 *
 	 * @return void
 	 */
-	public function handshake() {
+	public function handshake(): void {
 		$client = new Send4_Api_Client();
 		$result = $client->handshake();
 
@@ -162,7 +162,7 @@ class Send4_Cli {
 	 *
 	 * @return void
 	 */
-	public function forms() {
+	public function forms(): void {
 		$rows = array();
 
 		foreach ( Send4_Adapters::detect_forms() as $form ) {
@@ -214,7 +214,7 @@ class Send4_Cli {
 	 * @param array $assoc_args Flags.
 	 * @return void
 	 */
-	public function enable( $args, $assoc_args ) {
+	public function enable( $args, $assoc_args ): void {
 		$form_key = isset( $args[0] ) ? (string) $args[0] : '';
 		$phone    = isset( $assoc_args['phone'] ) ? (string) $assoc_args['phone'] : '';
 
@@ -275,7 +275,7 @@ class Send4_Cli {
 	 * @param array $args Positional arguments.
 	 * @return void
 	 */
-	public function disable( $args ) {
+	public function disable( $args ): void {
 		$form_key = isset( $args[0] ) ? (string) $args[0] : '';
 
 		if ( '' === $form_key ) {
@@ -300,7 +300,7 @@ class Send4_Cli {
 	 * @param string $form_key Form key.
 	 * @return bool
 	 */
-	private function is_detected( $form_key ) {
+	private function is_detected( $form_key ): bool {
 		return null !== Send4_Adapters::find_form( $form_key );
 	}
 
@@ -320,7 +320,7 @@ class Send4_Cli {
 	 * @param array $assoc_args Associative arguments.
 	 * @return void
 	 */
-	public function sync_forms( $args, $assoc_args ) {
+	public function sync_forms( $args, $assoc_args ): void {
 		unset( $args );
 
 		$force  = isset( $assoc_args['force'] );
@@ -348,7 +348,7 @@ class Send4_Cli {
 	 *
 	 * @return void
 	 */
-	public function queue() {
+	public function queue(): void {
 		if ( ! Send4_Queue::table_exists() ) {
 			WP_CLI::error( 'The Send4 queue table is missing. Deactivate and reactivate the plugin.' );
 		}
@@ -385,7 +385,7 @@ class Send4_Cli {
 	 *
 	 * @return void
 	 */
-	public function run_queue() {
+	public function run_queue(): void {
 		$summary = Send4_Delivery::process_queue( 100 );
 
 		WP_CLI::success(
@@ -411,7 +411,7 @@ class Send4_Cli {
 	 *
 	 * @return void
 	 */
-	public function requeue() {
+	public function requeue(): void {
 		if ( ! Send4_Settings::has_credentials() ) {
 			WP_CLI::error( 'This site is not connected to Send4.' );
 		}
@@ -430,7 +430,7 @@ class Send4_Cli {
 	 *
 	 * @return void
 	 */
-	public function status() {
+	public function status(): void {
 		$connection = Send4_Settings::connection();
 		$counts     = Send4_Queue::table_exists() ? Send4_Queue::counts() : array();
 

@@ -24,7 +24,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	 *
 	 * @var string[]
 	 */
-	private static $ignored_types = array( 'submit', 'file', 'captchac', 'captchar', 'recaptcha', 'quiz' );
+	private static array $ignored_types = array( 'submit', 'file', 'captchac', 'captchar', 'recaptcha', 'quiz' );
 
 	/**
 	 * Tag types whose quoted values are choices. Every other type puts something
@@ -33,26 +33,26 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	 *
 	 * @var string[]
 	 */
-	private static $choice_types = array( 'checkbox', 'radio', 'select' );
+	private static array $choice_types = array( 'checkbox', 'radio', 'select' );
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function slug() {
+	public function slug(): string {
 		return 'contact-form-7';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function name() {
+	public function name(): string {
 		return 'Contact Form 7';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function is_available() {
+	public function is_available(): bool {
 		return class_exists( 'WPCF7_ContactForm' );
 	}
 
@@ -65,7 +65,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	 * Contact Form 7's own default is: an order in which nothing moves between
 	 * two pages.
 	 */
-	public function detect_forms() {
+	public function detect_forms(): array {
 		if ( ! $this->is_available() ) {
 			return array();
 		}
@@ -103,7 +103,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	 * and find() holds the lookup to the same post type and statuses the list
 	 * above is built from.
 	 */
-	public function find_form( $form_id ) {
+	public function find_form( $form_id ): ?array {
 		$form_id = (string) $form_id;
 
 		if ( ! $this->is_available() || ! ctype_digit( $form_id ) ) {
@@ -126,7 +126,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	 * @param WPCF7_ContactForm $form The form.
 	 * @return array{key:string,id:string,title:string,fields:array}
 	 */
-	private function describe( $form ) {
+	private function describe( $form ): array {
 		return array(
 			'key'    => $this->slug() . ':' . $form->id(),
 			'id'     => (string) $form->id(),
@@ -138,7 +138,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	/**
 	 * {@inheritDoc}
 	 */
-	public function register_hooks( callable $on_submit ) {
+	public function register_hooks( callable $on_submit ): void {
 		add_action(
 			'wpcf7_before_send_mail',
 			function ( $contact_form, &$abort, $submission ) use ( $on_submit ) {
@@ -174,7 +174,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	 * there to read. A refusal here means wpcf7_before_send_mail never fires,
 	 * so capture is skipped with no code of ours involved.
 	 */
-	public function register_validation( Send4_Phone_Guard $guard ) {
+	public function register_validation( Send4_Phone_Guard $guard ): void {
 		add_filter(
 			'wpcf7_validate',
 			function ( $result, $tags ) use ( $guard ) {
@@ -255,7 +255,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	 * @param object|null $submission   WPCF7_Submission.
 	 * @return Send4_Submission|null
 	 */
-	public function capture( $contact_form, $submission = null ) {
+	public function capture( $contact_form, $submission = null ): ?Send4_Submission {
 		if ( ! is_object( $contact_form ) || ! method_exists( $contact_form, 'id' ) ) {
 			return null;
 		}
@@ -295,7 +295,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	 * @param object $contact_form WPCF7_ContactForm.
 	 * @return array<int,array{id:string,label:string,type:string}>
 	 */
-	private function fields_for( $contact_form ) {
+	private function fields_for( $contact_form ): array {
 		if ( ! method_exists( $contact_form, 'scan_form_tags' ) ) {
 			return array();
 		}
@@ -376,7 +376,7 @@ class Send4_Adapter_Cf7 implements Send4_Form_Adapter, Send4_Validating_Adapter,
 	 * @param string $name Tag name.
 	 * @return string
 	 */
-	private function label_for( $name ) {
+	private function label_for( $name ): string {
 		// A run of delimiters is one gap: `user-info__name` reads "User info name".
 		$label = (string) preg_replace( '/[-_]+/', ' ', $name );
 

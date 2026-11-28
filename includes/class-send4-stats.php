@@ -67,7 +67,7 @@ class Send4_Stats {
 	 *
 	 * @var array<string,int>
 	 */
-	private static $ranges = array(
+	private static array $ranges = array(
 		'24h' => 24,
 		'7d'  => 168,
 		'30d' => 720,
@@ -84,7 +84,7 @@ class Send4_Stats {
 	 * @param string $form_key The form it happened on, or '' to count it site-wide only.
 	 * @return void
 	 */
-	public static function record( $status, $form_key = '' ) {
+	public static function record( $status, $form_key = '' ): void {
 		$status   = (string) $status;
 		$form_key = (string) $form_key;
 
@@ -115,7 +115,7 @@ class Send4_Stats {
 	 * @param int    $now      Unix timestamp to count it at.
 	 * @return array
 	 */
-	private static function count( array $stats, $status, $form_key, $now ) {
+	private static function count( array $stats, $status, $form_key, $now ): array {
 		$day  = gmdate( 'Y-m-d', $now );
 		$hour = gmdate( 'Y-m-d H', $now );
 
@@ -152,7 +152,7 @@ class Send4_Stats {
 	 * @param string $range One of 24h|7d|30d.
 	 * @return array<string,array<string,int>>
 	 */
-	public static function by_form( $range ) {
+	public static function by_form( $range ): array {
 		$stats = self::read();
 		$forms = array();
 
@@ -225,7 +225,7 @@ class Send4_Stats {
 	 *
 	 * @return string[]
 	 */
-	public static function ranges() {
+	public static function ranges(): array {
 		return array_keys( self::$ranges );
 	}
 
@@ -235,7 +235,7 @@ class Send4_Stats {
 	 * @param string $range Candidate range.
 	 * @return string
 	 */
-	public static function valid_range( $range ) {
+	public static function valid_range( $range ): string {
 		$range = (string) $range;
 
 		return isset( self::$ranges[ $range ] ) ? $range : '30d';
@@ -290,7 +290,7 @@ class Send4_Stats {
 	 *
 	 * @return void
 	 */
-	public static function clear() {
+	public static function clear(): void {
 		delete_option( self::OPTION );
 	}
 
@@ -370,7 +370,7 @@ class Send4_Stats {
 	 * @param int   $now   Unix timestamp to measure age from.
 	 * @return array
 	 */
-	private static function trim_forms( array $forms, $now ) {
+	private static function trim_forms( array $forms, $now ): array {
 		$oldest_day  = gmdate( 'Y-m-d', $now - ( ( self::FORM_DAYS - 1 ) * DAY_IN_SECONDS ) );
 		$oldest_hour = gmdate( 'Y-m-d H', $now - ( ( self::FORM_HOURS - 1 ) * HOUR_IN_SECONDS ) );
 
@@ -398,7 +398,7 @@ class Send4_Stats {
 	 * @param string $oldest  The oldest key to keep.
 	 * @return array
 	 */
-	private static function newer_than( array $buckets, $oldest ) {
+	private static function newer_than( array $buckets, $oldest ): array {
 		foreach ( array_keys( $buckets ) as $key ) {
 			if ( strcmp( (string) $key, $oldest ) < 0 ) {
 				unset( $buckets[ $key ] );
@@ -413,7 +413,7 @@ class Send4_Stats {
 	 *
 	 * @return array{days:array,hours:array}
 	 */
-	private static function empty_series() {
+	private static function empty_series(): array {
 		return array(
 			'days'  => array(),
 			'hours' => array(),
@@ -426,7 +426,7 @@ class Send4_Stats {
 	 * @param mixed $stored Stored value.
 	 * @return array{days:array,hours:array}
 	 */
-	private static function series( $stored ) {
+	private static function series( $stored ): array {
 		$stored = is_array( $stored ) ? $stored : array();
 
 		return array(
@@ -443,7 +443,7 @@ class Send4_Stats {
 	 *
 	 * @return array{days:array,hours:array,forms:array,forms_since:int}
 	 */
-	private static function read() {
+	private static function read(): array {
 		return self::normalize( get_option( self::OPTION, array() ) );
 	}
 
@@ -456,7 +456,7 @@ class Send4_Stats {
 	 *
 	 * @return string|null
 	 */
-	private static function read_raw() {
+	private static function read_raw(): ?string {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -472,7 +472,7 @@ class Send4_Stats {
 	 * @param array       $stats    The counters to write.
 	 * @return bool False when another request wrote in between.
 	 */
-	private static function swap( $expected, array $stats ) {
+	private static function swap( $expected, array $stats ): bool {
 		global $wpdb;
 
 		if ( null === $expected ) {
@@ -522,7 +522,7 @@ class Send4_Stats {
 	 *
 	 * @return string
 	 */
-	private static function autoload_off() {
+	private static function autoload_off(): string {
 		return function_exists( 'wp_determine_option_autoload_value' ) ? 'off' : 'no';
 	}
 
@@ -532,7 +532,7 @@ class Send4_Stats {
 	 * @param mixed $stored The option's value, serialized or not.
 	 * @return array{days:array,hours:array,forms:array,forms_since:int}
 	 */
-	private static function normalize( $stored ) {
+	private static function normalize( $stored ): array {
 		$stored = maybe_unserialize( $stored );
 		$stored = is_array( $stored ) ? $stored : array();
 		$series = self::series( $stored );

@@ -70,21 +70,21 @@ class Send4_Phone_Field {
 	 *
 	 * @var array<string,array>
 	 */
-	private static $targets = array();
+	private static array $targets = array();
 
 	/**
 	 * COUNTRIES split into a list, once per request.
 	 *
 	 * @var string[]|null
 	 */
-	private static $countries = null;
+	private static ?array $countries = null;
 
 	/**
 	 * The same list as keys, for is_country().
 	 *
 	 * @var array<string,int>|null
 	 */
-	private static $country_lookup = null;
+	private static ?array $country_lookup = null;
 
 	/**
 	 * Register the render hooks. Reads no options: send4_forms is not
@@ -95,7 +95,7 @@ class Send4_Phone_Field {
 	 *
 	 * @return void
 	 */
-	public static function boot() {
+	public static function boot(): void {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ), 5 );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_declared' ), 20 );
 
@@ -134,7 +134,7 @@ class Send4_Phone_Field {
 	 *
 	 * @return void
 	 */
-	public static function register_assets() {
+	public static function register_assets(): void {
 		if ( wp_script_is( self::HANDLE, 'registered' ) ) {
 			return;
 		}
@@ -191,7 +191,7 @@ class Send4_Phone_Field {
 	 *
 	 * @return void
 	 */
-	public static function enqueue() {
+	public static function enqueue(): void {
 		self::register_assets();
 
 		wp_enqueue_style( self::HANDLE );
@@ -204,7 +204,7 @@ class Send4_Phone_Field {
 	 *
 	 * @return void
 	 */
-	public static function enqueue_declared() {
+	public static function enqueue_declared(): void {
 		if ( ! empty( self::targets() ) ) {
 			self::enqueue();
 		}
@@ -232,7 +232,7 @@ class Send4_Phone_Field {
 	 * @param array $form_data The form definition.
 	 * @return void
 	 */
-	public static function on_wpforms_render( $form_data ) {
+	public static function on_wpforms_render( $form_data ): void {
 		if ( is_array( $form_data ) && ! empty( $form_data['id'] ) ) {
 			self::register_target( 'wpforms', (string) $form_data['id'] );
 		}
@@ -244,7 +244,7 @@ class Send4_Phone_Field {
 	 * @param array $form The form definition.
 	 * @return void
 	 */
-	public static function on_gravityforms_render( $form ) {
+	public static function on_gravityforms_render( $form ): void {
 		if ( ! is_array( $form ) || empty( $form['id'] ) ) {
 			return;
 		}
@@ -278,7 +278,7 @@ class Send4_Phone_Field {
 	 * @param object $widget   The Form widget.
 	 * @return void
 	 */
-	public static function on_elementor_render( $instance, $widget = null ) {
+	public static function on_elementor_render( $instance, $widget = null ): void {
 		unset( $instance );
 
 		if ( is_object( $widget ) && method_exists( $widget, 'get_id' ) ) {
@@ -296,7 +296,7 @@ class Send4_Phone_Field {
 	 * @param string $form_id The form plugin's id for the form.
 	 * @return void
 	 */
-	public static function register_target( $slug, $form_id ) {
+	public static function register_target( $slug, $form_id ): void {
 		$form_key = $slug . ':' . $form_id;
 
 		if ( isset( self::$targets[ $form_key ] ) || ! Send4_Settings::form_uses_phone_picker( $form_key ) ) {
@@ -338,7 +338,7 @@ class Send4_Phone_Field {
 	 * @param string $field_id The mapped phone field id.
 	 * @return array{scope:string,input:string}|null Null for an adapter this does not know.
 	 */
-	public static function selectors_for( $slug, $form_id, $field_id ) {
+	public static function selectors_for( $slug, $form_id, $field_id ): ?array {
 		$form  = self::css_string( (string) $form_id );
 		$field = (string) $field_id;
 
@@ -390,7 +390,7 @@ class Send4_Phone_Field {
 	 * @param string $value Raw value.
 	 * @return string
 	 */
-	public static function css_string( $value ) {
+	public static function css_string( $value ): string {
 		return str_replace(
 			array( '\\', '"', "\n", "\r", "\f" ),
 			array( '\\\\', '\\"', '\\a ', '\\d ', '\\c ' ),
@@ -436,7 +436,7 @@ class Send4_Phone_Field {
 	 *
 	 * @return array<int,array>
 	 */
-	public static function targets() {
+	public static function targets(): array {
 		/**
 		 * Filter the forms that get a phone picker on this page.
 		 *
@@ -477,7 +477,7 @@ class Send4_Phone_Field {
 	 *
 	 * @return array|null
 	 */
-	public static function config() {
+	public static function config(): ?array {
 		$targets = self::targets();
 
 		if ( empty( $targets ) ) {
@@ -516,7 +516,7 @@ class Send4_Phone_Field {
 	 *
 	 * @return void
 	 */
-	public static function print_config() {
+	public static function print_config(): void {
 		$config = self::config();
 
 		if ( null === $config ) {
@@ -538,7 +538,7 @@ class Send4_Phone_Field {
 	 *
 	 * @return string[]
 	 */
-	public static function countries() {
+	public static function countries(): array {
 		if ( null === self::$countries ) {
 			self::$countries = (array) preg_split( '/\s+/', trim( self::COUNTRIES ) );
 		}
@@ -572,7 +572,7 @@ class Send4_Phone_Field {
 	 *
 	 * @return void
 	 */
-	public static function reset() {
+	public static function reset(): void {
 		self::$targets = array();
 	}
 }

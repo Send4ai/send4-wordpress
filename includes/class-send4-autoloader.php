@@ -17,7 +17,7 @@ class Send4_Autoloader {
 	 *
 	 * @return void
 	 */
-	public static function register() {
+	public static function register(): void {
 		spl_autoload_register( array( __CLASS__, 'load' ) );
 	}
 
@@ -27,7 +27,7 @@ class Send4_Autoloader {
 	 * @param string $class_name Fully qualified class name.
 	 * @return void
 	 */
-	public static function load( $class_name ) {
+	public static function load( $class_name ): void {
 		if ( 0 !== strpos( $class_name, 'Send4_' ) ) {
 			return;
 		}

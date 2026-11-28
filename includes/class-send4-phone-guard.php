@@ -30,7 +30,7 @@ class Send4_Phone_Guard {
 	 * @param string $form_key Form key.
 	 * @return string
 	 */
-	public function field_id( $form_key ) {
+	public function field_id( $form_key ): string {
 		if ( ! Send4_Settings::form_validates_phone( $form_key ) ) {
 			return '';
 		}
@@ -53,7 +53,7 @@ class Send4_Phone_Guard {
 	 * @param mixed  $value    The raw field value, as the form plugin holds it.
 	 * @return string Plain text; each form plugin escapes it on output.
 	 */
-	public function reject( $form_key, $value ) {
+	public function reject( $form_key, $value ): string {
 		$reason = Send4_Phone_Validator::check( $value );
 
 		if ( Send4_Phone_Validator::OK === $reason ) {
@@ -95,7 +95,7 @@ class Send4_Phone_Guard {
 	 * @param mixed $value The raw field value, as the form plugin holds it.
 	 * @return string E.g. "86••••••• (9 digits)" or "+999•••••• (9 digits)".
 	 */
-	public static function shape( $value ) {
+	public static function shape( $value ): string {
 		$phone  = Send4_Normalizer::clean_phone( Send4_Normalizer::flatten( $value ) );
 		$prefix = '';
 
@@ -129,7 +129,7 @@ class Send4_Phone_Guard {
 	 * @param string $reason A Send4_Phone_Validator reason code.
 	 * @return string
 	 */
-	private static function reason_text( $reason ) {
+	private static function reason_text( $reason ): string {
 		switch ( $reason ) {
 			case Send4_Phone_Validator::NO_COUNTRY_CODE:
 				return 'no country code';
@@ -161,7 +161,7 @@ class Send4_Phone_Guard {
 	 * @param string $form_key Form key.
 	 * @return string
 	 */
-	public static function message( $reason, $form_key ) {
+	public static function message( $reason, $form_key ): string {
 		/**
 		 * Filter what a visitor is told when their phone number is refused.
 		 *

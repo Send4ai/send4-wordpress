@@ -28,21 +28,21 @@ class Send4_Adapters {
 	 *
 	 * @var Send4_Form_Adapter[]|null
 	 */
-	private static $adapters = null;
+	private static ?array $adapters = null;
 
 	/**
 	 * What detect_forms() found, kept for the rest of this request.
 	 *
 	 * @var array<int,array>|null
 	 */
-	private static $forms = null;
+	private static ?array $forms = null;
 
 	/**
 	 * Slugs of the adapters whose list stopped at the ceiling in that answer.
 	 *
 	 * @var string[]
 	 */
-	private static $capped = array();
+	private static array $capped = array();
 
 	/**
 	 * What changes a form, and so empties that answer. Contact Form 7 and
@@ -51,7 +51,7 @@ class Send4_Adapters {
 	 *
 	 * @var string[]
 	 */
-	private static $form_changes = array(
+	private static array $form_changes = array(
 		'save_post',
 		'deleted_post',
 		'added_post_meta',
@@ -67,7 +67,7 @@ class Send4_Adapters {
 	 *
 	 * @return Send4_Form_Adapter[]
 	 */
-	public static function all() {
+	public static function all(): array {
 		if ( null !== self::$adapters ) {
 			return self::$adapters;
 		}
@@ -102,7 +102,7 @@ class Send4_Adapters {
 	 *
 	 * @return Send4_Form_Adapter[]
 	 */
-	public static function available() {
+	public static function available(): array {
 		return array_filter(
 			self::all(),
 			static function ( Send4_Form_Adapter $adapter ) {
@@ -147,7 +147,7 @@ class Send4_Adapters {
 	 *
 	 * @return array<int,array>
 	 */
-	public static function detect_forms() {
+	public static function detect_forms(): array {
 		if ( null !== self::$forms ) {
 			return self::$forms;
 		}
@@ -221,7 +221,7 @@ class Send4_Adapters {
 	 * @param string $form_key Form key.
 	 * @return array|null
 	 */
-	public static function find_form( $form_key ) {
+	public static function find_form( $form_key ): ?array {
 		$form_key = (string) $form_key;
 
 		foreach ( self::detect_forms() as $form ) {
@@ -239,7 +239,7 @@ class Send4_Adapters {
 	 * @param string $form_key Form key.
 	 * @return array|null Null when the adapter cannot look forms up, or has no such form.
 	 */
-	private static function look_up( $form_key ) {
+	private static function look_up( $form_key ): ?array {
 		$adapter = self::for_form_key( $form_key );
 		$parts   = explode( ':', $form_key, 2 );
 
@@ -268,7 +268,7 @@ class Send4_Adapters {
 	 *
 	 * @return int
 	 */
-	public static function detection_limit() {
+	public static function detection_limit(): int {
 		/**
 		 * Filter how many forms one form plugin's adapter lists.
 		 *
@@ -301,7 +301,7 @@ class Send4_Adapters {
 	 * @param Send4_Form_Adapter[] $capped The adapters that stopped, keyed by slug.
 	 * @return void
 	 */
-	private static function report_capped( array $capped ) {
+	private static function report_capped( array $capped ): void {
 		foreach ( $capped as $slug => $adapter ) {
 			$flag = self::CAPPED_NOTICE . md5( (string) $slug );
 
@@ -330,7 +330,7 @@ class Send4_Adapters {
 	 * @param string $form_key Form key.
 	 * @return void
 	 */
-	public static function form_was_configured( $form_key ) {
+	public static function form_was_configured( $form_key ): void {
 		$slug = explode( ':', (string) $form_key, 2 )[0];
 
 		// Only a list that stopped at the ceiling can be missing a real form.
@@ -354,7 +354,7 @@ class Send4_Adapters {
 	 * @param Send4_Form_Adapter $adapter That adapter.
 	 * @return array
 	 */
-	private static function describe( array $form, Send4_Form_Adapter $adapter ) {
+	private static function describe( array $form, Send4_Form_Adapter $adapter ): array {
 		$form['adapter']      = $adapter->slug();
 		$form['adapter_name'] = $adapter->name();
 
@@ -367,7 +367,7 @@ class Send4_Adapters {
 	 *
 	 * @return void
 	 */
-	public static function forget_forms() {
+	public static function forget_forms(): void {
 		self::$forms  = null;
 		self::$capped = array();
 	}
@@ -380,7 +380,7 @@ class Send4_Adapters {
 	 *
 	 * @return void
 	 */
-	public static function register_hooks() {
+	public static function register_hooks(): void {
 		$on_submit = static function ( Send4_Submission $submission ) {
 			Send4_Delivery::capture( $submission );
 		};
@@ -401,7 +401,7 @@ class Send4_Adapters {
 	 *
 	 * @return void
 	 */
-	public static function register_validation() {
+	public static function register_validation(): void {
 		$guard = new Send4_Phone_Guard();
 
 		foreach ( self::available() as $adapter ) {
@@ -416,7 +416,7 @@ class Send4_Adapters {
 	 *
 	 * @return void
 	 */
-	public static function reset() {
+	public static function reset(): void {
 		self::$adapters = null;
 		self::$forms    = null;
 		self::$capped   = array();

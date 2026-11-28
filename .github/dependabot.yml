@@ -22,3 +22,13 @@ updates:
     groups:
       composer-dev:
         patterns: ['*']
+
+  # ESLint and its configuration, for the two scripts the plugin ships.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    versioning-strategy: increase-if-necessary
+    groups:
+      npm-dev:
+        patterns: ['*']

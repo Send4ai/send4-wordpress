@@ -23,6 +23,9 @@
 /.phpunit.result.cache
 /composer.json
 /composer.lock
+/package.json
+/package-lock.json
+/eslint.config.mjs
 /docker-compose.yml
 /Dockerfile.tests
 /Makefile

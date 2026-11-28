@@ -18,7 +18,7 @@ global $wpdb;
  *
  * @return void
  */
-function send4_uninstall_current_site() {
+function send4_uninstall_current_site(): void {
 	global $wpdb;
 
 	$table = $wpdb->prefix . 'send4_queue';

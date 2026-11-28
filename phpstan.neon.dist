@@ -5,7 +5,16 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    level: 5
+    # Level 6 asks for a type on every parameter, property and return value,
+    # native or in the docblock. The one thing it asks for that is left out is
+    # the value type of every array: most arrays here are WordPress options and
+    # hook payloads, and writing array<string, mixed> on 160 of them would add
+    # words without adding a check.
+    level: 6
+
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
 
     paths:
         - send4.php

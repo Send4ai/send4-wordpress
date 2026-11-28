@@ -37,7 +37,7 @@ class Send4_Privacy {
 	 *
 	 * @return void
 	 */
-	public static function boot() {
+	public static function boot(): void {
 		add_action( 'admin_init', array( __CLASS__, 'add_policy_content' ) );
 		add_filter( 'wp_privacy_personal_data_exporters', array( __CLASS__, 'register_exporter' ) );
 		add_filter( 'wp_privacy_personal_data_erasers', array( __CLASS__, 'register_eraser' ) );
@@ -50,7 +50,7 @@ class Send4_Privacy {
 	 *
 	 * @return void
 	 */
-	public static function add_policy_content() {
+	public static function add_policy_content(): void {
 		if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
 			return;
 		}
@@ -97,7 +97,7 @@ class Send4_Privacy {
 	 * @param int    $page          Page number, 1-indexed.
 	 * @return array
 	 */
-	public static function export( $email_address, $page = 1 ) {
+	public static function export( $email_address, $page = 1 ): array {
 		list( $rows, $done ) = self::page_of_rows( 'export', $email_address, $page );
 
 		$items = array();
@@ -162,7 +162,7 @@ class Send4_Privacy {
 	 * @param int    $page          Page number, 1-indexed.
 	 * @return array
 	 */
-	public static function erase( $email_address, $page = 1 ) {
+	public static function erase( $email_address, $page = 1 ): array {
 		list( $rows, $done ) = self::page_of_rows( 'erase', $email_address, $page );
 
 		$removed = 0;
@@ -216,7 +216,7 @@ class Send4_Privacy {
 	 * @param int    $page          Page number, 1-indexed.
 	 * @return array{0:array<int,object>,1:bool} The matching rows, and whether the table is finished.
 	 */
-	private static function page_of_rows( $kind, $email_address, $page ) {
+	private static function page_of_rows( $kind, $email_address, $page ): array {
 		$email_address = strtolower( trim( (string) $email_address ) );
 
 		if ( '' === $email_address || ! Send4_Queue::table_exists() ) {
@@ -282,7 +282,7 @@ class Send4_Privacy {
 	 * @param string $email_address Lower-cased, trimmed address.
 	 * @return bool
 	 */
-	private static function envelope_has_email( array $envelope, $email_address ) {
+	private static function envelope_has_email( array $envelope, $email_address ): bool {
 		$candidates = array();
 
 		if ( isset( $envelope['lead']['email'] ) ) {
@@ -317,7 +317,7 @@ class Send4_Privacy {
 	 *
 	 * @return int Rows removed.
 	 */
-	public static function enforce_retention() {
+	public static function enforce_retention(): int {
 		if ( ! Send4_Queue::table_exists() ) {
 			return 0;
 		}

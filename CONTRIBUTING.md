@@ -13,7 +13,7 @@ what the plugin does; this file is how the repository works.
 change exists and what a site owner would notice: the maintainers write the changelog entry from
 that when the release is cut.
 
-CI runs PHPCS and PHPStan, PHPUnit on the five legs below, builds the distributable zip and runs
+CI runs PHPCS, PHPStan and ESLint, PHPUnit on the five legs below, builds the distributable zip and runs
 WordPress.org's Plugin Check on it. `All checks` sums them up in one status. A pull request that
 only touches documentation (Markdown at the root, the issue and pull request templates,
 `.wordpress-org/`) skips everything but the zip.
@@ -30,7 +30,7 @@ only touches documentation (Markdown at the root, the issue and pull request tem
 legs on current versions have a `make` target, so a push should not be the first time they run:
 
 ```bash
-make lint            # PHPCS (WordPress Coding Standards, PHP 7.4 compatibility) + PHPStan
+make lint            # PHPCS (WordPress Coding Standards, PHP 7.4 compatibility) + PHPStan + ESLint
 make test            # PHPUnit against a real WordPress, backed by the MariaDB container
 make test-php74      # the same suite on PHP 7.4, the version the plugin header promises
 make test-multisite  # the same suite as a multisite network
@@ -49,9 +49,18 @@ git checkout composer.json composer.lock && composer install
 What the code has to hold to:
 
 - **PHP 7.4 syntax.** The plugin header promises 7.4, and PHPCompatibility checks it.
+- **Native types where they can be proven.** Return values and private properties carry a native
+  type when every value they can hold is known. Parameters of anything WordPress or another plugin
+  can call keep their type in the docblock only: a hook hands a callback whatever the last plugin
+  returned, and a native type there turns a surprise into a fatal error on someone's site. Nothing
+  newer than PHP 7.4 allows: no union types, no `mixed`, no `static` return type.
 - **WordPress Coding Standards**, with every global prefixed `send4_` or `Send4_` and every string
   in the `send4` text domain. `languages/send4.pot` is regenerated at release, not in each pull
   request.
+- **JavaScript with no build step.** `public/js/phone-field.js` and `admin/js/phone-country.js`
+  are shipped as written, and the first runs on pages the plugin does not control, next to
+  whatever else a site loads. ESLint (`eslint.config.mjs`) holds them to `'use strict'` inside one
+  function, no globals, no `console`, and syntax no newer than ES2020.
 - **The WordPress HTTP API only**, with `sslverify` left `true`. No curl. CI checks both as text.
 - **No Composer at runtime.** `Send4_Autoloader` maps `Send4_Foo_Bar` onto
   `includes/class-send4-foo-bar.php`; `vendor/` is development tooling and never ships.
@@ -122,7 +131,8 @@ anywhere else.
 ## Tests
 
 The test and lint targets install `vendor/` on the host first: the tests container bind-mounts
-this directory, so dependencies installed inside it would not persist. PHPStan needs more than the
+this directory, so dependencies installed inside it would not persist. `make lint` also installs
+`node_modules/` for ESLint, so it needs Node 20.19 or later. PHPStan needs more than the
 default 128 MB, which is why `make lint` passes `-d memory_limit=1G`; CI does not need the flag
 because `setup-php` sets `memory_limit=-1`.
 

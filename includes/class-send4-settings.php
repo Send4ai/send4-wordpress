@@ -52,7 +52,7 @@ class Send4_Settings {
 	 * @param array $values Partial connection settings.
 	 * @return void
 	 */
-	public static function update_connection( array $values ) {
+	public static function update_connection( array $values ): void {
 		update_option( self::CONNECTION_OPTION, array_merge( self::connection(), $values ), false );
 	}
 
@@ -61,7 +61,7 @@ class Send4_Settings {
 	 *
 	 * @return void
 	 */
-	public static function disconnect() {
+	public static function disconnect(): void {
 		delete_option( self::CONNECTION_OPTION );
 		Send4_Api_Client::forget_token();
 		Send4_Minimum_Version::forget();
@@ -79,7 +79,7 @@ class Send4_Settings {
 	 * @param mixed $secret Candidate secret.
 	 * @return bool
 	 */
-	public static function is_client_secret( $secret ) {
+	public static function is_client_secret( $secret ): bool {
 		return is_string( $secret ) && 1 === preg_match( '/\A[A-Za-z0-9_-]{16,255}\z/', $secret );
 	}
 
@@ -88,7 +88,7 @@ class Send4_Settings {
 	 *
 	 * @return bool
 	 */
-	public static function has_credentials() {
+	public static function has_credentials(): bool {
 		$connection = self::connection();
 
 		return '' !== $connection['client_id'] && '' !== $connection['client_secret'];
@@ -121,7 +121,7 @@ class Send4_Settings {
 	 *
 	 * @return bool
 	 */
-	public static function base_url_is_locked() {
+	public static function base_url_is_locked(): bool {
 		return defined( 'SEND4_API_BASE_URL' ) && '' !== SEND4_API_BASE_URL;
 	}
 
@@ -203,7 +203,7 @@ class Send4_Settings {
 	 * @param string $host Lower-cased hostname.
 	 * @return bool
 	 */
-	private static function is_send4_host( $host ) {
+	private static function is_send4_host( $host ): bool {
 		return 'send4.ai' === $host || self::host_ends_with( $host, '.send4.ai' );
 	}
 
@@ -213,7 +213,7 @@ class Send4_Settings {
 	 * @param string $host Lower-cased hostname.
 	 * @return bool
 	 */
-	private static function is_development_host( $host ) {
+	private static function is_development_host( $host ): bool {
 		$local = array( 'localhost', '127.0.0.1', '::1', 'host.docker.internal' );
 
 		return in_array( $host, $local, true ) || self::host_ends_with( $host, '.local' );
@@ -226,7 +226,7 @@ class Send4_Settings {
 	 * @param string $suffix Suffix including the leading dot.
 	 * @return bool
 	 */
-	private static function host_ends_with( $host, $suffix ) {
+	private static function host_ends_with( $host, $suffix ): bool {
 		$length = strlen( $suffix );
 
 		return strlen( $host ) > $length && substr( $host, -$length ) === $suffix;
@@ -241,7 +241,7 @@ class Send4_Settings {
 	 *
 	 * @return array<string,array>
 	 */
-	public static function forms() {
+	public static function forms(): array {
 		$stored = get_option( self::FORMS_OPTION, array() );
 
 		return is_array( $stored ) ? $stored : array();
@@ -253,7 +253,7 @@ class Send4_Settings {
 	 * @param string $form_key Form key.
 	 * @return bool
 	 */
-	public static function has_form( $form_key ) {
+	public static function has_form( $form_key ): bool {
 		$forms = self::forms();
 
 		return isset( $forms[ $form_key ] );
@@ -334,7 +334,7 @@ class Send4_Settings {
 	 * @param array  $values   Partial form configuration. Status keys are ignored.
 	 * @return void
 	 */
-	public static function update_form( $form_key, array $values ) {
+	public static function update_form( $form_key, array $values ): void {
 		$entry = self::without_status( array_merge( self::form( $form_key ), $values ) );
 		$forms = self::move_legacy_statuses( self::forms() );
 
@@ -377,7 +377,7 @@ class Send4_Settings {
 	 * @param string $form_key Form key.
 	 * @return bool
 	 */
-	public static function form_is_active( $form_key ) {
+	public static function form_is_active( $form_key ): bool {
 		$form = self::form( $form_key );
 
 		return ! empty( $form['enabled'] ) && '' !== $form['mapping']['phone'];
@@ -394,7 +394,7 @@ class Send4_Settings {
 	 * @param string $form_key Form key.
 	 * @return bool
 	 */
-	public static function form_validates_phone( $form_key ) {
+	public static function form_validates_phone( $form_key ): bool {
 		return self::form_is_active( $form_key ) && self::form( $form_key )['validate_phone'];
 	}
 
@@ -405,7 +405,7 @@ class Send4_Settings {
 	 * @param string $form_key Form key.
 	 * @return bool
 	 */
-	public static function form_uses_phone_picker( $form_key ) {
+	public static function form_uses_phone_picker( $form_key ): bool {
 		return self::form_is_active( $form_key ) && self::form( $form_key )['phone_field']['picker'];
 	}
 
@@ -417,7 +417,7 @@ class Send4_Settings {
 	 * @param string $error    Human readable error, empty on success.
 	 * @return void
 	 */
-	public static function record_delivery( $form_key, $status, $error = '' ) {
+	public static function record_delivery( $form_key, $status, $error = '' ): void {
 		// Its own option, re-read from the database right here: the worst a
 		// concurrent delivery can do is overwrite this status line, and it
 		// never touches a form's configuration (#0696).
@@ -495,7 +495,7 @@ class Send4_Settings {
 	 * @param mixed $stored One form's stored configuration.
 	 * @return array{last_status:string,last_at:string,last_error:string}|null
 	 */
-	private static function legacy_status( $stored ) {
+	private static function legacy_status( $stored ): ?array {
 		if ( ! is_array( $stored ) || empty( $stored['last_status'] ) ) {
 			return null;
 		}
@@ -518,7 +518,7 @@ class Send4_Settings {
 	 * @param array<string,mixed> $forms The forms option.
 	 * @return array<string,mixed> The forms option without any status keys.
 	 */
-	private static function move_legacy_statuses( array $forms ) {
+	private static function move_legacy_statuses( array $forms ): array {
 		$moved = array();
 
 		foreach ( $forms as $form_key => $stored ) {
@@ -550,7 +550,7 @@ class Send4_Settings {
 	 * @param array $form Form state.
 	 * @return array
 	 */
-	private static function without_status( array $form ) {
+	private static function without_status( array $form ): array {
 		return array_diff_key( $form, array_flip( self::STATUS_KEYS ) );
 	}
 }

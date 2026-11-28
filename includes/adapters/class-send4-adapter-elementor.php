@@ -34,7 +34,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 *
 	 * @var string[]
 	 */
-	private static $ignored_types = array( 'html', 'step', 'recaptcha', 'recaptcha_v3', 'honeypot', 'upload', 'password' );
+	private static array $ignored_types = array( 'html', 'step', 'recaptcha', 'recaptcha_v3', 'honeypot', 'upload', 'password' );
 
 	/**
 	 * Whether the last detect_forms() read PAGE_LIMIT posts, and so may have
@@ -42,26 +42,26 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 *
 	 * @var bool
 	 */
-	private $truncated = false;
+	private bool $truncated = false;
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function slug() {
+	public function slug(): string {
 		return 'elementor';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function name() {
+	public function name(): string {
 		return 'Elementor Pro';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function is_available() {
+	public function is_available(): bool {
 		return did_action( 'elementor_pro/init' ) > 0
 			|| class_exists( '\ElementorPro\Plugin' )
 			|| defined( 'ELEMENTOR_PRO_VERSION' );
@@ -77,7 +77,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 * published before anything else, then the most recently edited, which
 	 * is the field list the site is actually serving.
 	 */
-	public function detect_forms() {
+	public function detect_forms(): array {
 		$this->truncated = false;
 
 		if ( ! $this->is_available() ) {
@@ -103,7 +103,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	/**
 	 * {@inheritDoc}
 	 */
-	public function detection_truncated() {
+	public function detection_truncated(): bool {
 		return $this->truncated;
 	}
 
@@ -114,7 +114,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 * walking every form on the site, so a form on the 101st page is still
 	 * found. The same ordering as detect_forms() picks the same copy.
 	 */
-	public function find_form( $form_id ) {
+	public function find_form( $form_id ): ?array {
 		$form_id = (string) $form_id;
 
 		if ( '' === $form_id || ! $this->is_available() ) {
@@ -169,7 +169,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	/**
 	 * {@inheritDoc}
 	 */
-	public function register_hooks( callable $on_submit ) {
+	public function register_hooks( callable $on_submit ): void {
 		add_action(
 			'elementor_pro/forms/new_record',
 			function ( $record, $handler = null ) use ( $on_submit ) {
@@ -196,7 +196,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 *
 	 * @see https://developers.elementor.com/docs/hooks/forms/
 	 */
-	public function register_validation( Send4_Phone_Guard $guard ) {
+	public function register_validation( Send4_Phone_Guard $guard ): void {
 		add_action(
 			'elementor_pro/forms/validation',
 			function ( $record, $ajax_handler ) use ( $guard ) {
@@ -215,7 +215,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 * @param object            $ajax_handler Elementor Pro's Ajax_Handler.
 	 * @return void
 	 */
-	public function validate( Send4_Phone_Guard $guard, $record, $ajax_handler ) {
+	public function validate( Send4_Phone_Guard $guard, $record, $ajax_handler ): void {
 		if ( ! is_object( $record ) || ! method_exists( $record, 'get' ) ) {
 			return;
 		}
@@ -266,7 +266,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 * @param object $record Form_Record.
 	 * @return Send4_Submission|null
 	 */
-	public function capture( $record ) {
+	public function capture( $record ): ?Send4_Submission {
 		if ( ! is_object( $record ) || ! method_exists( $record, 'get' ) ) {
 			return null;
 		}
@@ -311,7 +311,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 * @param object $record Form_Record.
 	 * @return string
 	 */
-	private function form_id_for( $record ) {
+	private function form_id_for( $record ): string {
 		$id = $this->setting( $record, 'id' );
 
 		if ( '' !== (string) $id ) {
@@ -366,7 +366,7 @@ class Send4_Adapter_Elementor implements Send4_Form_Adapter, Send4_Validating_Ad
 	 *                         to narrow the search to one widget.
 	 * @return array<int,object>
 	 */
-	private function pages_with_forms( $contains = '' ) {
+	private function pages_with_forms( $contains = '' ): array {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching

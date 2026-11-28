@@ -34,14 +34,14 @@ class Send4_Queue {
 	 *
 	 * @var int[]
 	 */
-	private static $backoff = array( 60, 300, 900, 3600, 21600 );
+	private static array $backoff = array( 60, 300, 900, 3600, 21600 );
 
 	/**
 	 * Fully qualified table name.
 	 *
 	 * @return string
 	 */
-	public static function table() {
+	public static function table(): string {
 		global $wpdb;
 
 		return $wpdb->prefix . 'send4_queue';
@@ -52,7 +52,7 @@ class Send4_Queue {
 	 *
 	 * @return void
 	 */
-	public static function install() {
+	public static function install(): void {
 		global $wpdb;
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -115,7 +115,7 @@ class Send4_Queue {
 	 *
 	 * @return void
 	 */
-	private static function drop_legacy_unique_key() {
+	private static function drop_legacy_unique_key(): void {
 		global $wpdb;
 
 		if ( ! self::has_index( 'submission_id' ) || ! self::has_index( 'submission_client' ) ) {
@@ -134,7 +134,7 @@ class Send4_Queue {
 	 * @param string $name Index name.
 	 * @return bool
 	 */
-	private static function has_index( $name ) {
+	private static function has_index( $name ): bool {
 		global $wpdb;
 
 		$table = self::table();
@@ -150,7 +150,7 @@ class Send4_Queue {
 	 *
 	 * @return bool
 	 */
-	public static function table_exists() {
+	public static function table_exists(): bool {
 		global $wpdb;
 
 		$table = self::table();
@@ -169,7 +169,7 @@ class Send4_Queue {
 	 *
 	 * @return void
 	 */
-	public static function drop() {
+	public static function drop(): void {
 		global $wpdb;
 
 		$table = self::table();
@@ -333,7 +333,7 @@ class Send4_Queue {
 	 *
 	 * @return string
 	 */
-	public static function current_client_id() {
+	public static function current_client_id(): string {
 		$connection = Send4_Settings::connection();
 
 		return (string) $connection['client_id'];
@@ -352,7 +352,7 @@ class Send4_Queue {
 	 * @param object $row Row as returned by due().
 	 * @return bool True when this worker now owns the row.
 	 */
-	public static function claim( $row ) {
+	public static function claim( $row ): bool {
 		global $wpdb;
 
 		$table = self::table();
@@ -383,7 +383,7 @@ class Send4_Queue {
 	 * @param string $error     Reason shown on the settings screen.
 	 * @return int Rows quarantined.
 	 */
-	public static function quarantine_foreign( $client_id, $error ) {
+	public static function quarantine_foreign( $client_id, $error ): int {
 		global $wpdb;
 
 		$table = self::table();
@@ -414,7 +414,7 @@ class Send4_Queue {
 	 * @param string $client_id Client id of the connection being closed.
 	 * @return int Rows stamped.
 	 */
-	public static function adopt_unowned( $client_id ) {
+	public static function adopt_unowned( $client_id ): int {
 		global $wpdb;
 
 		if ( '' === (string) $client_id ) {
@@ -442,7 +442,7 @@ class Send4_Queue {
 	 * @param string $client_id The current connection's client id.
 	 * @return int Rows requeued.
 	 */
-	public static function requeue( $client_id ) {
+	public static function requeue( $client_id ): int {
 		global $wpdb;
 
 		$table = self::table();
@@ -472,7 +472,7 @@ class Send4_Queue {
 	 *
 	 * @return bool
 	 */
-	public static function has_pending() {
+	public static function has_pending(): bool {
 		global $wpdb;
 
 		$table = self::table();
@@ -518,7 +518,7 @@ class Send4_Queue {
 	 * @param int $limit Maximum rows.
 	 * @return array<int,object>
 	 */
-	public static function due( $limit = 20 ) {
+	public static function due( $limit = 20 ): array {
 		global $wpdb;
 
 		$table = self::table();
@@ -543,7 +543,7 @@ class Send4_Queue {
 	 * @param int $limit Maximum rows.
 	 * @return array<int,object>
 	 */
-	public static function all( $limit = 50 ) {
+	public static function all( $limit = 50 ): array {
 		global $wpdb;
 
 		$table = self::table();
@@ -565,7 +565,7 @@ class Send4_Queue {
 	 * @param int $limit    Maximum rows.
 	 * @return array<int,object>
 	 */
-	public static function after( $after_id, $limit = 500 ) {
+	public static function after( $after_id, $limit = 500 ): array {
 		global $wpdb;
 
 		$table = self::table();
@@ -583,7 +583,7 @@ class Send4_Queue {
 	 *
 	 * @return array<string,int>
 	 */
-	public static function counts() {
+	public static function counts(): array {
 		global $wpdb;
 
 		$table  = self::table();
@@ -609,7 +609,7 @@ class Send4_Queue {
 	 * @param object $row Queue row.
 	 * @return array
 	 */
-	public static function envelope( $row ) {
+	public static function envelope( $row ): array {
 		$decoded = json_decode( isset( $row->envelope ) ? $row->envelope : '', true );
 
 		return is_array( $decoded ) ? $decoded : array();
@@ -623,7 +623,7 @@ class Send4_Queue {
 	 * @param int    $retry_after Seconds Send4 asked us to wait; the longer of this and the backoff wins.
 	 * @return string The row's new status: pending, or failed once the attempts are used up.
 	 */
-	public static function record_failure( $row, $error, $retry_after = 0 ) {
+	public static function record_failure( $row, $error, $retry_after = 0 ): string {
 		global $wpdb;
 
 		$attempts = (int) $row->attempts + 1;
@@ -655,7 +655,7 @@ class Send4_Queue {
 	 * @param int $seconds Seconds from now.
 	 * @return void
 	 */
-	public static function postpone( $id, $seconds ) {
+	public static function postpone( $id, $seconds ): void {
 		global $wpdb;
 
 		$table = self::table();
@@ -681,7 +681,7 @@ class Send4_Queue {
 	 * @param string $error Failure detail.
 	 * @return void
 	 */
-	public static function record_permanent_failure( $row, $error ) {
+	public static function record_permanent_failure( $row, $error ): void {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -705,7 +705,7 @@ class Send4_Queue {
 	 * @param int $id Row id.
 	 * @return void
 	 */
-	public static function delete( $id ) {
+	public static function delete( $id ): void {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -718,7 +718,7 @@ class Send4_Queue {
 	 * @param string|null $status Limit to one status, or null for all.
 	 * @return void
 	 */
-	public static function purge( $status = null ) {
+	public static function purge( $status = null ): void {
 		global $wpdb;
 
 		$table = self::table();
@@ -741,7 +741,7 @@ class Send4_Queue {
 	 * @param string[] $statuses Statuses to sweep.
 	 * @return int Rows removed.
 	 */
-	public static function purge_older_than( $days, array $statuses ) {
+	public static function purge_older_than( $days, array $statuses ): int {
 		global $wpdb;
 
 		if ( empty( $statuses ) ) {
@@ -780,7 +780,7 @@ class Send4_Queue {
 	 * @param int $seconds Age in seconds.
 	 * @return int Rows removed.
 	 */
-	public static function purge_stale_pending( $seconds ) {
+	public static function purge_stale_pending( $seconds ): int {
 		global $wpdb;
 
 		$table  = self::table();

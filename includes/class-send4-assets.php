@@ -28,7 +28,7 @@ class Send4_Assets {
 	 * @param string $path Path from the plugin root, e.g. 'public/js/phone-field.js'.
 	 * @return string
 	 */
-	public static function url( $path ) {
+	public static function url( $path ): string {
 		return SEND4_PLUGIN_URL . self::resolve( $path, SEND4_PLUGIN_DIR, SEND4_VERSION );
 	}
 
