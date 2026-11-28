@@ -27,7 +27,7 @@ round-robin lead routing; the plugin's job is to get every form submission there
 
 <p>
   <img src=".wordpress-org/screenshot-1.png" alt="The Send4 dashboard in wp-admin: connection status, submissions sent, the retry queue, what happened to each submission, and a table of leads by form." width="49%">
-  <img src=".wordpress-org/screenshot-4.png" alt="A contact form on a site's front end with the country picker open on its phone field: a search box, and a list of countries with their calling codes." width="49%">
+  <img src=".wordpress-org/screenshot-5.png" alt="A contact form on a site's front end with the country picker open on its phone field: a search box, and a list of countries with their calling codes." width="49%">
 </p>
 
 Send4 is a paid service, and this plugin is the WordPress half of it: you need a Send4 account and a

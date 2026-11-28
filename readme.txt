@@ -184,8 +184,8 @@ The file `utils.js`, which formats and checks the number, is a compiled build. I
 1. Send4 → Dashboard: what has been sent, the retry queue, and recent activity.
 2. Choosing which field holds the phone number.
 3. The forms list, showing delivery status per form.
-4. The country picker on a visitor's form: a searchable list of countries, and a number sent with its country code.
-5. Send4 → Connection: the account this site is connected to, and the flows listening for its forms.
+4. Send4 → Connection: the account this site is connected to, and the flows listening for its forms.
+5. The country picker on a visitor's form: a searchable list of countries, and a number sent with its country code.
 6. Tools → Site Health → Info: the connection, the retry queue and the form plugins found, ready to copy into a support request.
 
 == Changelog ==
