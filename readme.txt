@@ -194,6 +194,7 @@ The file `utils.js`, which formats and checks the number, is a compiled build. I
 * Tools → Site Health now reports on Send4. Two tests say whether this site is connected, and whether form submissions are stuck on their way to Send4: waiting with nothing sending them, which usually means WP-Cron is not running, or never delivered. Nothing is sent to Send4 to produce them.
 * Site Health's Info tab has a Send4 section with what a support request needs: the plugin version, the connection, the retry queue and which form plugins are active. Copying the site info leaves out your account name and client ID.
 * The Send4 screens are tidier: checkboxes line up with their labels, cards are evenly spaced, and the Flows listening card on the dashboard no longer runs to its border.
+* Fixed: on a form whose phone field sits inside a label, which is how Contact Form 7 writes its forms, choosing a country in the picker opened the list of countries again, and a click on the label opened the list instead of the field.
 * The plugin directory has a new description, banner and screenshots: the country picker on a visitor's form, the Connection screen and Site Health.
 
 = 0.2.2 =
@@ -205,4 +206,4 @@ Older releases are listed in `changelog.txt` in the plugin folder.
 == Upgrade Notice ==
 
 = 0.2.3 =
-Adds Send4 to Tools → Site Health: whether this site is connected, and whether any form submission is stuck on its way to Send4. Nothing changes in how your forms are sent.
+Adds Send4 to Tools → Site Health: whether this site is connected, and whether any form submission is stuck on its way to Send4. Fixes the country picker opening again after a country is chosen. Nothing changes in how your forms are sent.

@@ -272,6 +272,28 @@
 		describe( state );
 		seed( state );
 
+		// A field inside a <label>, which is how Contact Form 7's own template
+		// writes them, has every click on that label passed on to the first
+		// control in it. With the picker there, that is the picker's button and
+		// not the field: choosing a country opened the list again, and a click
+		// on the label's words opened the list instead of the field.
+		var label = input.closest( 'label' );
+
+		if ( label && label.control !== input ) {
+			label.addEventListener( 'click', function ( event ) {
+				// A click on a control does that control's own job.
+				if ( state.released || ! ( event.target instanceof Element ) || event.target.closest( 'input, button, select, textarea, a' ) ) {
+					return;
+				}
+
+				event.preventDefault();
+
+				if ( ! event.target.closest( '.iti__country-container' ) ) {
+					input.focus();
+				}
+			} );
+		}
+
 		// The library's own event, fired on the input when the country changes.
 		// Every listener checks state.released: an input put back on the page
 		// after release() gets a new state, and this one's picker is gone.
