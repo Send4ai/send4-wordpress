@@ -2,15 +2,17 @@
 <!--
 	The six listing screenshots, as one page: cards.html?card=1 to 6.
 
-	WordPress.org shows four or more screenshots three to a row, about 240
-	pixels wide, so each one is a card that can be read at that size: a few
-	words on the left, and on the right the screen they are about. Every card is
-	1600 by 900, which also keeps the rows level.
+	WordPress.org shows five or more screenshots of one shape three to a row,
+	about 240 pixels wide (a last one left on its own takes a whole row), so
+	each one is a card that can be read at that size: a few words on the left,
+	and on the right the screen they are about. Every card is 1600 by 900: of
+	five or more, shapes more than a twentieth apart are not laid out in rows.
 
-	Card 1 is drawn here and plays by itself (window.play()). Cards 2 to 6 show
-	a screen of the plugin in a frame: ?src= gives the address, on the same
-	origin as this page, of a WordPress site running the plugin. The first three
-	cards are recorded as they play and saved as GIFs; the rest are stills.
+	Card 1 is drawn here, with nothing said yet; window.play() plays it. Cards
+	2 to 6 show a screen of the plugin in a frame: ?src= gives the address, on
+	the same origin as this page, of a WordPress site running the plugin. The
+	first three cards are recorded as they play and saved as GIFs; the rest are
+	stills.
 
 	The colours are flat on purpose. A GIF holds 256 of them, and a gradient or
 	a soft shadow spends them all and still shows bands.
@@ -130,7 +132,7 @@ const CARDS = {
 	1: { chip: 'SMS lead follow-up', headline: 'Form leads, followed up by text', sub: 'An AI assistant texts each new lead in about a minute. The lead can answer: it is a two-way SMS conversation.' },
 	2: { chip: 'No code', headline: 'Pick the phone field. Turn the form on.', sub: 'Contact Form 7, WPForms, Gravity Forms and Elementor Pro.', address: 'your-site.example/wp-admin' },
 	3: { chip: 'Country picker', headline: 'Numbers that can be texted', sub: 'Visitors choose a country, and the number arrives with its country code.', address: 'your-site.example/request-a-quote' },
-	4: { chip: 'Dashboard', headline: 'See what was sent, form by form', sub: 'And what is waiting to be retried when Send4 could not be reached.', address: 'your-site.example/wp-admin' },
+	4: { chip: 'Dashboard', headline: 'See what was sent, form by form', sub: 'Every submission is accounted for: delivered, no flow listening, or failed.', address: 'your-site.example/wp-admin' },
 	5: { chip: 'One button', headline: 'Connect your Send4 account', sub: 'Then see which flows are listening for your forms.', address: 'your-site.example/wp-admin' },
 	6: { chip: 'Site Health', headline: 'The connection and the queue, in Site Health', sub: 'With a section to copy into a support request.', address: 'your-site.example/wp-admin' },
 };
