@@ -1,4 +1,4 @@
-<a href="https://wordpress.org/plugins/send4/"><img src=".wordpress-org/banner-1544x500.png" alt="Send4: SMS lead follow-up for WordPress forms. A phone shows the text conversation an AI assistant has with a new lead." width="100%"></a>
+<a href="https://wordpress.org/plugins/send4/"><img src=".wordpress-org/banner-1544x500.png" alt="Send4: SMS lead follow-up for WordPress forms. Every lead gets an answer. You get the booking. Beside it, the text conversation an AI assistant has with a new lead." width="100%"></a>
 
 # Send4 for WordPress
 
@@ -26,8 +26,8 @@ round-robin lead routing; the plugin's job is to get every form submission there
   number with no country code while the visitor is still on the form.
 
 <p>
-  <img src=".wordpress-org/screenshot-1.gif" alt="A phone showing the text conversation an AI assistant has with a new form lead. Beside it, four steps light up as it goes: speed to lead, lead qualification, appointment booking, round-robin routing." width="49%">
-  <img src=".wordpress-org/screenshot-3.gif" alt="A contact form on a site's front end. A visitor opens the country picker on the phone field, searches, chooses United Kingdom, and the number is written with its country code." width="49%">
+  <img src=".wordpress-org/screenshot-1.gif" alt="The text conversation an AI assistant has with a new form lead, a message at a time. Beside it, four steps light up as it goes: speed to lead, lead qualification, appointment booking, round-robin routing." width="49%">
+  <img src=".wordpress-org/screenshot-3.gif" alt="A contact form on a site's front end. A visitor opens the country picker on the phone field, chooses United Kingdom, and sends the form; then the Send4 dashboard in wp-admin shows it as delivered." width="49%">
 </p>
 
 Send4 is a paid service, and this plugin is the WordPress half of it: you need a Send4 account and a

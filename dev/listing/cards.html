@@ -4,22 +4,29 @@
 
 	WordPress.org shows five or more screenshots of one shape three to a row,
 	about 240 pixels wide (a last one left on its own takes a whole row), so
-	each one is a card that can be read at that size: a few words on the left,
-	and on the right the screen they are about. Every card is 1600 by 900: of
-	five or more, shapes more than a twentieth apart are not laid out in rows.
+	each one is a card that can be read at that size. Every card is 1600 by 900:
+	of five or more, shapes more than a twentieth apart are not laid out in rows.
 
-	Card 1 is drawn here, with nothing said yet; window.play() plays it. Cards
-	2 to 6 show a screen of the plugin in a frame: ?src= gives the address, on
-	the same origin as this page, of a WordPress site running the plugin. The
-	first three cards are recorded as they play and saved as GIFs; the rest are
-	stills.
+	They are drawn in the website's design language: Newsreader headlines with
+	the second sentence in emerald, Hanken Grotesk for everything else, small
+	capitals above, the "send" wordmark with the mark as its 4, white cards with
+	a hairline border, and a conversation as the site draws one, the assistant
+	in ink and the lead in white.
+
+	Card 1 is the conversation, drawn here with nothing said yet; window.play()
+	plays it. Cards 2 and 3 are recordings of the plugin being used and fill
+	the card; cards 4 to 6 are a headline beside one screen. The screens are in
+	a frame: ?src= gives the address, on the same origin as this page, of a
+	WordPress site running the plugin. Cards 1 to 3 are recorded as they play
+	and saved as GIFs; the rest are stills.
 
 	The colours are flat on purpose. A GIF holds 256 of them, and a gradient or
 	a soft shadow spends them all and still shows bands.
 
-	It needs Hanken Grotesk, the website's typeface, beside this file as
-	hanken.woff2. The wording follows the website's rules: "about a minute",
-	never a count of seconds, and one offered time.
+	It needs both typefaces beside this file: hanken.woff2 and newsreader.woff2,
+	the variable files from @fontsource-variable/hanken-grotesk and
+	@fontsource-variable/newsreader. The wording follows the website's rules:
+	"about a minute", never a count of seconds, and one offered time.
 -->
 <html lang="en">
 <head>
@@ -27,57 +34,73 @@
 <title>Send4 listing cards</title>
 <style>
 @font-face { font-family: "Hanken Grotesk"; src: url("hanken.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Newsreader"; src: url("newsreader.woff2") format("woff2"); font-weight: 200 800; font-display: block; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { width: 1600px; height: 900px; overflow: clip; }
-body { font-family: "Hanken Grotesk", system-ui, sans-serif; color: #0f172a; background: #ecfdf5; -webkit-font-smoothing: antialiased; }
+body { font-family: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif; color: #0f172a; background: #ecfdf5; -webkit-font-smoothing: antialiased; }
+/* Fixed, and clipped rather than hidden: a hidden box can still be scrolled, and focus moving inside the framed screen did scroll it. */
 .canvas { position: fixed; left: 0; top: 0; width: 1600px; height: 900px; overflow: clip; }
 
-/* Left: what the card is about. */
+.wordmark { position: absolute; left: 84px; top: 64px; display: flex; align-items: baseline; gap: 2px; font-size: 32px; font-weight: 600; letter-spacing: -.03em; }
+.wordmark svg { width: 29px; height: 29px; transform: translateY(4px); }
+
+/* A headline beside a screen. */
 .copy { position: absolute; left: 84px; top: 0; bottom: 0; width: 500px; display: flex; flex-direction: column; justify-content: center; }
-.brand { position: absolute; left: 0; top: 76px; display: flex; align-items: center; gap: 12px; font-size: 28px; font-weight: 700; letter-spacing: -.01em; }
-.brand svg { width: 40px; height: 40px; display: block; }
-.chip { align-self: flex-start; padding: 7px 18px; border-radius: 999px; background: #059669; color: #fff; font-size: 21px; font-weight: 650; }
-h1 { margin-top: 26px; font-size: 66px; line-height: 1.04; font-weight: 750; letter-spacing: -.03em; }
-.sub { margin-top: 26px; font-size: 27px; line-height: 1.38; color: #475569; }
+.eyebrow { font-size: 17px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #047857; }
+h1 { margin-top: 18px; font-family: "Newsreader", serif; font-weight: 400; font-size: 70px; line-height: 1.02; letter-spacing: -.02em; }
+h1 span { color: #059669; }
+h1 #accent { display: block; }
+.sub { margin-top: 26px; font-size: 25px; line-height: 1.5; color: #475569; }
 
-/* Right: a browser window with the screen in it. */
-.window { position: absolute; left: 648px; top: 92px; width: 872px; height: 716px; border-radius: 16px; background: #fff; border: 2px solid #0f172a; box-shadow: 14px 14px 0 #6ee7b7; overflow: clip; }
-.bar { height: 46px; display: flex; align-items: center; gap: 8px; padding: 0 18px; background: #f1f5f9; border-bottom: 2px solid #0f172a; }
-.bar i { width: 12px; height: 12px; border-radius: 50%; background: #94a3b8; }
-.bar span { margin-left: 14px; padding: 3px 14px; border-radius: 8px; background: #fff; border: 1px solid #cbd5e1; font-size: 15px; color: #475569; }
-.view { position: relative; height: 666px; overflow: clip; background: #fff; }
-.view iframe { position: absolute; left: 0; top: 0; width: 920px; height: 706px; border: 0; transform: scale(.9435); transform-origin: 0 0; }
+/* The screen, in a browser's frame. */
+.window { position: absolute; left: 648px; top: 92px; width: 868px; height: 716px; border-radius: 16px; background: #fff; border: 1px solid #cbd5e1; overflow: clip; }
+.bar { height: 46px; display: flex; align-items: center; gap: 8px; padding: 0 18px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+.bar i { width: 11px; height: 11px; border-radius: 50%; background: #cbd5e1; }
+.bar span { margin-left: 14px; padding: 3px 14px; border-radius: 999px; background: #fff; border: 1px solid #e2e8f0; font-size: 14px; color: #64748b; }
+.view { position: relative; height: 668px; overflow: clip; background: #fff; }
+.view iframe { position: absolute; left: 0; top: 0; width: 920px; height: 710px; border: 0; transform: scale(.9413); transform-origin: 0 0; }
 
-/* Card 1: the conversation the plugin starts. */
-.phone { position: absolute; left: 676px; top: 62px; width: 360px; height: 776px; border-radius: 50px; background: #0f172a; padding: 12px; }
-.screen { position: relative; height: 100%; border-radius: 39px; background: #f8fafc; overflow: hidden; }
-.island { position: absolute; top: 12px; left: 50%; width: 100px; height: 27px; margin-left: -50px; border-radius: 14px; background: #0f172a; z-index: 2; }
-.who { height: 104px; padding: 56px 20px 0; background: #fff; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 11px; font-size: 17px; font-weight: 650; }
-.who i { width: 32px; height: 32px; border-radius: 50%; background: #059669; }
-.thread { padding: 22px 18px 0; display: flex; flex-direction: column; gap: 13px; }
-.msg { max-width: 266px; padding: 12px 16px; border-radius: 20px; font-size: 19px; line-height: 1.34; }
-.msg.in { align-self: flex-start; background: #fff; border: 1px solid #e2e8f0; border-bottom-left-radius: 6px; }
-.msg.out { align-self: flex-end; background: #059669; border-bottom-right-radius: 6px; color: #fff; font-weight: 550; }
-.msg, .dots { display: none; }
+/* A recording: the screen fills the card, with one line above it. */
+body.wide .copy { top: 40px; bottom: auto; left: 236px; width: 1280px; flex-direction: row; justify-content: flex-start; align-items: baseline; gap: 18px; }
+body.wide .wordmark { top: 44px; }
+body.wide .eyebrow { font-size: 15px; white-space: nowrap; }
+body.wide h1 { margin: 0; font-size: 40px; line-height: 1.1; white-space: nowrap; }
+body.wide h1 #accent { display: inline; }
+body.wide .sub { display: none; }
+body.wide .window { left: 84px; top: 108px; width: 1432px; height: 760px; }
+body.wide .view { height: 712px; }
+body.wide .view iframe { width: 1200px; height: 598px; transform: scale(1.19167); }
+
+/* Card 1: the conversation, and what Send4 has done by the end of it. */
+.talk { position: absolute; left: 648px; top: 92px; width: 452px; height: 716px; border-radius: 16px; background: #fff; border: 1px solid #cbd5e1; padding: 28px; display: flex; flex-direction: column; gap: 14px; }
+.talk .meta { font-size: 17px; font-weight: 600; color: #64748b; margin-bottom: 8px; }
+.msg { max-width: 90%; padding: 14px 18px; font-size: 21px; line-height: 1.42; }
+.msg.ai { align-self: flex-end; border-radius: 16px 16px 5px 16px; background: #0f172a; color: #f8fafc; border: 1px solid #0f172a; }
+.msg.lead { align-self: flex-start; border-radius: 16px 16px 16px 5px; background: #fff; border: 1px solid #e2e8f0; }
+.msg, .dots, .pills { display: none; }
 .msg.on { display: block; }
-.dots { align-self: flex-start; padding: 18px 18px; border-radius: 20px; border-bottom-left-radius: 6px; background: #fff; border: 1px solid #e2e8f0; gap: 5px; }
+.dots { align-self: flex-end; padding: 18px; border-radius: 16px 16px 5px 16px; background: #0f172a; gap: 6px; }
 .dots.on { display: flex; }
-.dots b { width: 9px; height: 9px; border-radius: 50%; background: #cbd5e1; }
-.dots b.lit { background: #64748b; }
+.dots b { width: 9px; height: 9px; border-radius: 50%; background: #475569; }
+.dots b.lit { background: #f8fafc; }
+.pills.on { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.pills span { display: inline-flex; align-items: center; border-radius: 999px; background: #ecfdf5; color: #047857; padding: 5px 14px; font-size: 17px; font-weight: 600; }
 
-.steps { position: absolute; left: 1090px; top: 0; bottom: 0; width: 430px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
-.step { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border-radius: 16px; background: #d1fae5; border: 2px solid #a7f3d0; color: #64748b; }
-.step .tile { width: 48px; height: 48px; border-radius: 12px; background: #ecfdf5; display: grid; place-items: center; flex: none; }
-.step svg { width: 26px; height: 26px; stroke: #94a3b8; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.step b { display: block; font-size: 24px; font-weight: 700; letter-spacing: -.012em; line-height: 1.15; }
-.step span { display: block; margin-top: 3px; font-size: 17px; }
-.step.on { background: #fff; border-color: #0f172a; color: #475569; box-shadow: 6px 6px 0 #6ee7b7; }
+.steps { position: absolute; left: 1140px; top: 0; bottom: 0; width: 376px; display: flex; flex-direction: column; justify-content: center; }
+.step { display: flex; align-items: center; gap: 14px; padding: 14px 18px 14px 14px; border-radius: 12px; background: #fff; border: 1px dashed #cbd5e1; }
+.step + .step { margin-top: 0; }
+.joint { width: 1px; height: 22px; margin-left: 34px; background: #cbd5e1; }
+.step .tile { width: 42px; height: 42px; border-radius: 10px; background: #f1f5f9; color: #94a3b8; display: grid; place-items: center; flex: none; }
+.step svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.step small { display: block; font-size: 14px; font-weight: 600; color: #94a3b8; }
+.step b { display: block; margin-top: 1px; font-size: 19px; font-weight: 500; color: #94a3b8; }
+.step.on { border: 1px solid #a7f3d0; }
+.step.on .tile { background: #ecfdf5; color: #047857; }
+.step.on small { color: #64748b; }
 .step.on b { color: #0f172a; }
-.step.on .tile { background: #059669; }
-.step.on svg { stroke: #fff; }
 
 /* The pointer in the recordings: the real one is not drawn in a screenshot. */
-#cursor { position: absolute; left: 0; top: 0; width: 30px; height: 30px; z-index: 20; transform: translate(1700px, 1000px); transition: transform var(--ms, 500ms) cubic-bezier(.3, .1, .2, 1); pointer-events: none; }
+#cursor { position: absolute; left: 0; top: 0; width: 30px; height: 30px; z-index: 20; transform: translate(1700px, 1000px); transition: transform var(--ms, 500ms) cubic-bezier(.2, .7, .2, 1); pointer-events: none; }
 #ripple { position: absolute; left: 0; top: 0; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; border: 3px solid #059669; z-index: 19; opacity: 0; pointer-events: none; }
 #ripple.go { animation: ripple 380ms ease-out; }
 @keyframes ripple { from { opacity: .9; transform: scale(.3); } to { opacity: 0; transform: scale(1.25); } }
@@ -85,36 +108,33 @@ h1 { margin-top: 26px; font-size: 66px; line-height: 1.04; font-weight: 750; let
 </head>
 <body>
 <div class="canvas">
+	<div class="wordmark" role="img" aria-label="Send4">send<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M31 6 L31 29 L8 29 Z" fill="#059669"/><path d="M24 29 a7 7 0 0 0 14 0 Z" fill="#0f172a"/></svg></div>
+
 	<div class="copy">
-		<div class="brand">
-			<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#059669"/><path d="M31 6 L31 29 L8 29 Z" fill="#fff"/><path d="M24 29 a7 7 0 0 0 14 0 Z" fill="#a7f3d0"/></svg>
-			Send4
-		</div>
-		<span class="chip" id="chip"></span>
-		<h1 id="headline"></h1>
+		<p class="eyebrow" id="eyebrow"></p>
+		<h1><span id="plain" style="color: inherit"></span> <span id="accent"></span></h1>
 		<p class="sub" id="sub"></p>
 	</div>
 
 	<div id="talk" hidden>
-		<div class="phone">
-			<div class="screen">
-				<div class="island"></div>
-				<div class="who"><i></i>Northwind Roofing</div>
-				<div class="thread">
-					<div class="msg in">Hi Alex, thanks for asking about a new roof. Is it slate or tile?</div>
-					<div class="msg out">Slate, about 90 m²</div>
-					<div class="msg in">Thanks. I can offer a call on Thursday at 10:00. Does that suit you?</div>
-					<div class="msg out">Yes, that works</div>
-					<div class="msg in">Booked. Daniel will call you on Thursday at 10:00.</div>
-					<div class="dots"><b></b><b></b><b></b></div>
-				</div>
-			</div>
+		<div class="talk">
+			<span class="meta">Alex Morgan · SMS</span>
+			<div class="msg ai">Hi Alex, thanks for asking about a new roof. Is it slate or tile?</div>
+			<div class="msg lead">Slate, about 90 m²</div>
+			<div class="msg ai">Thanks. I can offer a call on Thursday at 10:00. Does that suit you?</div>
+			<div class="msg lead">Yes, that works</div>
+			<div class="msg ai">Booked. Daniel will call you on Thursday at 10:00.</div>
+			<div class="dots"><b></b><b></b><b></b></div>
+			<div class="pills"><span>Qualified</span><span>Call booked · Thu 10:00</span></div>
 		</div>
 		<div class="steps">
-			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><b>Speed to lead</b><span>First text in about a minute</span></div></div>
-			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><path d="M10 6h10M10 12h10M10 18h10"/><path d="M3.5 6l1.5 1.5L7.5 5M3.5 12l1.5 1.5L7.5 11M3.5 18l1.5 1.5L7.5 17"/></svg></div><div><b>Lead qualification</b><span>Your questions, asked for you</span></div></div>
-			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></div><div><b>Appointment booking</b><span>On your Send4 calendar</span></div></div>
-			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><path d="M17 3l3 3-3 3"/><path d="M4 11V9a3 3 0 0 1 3-3h13"/><path d="M7 21l-3-3 3-3"/><path d="M20 13v2a3 3 0 0 1-3 3H4"/></svg></div><div><b>Round-robin routing</b><span>The next salesperson in turn</span></div></div>
+			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20a10 10 0 1 0 0-20"/><path d="M12 6v6l4 2"/></svg></div><div><small>Speed to lead</small><b>First text in about a minute</b></div></div>
+			<span class="joint"></span>
+			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg></div><div><small>Lead qualification</small><b>Your questions, asked for you</b></div></div>
+			<span class="joint"></span>
+			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div><div><small>Appointment booking</small><b>On your Send4 calendar</b></div></div>
+			<span class="joint"></span>
+			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M9 3a4 4 0 1 0 0 8a4 4 0 1 0 0-8"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><small>Round-robin routing</small><b>The next salesperson in turn</b></div></div>
 		</div>
 	</div>
 
@@ -129,21 +149,23 @@ h1 { margin-top: 26px; font-size: 66px; line-height: 1.04; font-weight: 750; let
 
 <script>
 const CARDS = {
-	1: { chip: 'SMS lead follow-up', headline: 'Form leads, followed up by text', sub: 'An AI assistant texts each new lead in about a minute. The lead can answer: it is a two-way SMS conversation.' },
-	2: { chip: 'No code', headline: 'Pick the phone field. Turn the form on.', sub: 'Contact Form 7, WPForms, Gravity Forms and Elementor Pro.', address: 'your-site.example/wp-admin' },
-	3: { chip: 'Country picker', headline: 'Numbers that can be texted', sub: 'Visitors choose a country, and the number arrives with its country code.', address: 'your-site.example/request-a-quote' },
-	4: { chip: 'Dashboard', headline: 'See what was sent, form by form', sub: 'Every submission is accounted for: delivered, no flow listening, or failed.', address: 'your-site.example/wp-admin' },
-	5: { chip: 'One button', headline: 'Connect your Send4 account', sub: 'Then see which flows are listening for your forms.', address: 'your-site.example/wp-admin' },
-	6: { chip: 'Site Health', headline: 'The connection and the queue, in Site Health', sub: 'With a section to copy into a support request.', address: 'your-site.example/wp-admin' },
+	1: { eyebrow: 'SMS lead follow-up', plain: 'Every lead gets an answer.', accent: 'You get the booking.', sub: 'An AI assistant texts each new form lead in about a minute. The lead can answer: it is a two-way SMS conversation.' },
+	2: { wide: true, eyebrow: 'Set-up', plain: 'Pick the phone field.', accent: 'Turn the form on.', address: 'your-site.example/wp-admin' },
+	3: { wide: true, eyebrow: 'On your site', plain: 'A visitor sends the form.', accent: 'Send4 has the lead.', address: 'your-site.example/request-a-quote' },
+	4: { eyebrow: 'Dashboard', plain: 'See what was sent,', accent: 'form by form.', sub: 'Every submission is accounted for: delivered, no flow listening, or failed.', address: 'your-site.example/wp-admin' },
+	5: { eyebrow: 'Connection', plain: 'Connect with one button.', accent: 'See which flows are listening.', sub: 'Contact Form 7, WPForms, Gravity Forms and Elementor Pro.', address: 'your-site.example/wp-admin' },
+	6: { eyebrow: 'Site Health', plain: 'The connection and the queue,', accent: 'in Site Health.', sub: 'With a section to copy into a support request.', address: 'your-site.example/wp-admin' },
 };
 
 const query = new URLSearchParams( location.search );
 const card  = CARDS[ query.get( 'card' ) ] || CARDS[ 1 ];
 const sleep = ( ms ) => new Promise( ( done ) => setTimeout( done, ms ) );
 
-document.getElementById( 'chip' ).textContent     = card.chip;
-document.getElementById( 'headline' ).textContent = card.headline;
-document.getElementById( 'sub' ).textContent      = card.sub;
+document.body.classList.toggle( 'wide', !! card.wide );
+document.getElementById( 'eyebrow' ).textContent = card.eyebrow;
+document.getElementById( 'plain' ).textContent   = card.plain;
+document.getElementById( 'accent' ).textContent  = card.accent;
+document.getElementById( 'sub' ).textContent     = card.sub || '';
 
 if ( card.address ) {
 	document.getElementById( 'window' ).hidden       = false;
@@ -250,6 +272,16 @@ window.screenLoaded = function () {
 	return new Promise( ( done ) => document.getElementById( 'screen' ).addEventListener( 'load', done, { once: true } ) );
 };
 
+// Another address in the same frame: the visitor's page, then wp-admin.
+window.go = function ( src, address ) {
+	const loaded = window.screenLoaded();
+
+	document.getElementById( 'address' ).textContent = address;
+	document.getElementById( 'screen' ).src          = src;
+
+	return loaded;
+};
+
 /**
  * Card 1: the conversation, a message at a time, and the four things Send4 has
  * done by the end of it.
@@ -262,7 +294,9 @@ window.play = async function () {
 	const dots     = document.querySelector( '.dots' );
 	const lamps    = [ ...dots.querySelectorAll( 'b' ) ];
 
-	const typing = async () => {
+	// The assistant writing: the three dots, where its next message will be.
+	const typing = async ( before ) => {
+		before.parentNode.insertBefore( dots, before );
 		dots.classList.add( 'on' );
 
 		for ( let i = 0; i < 6; i++ ) {
@@ -274,7 +308,7 @@ window.play = async function () {
 	};
 
 	await sleep( 700 );
-	await typing();
+	await typing( messages[ 0 ] );
 	messages[ 0 ].classList.add( 'on' );
 	steps[ 0 ].classList.add( 'on' );
 	await sleep( 1500 );
@@ -282,16 +316,18 @@ window.play = async function () {
 	await sleep( 500 );
 	steps[ 1 ].classList.add( 'on' );
 	await sleep( 700 );
-	await typing();
+	await typing( messages[ 2 ] );
 	messages[ 2 ].classList.add( 'on' );
 	await sleep( 1600 );
 	messages[ 3 ].classList.add( 'on' );
 	await sleep( 800 );
-	await typing();
+	await typing( messages[ 4 ] );
 	messages[ 4 ].classList.add( 'on' );
 	steps[ 2 ].classList.add( 'on' );
 	await sleep( 900 );
 	steps[ 3 ].classList.add( 'on' );
+	await sleep( 500 );
+	document.querySelector( '.pills' ).classList.add( 'on' );
 };
 
 window.ready = document.fonts.ready;
