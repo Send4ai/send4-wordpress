@@ -272,28 +272,6 @@
 		describe( state );
 		seed( state );
 
-		// A field inside a <label>, which is how Contact Form 7's own template
-		// writes them, has every click on that label passed on to the first
-		// control in it. With the picker there, that is the picker's button and
-		// not the field: choosing a country opened the list again, and a click
-		// on the label's words opened the list instead of the field.
-		var label = input.closest( 'label' );
-
-		if ( label && label.control !== input ) {
-			label.addEventListener( 'click', function ( event ) {
-				// A click on a control does that control's own job.
-				if ( state.released || ! ( event.target instanceof Element ) || event.target.closest( 'input, button, select, textarea, a' ) ) {
-					return;
-				}
-
-				event.preventDefault();
-
-				if ( ! event.target.closest( '.iti__country-container' ) ) {
-					input.focus();
-				}
-			} );
-		}
-
 		// The library's own event, fired on the input when the country changes.
 		// Every listener checks state.released: an input put back on the page
 		// after release() gets a new state, and this one's picker is gone.
@@ -326,6 +304,7 @@
 		if ( ! listening ) {
 			listening = true;
 			window.addEventListener( 'submit', onSubmit, true );
+			document.addEventListener( 'click', onLabelClick );
 			window.addEventListener( 'reset', function ( event ) {
 				if ( event.target instanceof HTMLFormElement ) {
 					reseedSoon( event.target );
@@ -699,6 +678,55 @@
 		} else if ( state.target.validate && state.failedSubmit ) {
 			show( state );
 		}
+	}
+
+	/**
+	 * A click on the <label> a picker's field sits in.
+	 *
+	 * A label with no `for` passes every click on it to the first control inside
+	 * it. Contact Form 7's own template writes its fields inside their labels,
+	 * and once the picker is on such a field the first control is the picker's
+	 * button, not the field: choosing a country opened the list again, and a
+	 * click on the label's words opened the list instead of the field.
+	 *
+	 * One listener on the document, which looks at where each field is at the
+	 * time of the click: a form plugin may move a field to another label after
+	 * the picker is on it, and draw it again any number of times.
+	 *
+	 * @param {Event} event The click.
+	 * @return void
+	 */
+	function onLabelClick( event ) {
+		var target = event.target;
+
+		// A click on a control does that control's own job.
+		if ( ! ( target instanceof Element ) || target.closest( 'input, button, select, textarea, a' ) ) {
+			return;
+		}
+
+		var label = target.closest( 'label' );
+
+		if ( ! label ) {
+			return;
+		}
+
+		states.some( function ( state ) {
+			var wrapper = state.input.closest( '.iti' );
+
+			// Only where the label would press this picker's own button. A label
+			// that names the field, or any other control, with `for` is left to it.
+			if ( state.released || ! wrapper || ! label.contains( state.input ) || ! label.control || label.control === state.input || ! wrapper.contains( label.control ) ) {
+				return false;
+			}
+
+			event.preventDefault();
+
+			if ( ! target.closest( '.iti__country-container' ) ) {
+				state.input.focus();
+			}
+
+			return true;
+		} );
 	}
 
 	/**
