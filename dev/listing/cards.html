@@ -1,0 +1,298 @@
+<!doctype html>
+<!--
+	The six listing screenshots, as one page: cards.html?card=1 to 6.
+
+	WordPress.org shows four or more screenshots three to a row, about 240
+	pixels wide, so each one is a card that can be read at that size: a few
+	words on the left, and on the right the screen they are about. Every card is
+	1600 by 900, which also keeps the rows level.
+
+	Card 1 is drawn here and plays by itself (window.play()). Cards 2 to 6 show
+	a screen of the plugin in a frame: ?src= gives the address, on the same
+	origin as this page, of a WordPress site running the plugin. The first three
+	cards are recorded as they play and saved as GIFs; the rest are stills.
+
+	The colours are flat on purpose. A GIF holds 256 of them, and a gradient or
+	a soft shadow spends them all and still shows bands.
+
+	It needs Hanken Grotesk, the website's typeface, beside this file as
+	hanken.woff2. The wording follows the website's rules: "about a minute",
+	never a count of seconds, and one offered time.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Send4 listing cards</title>
+<style>
+@font-face { font-family: "Hanken Grotesk"; src: url("hanken.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1600px; height: 900px; overflow: clip; }
+body { font-family: "Hanken Grotesk", system-ui, sans-serif; color: #0f172a; background: #ecfdf5; -webkit-font-smoothing: antialiased; }
+.canvas { position: fixed; left: 0; top: 0; width: 1600px; height: 900px; overflow: clip; }
+
+/* Left: what the card is about. */
+.copy { position: absolute; left: 84px; top: 0; bottom: 0; width: 500px; display: flex; flex-direction: column; justify-content: center; }
+.brand { position: absolute; left: 0; top: 76px; display: flex; align-items: center; gap: 12px; font-size: 28px; font-weight: 700; letter-spacing: -.01em; }
+.brand svg { width: 40px; height: 40px; display: block; }
+.chip { align-self: flex-start; padding: 7px 18px; border-radius: 999px; background: #059669; color: #fff; font-size: 21px; font-weight: 650; }
+h1 { margin-top: 26px; font-size: 66px; line-height: 1.04; font-weight: 750; letter-spacing: -.03em; }
+.sub { margin-top: 26px; font-size: 27px; line-height: 1.38; color: #475569; }
+
+/* Right: a browser window with the screen in it. */
+.window { position: absolute; left: 648px; top: 92px; width: 872px; height: 716px; border-radius: 16px; background: #fff; border: 2px solid #0f172a; box-shadow: 14px 14px 0 #6ee7b7; overflow: clip; }
+.bar { height: 46px; display: flex; align-items: center; gap: 8px; padding: 0 18px; background: #f1f5f9; border-bottom: 2px solid #0f172a; }
+.bar i { width: 12px; height: 12px; border-radius: 50%; background: #94a3b8; }
+.bar span { margin-left: 14px; padding: 3px 14px; border-radius: 8px; background: #fff; border: 1px solid #cbd5e1; font-size: 15px; color: #475569; }
+.view { position: relative; height: 666px; overflow: clip; background: #fff; }
+.view iframe { position: absolute; left: 0; top: 0; width: 920px; height: 706px; border: 0; transform: scale(.9435); transform-origin: 0 0; }
+
+/* Card 1: the conversation the plugin starts. */
+.phone { position: absolute; left: 676px; top: 62px; width: 360px; height: 776px; border-radius: 50px; background: #0f172a; padding: 12px; }
+.screen { position: relative; height: 100%; border-radius: 39px; background: #f8fafc; overflow: hidden; }
+.island { position: absolute; top: 12px; left: 50%; width: 100px; height: 27px; margin-left: -50px; border-radius: 14px; background: #0f172a; z-index: 2; }
+.who { height: 104px; padding: 56px 20px 0; background: #fff; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 11px; font-size: 17px; font-weight: 650; }
+.who i { width: 32px; height: 32px; border-radius: 50%; background: #059669; }
+.thread { padding: 22px 18px 0; display: flex; flex-direction: column; gap: 13px; }
+.msg { max-width: 266px; padding: 12px 16px; border-radius: 20px; font-size: 19px; line-height: 1.34; }
+.msg.in { align-self: flex-start; background: #fff; border: 1px solid #e2e8f0; border-bottom-left-radius: 6px; }
+.msg.out { align-self: flex-end; background: #059669; border-bottom-right-radius: 6px; color: #fff; font-weight: 550; }
+.msg, .dots { display: none; }
+.msg.on { display: block; }
+.dots { align-self: flex-start; padding: 18px 18px; border-radius: 20px; border-bottom-left-radius: 6px; background: #fff; border: 1px solid #e2e8f0; gap: 5px; }
+.dots.on { display: flex; }
+.dots b { width: 9px; height: 9px; border-radius: 50%; background: #cbd5e1; }
+.dots b.lit { background: #64748b; }
+
+.steps { position: absolute; left: 1090px; top: 0; bottom: 0; width: 430px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+.step { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border-radius: 16px; background: #d1fae5; border: 2px solid #a7f3d0; color: #64748b; }
+.step .tile { width: 48px; height: 48px; border-radius: 12px; background: #ecfdf5; display: grid; place-items: center; flex: none; }
+.step svg { width: 26px; height: 26px; stroke: #94a3b8; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.step b { display: block; font-size: 24px; font-weight: 700; letter-spacing: -.012em; line-height: 1.15; }
+.step span { display: block; margin-top: 3px; font-size: 17px; }
+.step.on { background: #fff; border-color: #0f172a; color: #475569; box-shadow: 6px 6px 0 #6ee7b7; }
+.step.on b { color: #0f172a; }
+.step.on .tile { background: #059669; }
+.step.on svg { stroke: #fff; }
+
+/* The pointer in the recordings: the real one is not drawn in a screenshot. */
+#cursor { position: absolute; left: 0; top: 0; width: 30px; height: 30px; z-index: 20; transform: translate(1700px, 1000px); transition: transform var(--ms, 500ms) cubic-bezier(.3, .1, .2, 1); pointer-events: none; }
+#ripple { position: absolute; left: 0; top: 0; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; border: 3px solid #059669; z-index: 19; opacity: 0; pointer-events: none; }
+#ripple.go { animation: ripple 380ms ease-out; }
+@keyframes ripple { from { opacity: .9; transform: scale(.3); } to { opacity: 0; transform: scale(1.25); } }
+</style>
+</head>
+<body>
+<div class="canvas">
+	<div class="copy">
+		<div class="brand">
+			<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#059669"/><path d="M31 6 L31 29 L8 29 Z" fill="#fff"/><path d="M24 29 a7 7 0 0 0 14 0 Z" fill="#a7f3d0"/></svg>
+			Send4
+		</div>
+		<span class="chip" id="chip"></span>
+		<h1 id="headline"></h1>
+		<p class="sub" id="sub"></p>
+	</div>
+
+	<div id="talk" hidden>
+		<div class="phone">
+			<div class="screen">
+				<div class="island"></div>
+				<div class="who"><i></i>Northwind Roofing</div>
+				<div class="thread">
+					<div class="msg in">Hi Alex, thanks for asking about a new roof. Is it slate or tile?</div>
+					<div class="msg out">Slate, about 90 m²</div>
+					<div class="msg in">Thanks. I can offer a call on Thursday at 10:00. Does that suit you?</div>
+					<div class="msg out">Yes, that works</div>
+					<div class="msg in">Booked. Daniel will call you on Thursday at 10:00.</div>
+					<div class="dots"><b></b><b></b><b></b></div>
+				</div>
+			</div>
+		</div>
+		<div class="steps">
+			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><b>Speed to lead</b><span>First text in about a minute</span></div></div>
+			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><path d="M10 6h10M10 12h10M10 18h10"/><path d="M3.5 6l1.5 1.5L7.5 5M3.5 12l1.5 1.5L7.5 11M3.5 18l1.5 1.5L7.5 17"/></svg></div><div><b>Lead qualification</b><span>Your questions, asked for you</span></div></div>
+			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></div><div><b>Appointment booking</b><span>On your Send4 calendar</span></div></div>
+			<div class="step"><div class="tile"><svg viewBox="0 0 24 24"><path d="M17 3l3 3-3 3"/><path d="M4 11V9a3 3 0 0 1 3-3h13"/><path d="M7 21l-3-3 3-3"/><path d="M20 13v2a3 3 0 0 1-3 3H4"/></svg></div><div><b>Round-robin routing</b><span>The next salesperson in turn</span></div></div>
+		</div>
+	</div>
+
+	<div class="window" id="window" hidden>
+		<div class="bar"><i></i><i></i><i></i><span id="address"></span></div>
+		<div class="view"><iframe id="screen" title="The plugin's screen"></iframe></div>
+	</div>
+
+	<svg id="cursor" viewBox="0 0 30 30" aria-hidden="true"><path d="M4 2 L4 24 L10 18.5 L14 27 L18 25.2 L14.2 17 L22 17 Z" fill="#0f172a" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
+	<div id="ripple"></div>
+</div>
+
+<script>
+const CARDS = {
+	1: { chip: 'SMS lead follow-up', headline: 'Form leads, followed up by text', sub: 'An AI assistant texts each new lead in about a minute. The lead can answer: it is a two-way SMS conversation.' },
+	2: { chip: 'No code', headline: 'Pick the phone field. Turn the form on.', sub: 'Contact Form 7, WPForms, Gravity Forms and Elementor Pro.', address: 'your-site.example/wp-admin' },
+	3: { chip: 'Country picker', headline: 'Numbers that can be texted', sub: 'Visitors choose a country, and the number arrives with its country code.', address: 'your-site.example/request-a-quote' },
+	4: { chip: 'Dashboard', headline: 'See what was sent, form by form', sub: 'And what is waiting to be retried when Send4 could not be reached.', address: 'your-site.example/wp-admin' },
+	5: { chip: 'One button', headline: 'Connect your Send4 account', sub: 'Then see which flows are listening for your forms.', address: 'your-site.example/wp-admin' },
+	6: { chip: 'Site Health', headline: 'The connection and the queue, in Site Health', sub: 'With a section to copy into a support request.', address: 'your-site.example/wp-admin' },
+};
+
+const query = new URLSearchParams( location.search );
+const card  = CARDS[ query.get( 'card' ) ] || CARDS[ 1 ];
+const sleep = ( ms ) => new Promise( ( done ) => setTimeout( done, ms ) );
+
+document.getElementById( 'chip' ).textContent     = card.chip;
+document.getElementById( 'headline' ).textContent = card.headline;
+document.getElementById( 'sub' ).textContent      = card.sub;
+
+if ( card.address ) {
+	document.getElementById( 'window' ).hidden       = false;
+	document.getElementById( 'address' ).textContent = card.address;
+
+	if ( query.get( 'src' ) ) {
+		document.getElementById( 'screen' ).src = query.get( 'src' );
+	}
+} else {
+	document.getElementById( 'talk' ).hidden = false;
+}
+
+/**
+ * Where a part of the framed screen is on the card.
+ *
+ * @param {string} selector A selector inside the frame.
+ * @return {{x: number, y: number}|null} Its centre, in the card's pixels.
+ */
+window.point = function ( selector ) {
+	const frame = document.getElementById( 'screen' );
+	const el    = frame.contentDocument.querySelector( selector );
+
+	if ( ! el ) {
+		return null;
+	}
+
+	const outer = frame.getBoundingClientRect();
+	const inner = el.getBoundingClientRect();
+	const scale = outer.width / frame.offsetWidth;
+
+	return { x: outer.left + ( inner.left + inner.width / 2 ) * scale, y: outer.top + ( inner.top + inner.height / 2 ) * scale };
+};
+
+window.cursorTo = async function ( x, y, ms ) {
+	const cursor = document.getElementById( 'cursor' );
+
+	cursor.style.setProperty( '--ms', ms + 'ms' );
+	cursor.style.transform = `translate(${ x - 4 }px, ${ y - 2 }px)`;
+	await sleep( ms + 40 );
+};
+
+window.ripple = function ( x, y ) {
+	const ring = document.getElementById( 'ripple' );
+
+	ring.classList.remove( 'go' );
+	ring.style.left = x + 'px';
+	ring.style.top  = y + 'px';
+	void ring.offsetWidth;
+	ring.classList.add( 'go' );
+};
+
+/**
+ * A select's list, drawn in the page. The real one belongs to the operating
+ * system and is not in a screenshot.
+ *
+ * @param {string} selector The select, inside the frame.
+ * @return {void}
+ */
+window.openSelect = function ( selector ) {
+	const doc    = document.getElementById( 'screen' ).contentDocument;
+	const select = doc.querySelector( selector );
+	const box    = select.getBoundingClientRect();
+	const list   = doc.createElement( 'ul' );
+
+	list.id            = 'look-select';
+	list.style.cssText = `position:absolute;z-index:99999;left:${ box.left + doc.defaultView.scrollX }px;top:${ box.bottom + doc.defaultView.scrollY + 4 }px;width:${ box.width }px;margin:0;padding:6px;list-style:none;background:#fff;border:1px solid #cbd5e1;border-radius:8px;box-shadow:0 6px 0 rgba(15,23,42,.08);font:14px/1.3 -apple-system,BlinkMacSystemFont,sans-serif;color:#0f172a;`;
+
+	[ ...select.options ].forEach( ( option, index ) => {
+		const item = doc.createElement( 'li' );
+
+		item.textContent      = option.textContent.trim();
+		item.dataset.index    = index;
+		item.style.cssText    = 'padding:8px 10px;border-radius:6px;margin:0;';
+		item.style.background = option.selected ? '#f1f5f9' : '';
+		list.appendChild( item );
+	} );
+
+	doc.body.appendChild( list );
+};
+
+window.chooseOption = function ( selector, index ) {
+	const doc    = document.getElementById( 'screen' ).contentDocument;
+	const select = doc.querySelector( selector );
+
+	select.selectedIndex = index;
+	select.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+	doc.getElementById( 'look-select' ).remove();
+};
+
+window.hoverOption = function ( index ) {
+	const doc = document.getElementById( 'screen' ).contentDocument;
+
+	[ ...doc.querySelectorAll( '#look-select li' ) ].forEach( ( item, i ) => {
+		item.style.background = i === index ? '#d1fae5' : '';
+	} );
+};
+
+window.scrollScreen = async function ( top ) {
+	document.getElementById( 'screen' ).contentWindow.scrollTo( { top, behavior: 'smooth' } );
+	await sleep( 650 );
+};
+
+window.screenLoaded = function () {
+	return new Promise( ( done ) => document.getElementById( 'screen' ).addEventListener( 'load', done, { once: true } ) );
+};
+
+/**
+ * Card 1: the conversation, a message at a time, and the four things Send4 has
+ * done by the end of it.
+ *
+ * @return {Promise<void>}
+ */
+window.play = async function () {
+	const messages = [ ...document.querySelectorAll( '.msg' ) ];
+	const steps    = [ ...document.querySelectorAll( '.step' ) ];
+	const dots     = document.querySelector( '.dots' );
+	const lamps    = [ ...dots.querySelectorAll( 'b' ) ];
+
+	const typing = async () => {
+		dots.classList.add( 'on' );
+
+		for ( let i = 0; i < 6; i++ ) {
+			lamps.forEach( ( lamp, n ) => lamp.classList.toggle( 'lit', n === i % 3 ) );
+			await sleep( 150 );
+		}
+
+		dots.classList.remove( 'on' );
+	};
+
+	await sleep( 700 );
+	await typing();
+	messages[ 0 ].classList.add( 'on' );
+	steps[ 0 ].classList.add( 'on' );
+	await sleep( 1500 );
+	messages[ 1 ].classList.add( 'on' );
+	await sleep( 500 );
+	steps[ 1 ].classList.add( 'on' );
+	await sleep( 700 );
+	await typing();
+	messages[ 2 ].classList.add( 'on' );
+	await sleep( 1600 );
+	messages[ 3 ].classList.add( 'on' );
+	await sleep( 800 );
+	await typing();
+	messages[ 4 ].classList.add( 'on' );
+	steps[ 2 ].classList.add( 'on' );
+	await sleep( 900 );
+	steps[ 3 ].classList.add( 'on' );
+};
+
+window.ready = document.fonts.ready;
+</script>
+</body>
+</html>

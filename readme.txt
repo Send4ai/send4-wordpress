@@ -181,11 +181,11 @@ The file `utils.js`, which formats and checks the number, is a compiled build. I
 
 == Screenshots ==
 
-1. Send4 → Dashboard: what has been sent, the retry queue, and recent activity.
-2. Choosing which field holds the phone number.
-3. The forms list, showing delivery status per form.
-4. Send4 → Connection: the account this site is connected to, and the flows listening for its forms.
-5. The country picker on a visitor's form: a searchable list of countries, and a number sent with its country code.
+1. SMS lead follow-up: an AI assistant texts a new form lead in about a minute, asks your qualifying questions and books a call.
+2. Setting up a form: pick the field that holds the phone number, turn the form on, save.
+3. The country picker on a visitor's form: they choose a country, and the number is sent with its country code.
+4. Send4 → Dashboard: what has been sent for each form, the retry queue, and the last delivery.
+5. Send4 → Connection: the account this site is connected to, and the flows listening for its forms.
 6. Tools → Site Health → Info: the connection, the retry queue and the form plugins found, ready to copy into a support request.
 
 == Changelog ==
@@ -195,7 +195,7 @@ The file `utils.js`, which formats and checks the number, is a compiled build. I
 * Site Health's Info tab has a Send4 section with what a support request needs: the plugin version, the connection, the retry queue and which form plugins are active. Copying the site info leaves out your account name and client ID.
 * The Send4 screens are tidier: checkboxes line up with their labels, cards are evenly spaced, and the Flows listening card on the dashboard no longer runs to its border.
 * Fixed: on a form whose phone field sits inside a label, which is how Contact Form 7 writes its forms, choosing a country in the picker opened the list of countries again, and a click on the label opened the list instead of the field.
-* The plugin directory has a new description, banner and screenshots: the country picker on a visitor's form, the Connection screen and Site Health.
+* The plugin directory has a new description and banner, an animated icon, and new screenshots, three of them animated: the text conversation, setting up a form, and the country picker.
 
 = 0.2.2 =
 * Listing assets for WordPress.org: the plugin directory now has Send4's icon, banner and screenshots.

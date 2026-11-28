@@ -26,8 +26,8 @@ round-robin lead routing; the plugin's job is to get every form submission there
   number with no country code while the visitor is still on the form.
 
 <p>
-  <img src=".wordpress-org/screenshot-1.png" alt="The Send4 dashboard in wp-admin: connection status, submissions sent, the retry queue, what happened to each submission, and a table of leads by form." width="49%">
-  <img src=".wordpress-org/screenshot-5.png" alt="A contact form on a site's front end with the country picker open on its phone field: a search box, and a list of countries with their calling codes." width="49%">
+  <img src=".wordpress-org/screenshot-1.gif" alt="A phone showing the text conversation an AI assistant has with a new form lead. Beside it, four steps light up as it goes: speed to lead, lead qualification, appointment booking, round-robin routing." width="49%">
+  <img src=".wordpress-org/screenshot-3.gif" alt="A contact form on a site's front end. A visitor opens the country picker on the phone field, searches, chooses United Kingdom, and the number is written with its country code." width="49%">
 </p>
 
 Send4 is a paid service, and this plugin is the WordPress half of it: you need a Send4 account and a
